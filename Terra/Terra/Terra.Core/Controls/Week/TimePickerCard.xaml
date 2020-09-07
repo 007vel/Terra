@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<card:Card xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Terra.Core.Controls.Week.TimePickerCard"
+      xmlns:card="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core">
+    <card:Card.Content>
+        <StackLayout Margin="-15" HorizontalOptions="CenterAndExpand">
+            <Label x:Name="Title" FontAttributes="Bold" TextColor="White" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
+            <Label x:Name="Desc" FontAttributes="Bold" TextColor="White" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+    </card:Card.Content>
+</card:Card>

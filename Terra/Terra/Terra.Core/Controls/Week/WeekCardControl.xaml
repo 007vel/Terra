@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<week:WeekControl xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Terra.Core.Controls.WeekCardControl"
+             xmlns:week="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
+                  xmlns:time="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core" Orientation="Vertical">
+    <StackLayout x:Name="weeklayout">
+        
+    </StackLayout>
+    
+
+</week:WeekControl>

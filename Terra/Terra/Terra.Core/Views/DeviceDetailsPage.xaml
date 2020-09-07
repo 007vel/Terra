@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Terra.Core.ViewModels"
+    xmlns:card="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
+    x:Class="Terra.Core.Views.DeviceDetailsPage" Title="Configuration" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <vm:DeviceDetailsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+          <Grid BackgroundColor="White" Margin="5,10,5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="15*"/>
+                </Grid.RowDefinitions>
+                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="80*"/>
+                </Grid.RowDefinitions>
+                    <StackLayout Grid.Row="0" BackgroundColor="#EF4736">
+                        <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                <StackLayout Grid.Row="1" BackgroundColor="#989da0" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <ScrollView HorizontalOptions="FillAndExpand">
+                        <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
+                            
+                        </StackLayout>
+                    </ScrollView>
+                    </StackLayout>
+                </Grid>
+              <StackLayout Grid.Row="1" VerticalOptions="CenterAndExpand" Margin="15,20,15,0" >
+                  <Grid Margin="5">
+                      <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="25*" />
+                          <ColumnDefinition Width="50*" />
+                          <ColumnDefinition Width="25*" />
+                      </Grid.ColumnDefinitions>
+                      <StackLayout Grid.Column="0">
+                          <StackLayout VerticalOptions="FillAndExpand">
+                              <Image Source="led_strip_07" ></Image>
+                              <Image Source="fan_button_14" VerticalOptions="EndAndExpand"></Image>
+                          </StackLayout>
+                      </StackLayout>
+                      <StackLayout Grid.Column="1" Orientation="Vertical">
+                           <Image Source="alarm_clock_07" Margin="0,15,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></Image>
+                      </StackLayout>
+                      <StackLayout Grid.Column="2" VerticalOptions="FillAndExpand">
+                            <Image Source="demo_button_07" ></Image>
+                              <Image Source="personalize_button_14" VerticalOptions="EndAndExpand"></Image>
+                      </StackLayout>
+                  </Grid>
+
+                  
+              </StackLayout>
+              <StackLayout Grid.Row="2" x:Name="QuickAccess" Orientation="Horizontal" HeightRequest="60" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="30,0,30,0">
+                        
+                      
+                            </StackLayout>
+            </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

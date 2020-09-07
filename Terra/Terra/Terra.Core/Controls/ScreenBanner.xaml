@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Terra.Core.Controls.ScreenBanner">
+   
+    <StackLayout Orientation="Horizontal" Padding="15">
+        <!--<Label HorizontalOptions="Start" MaxLines="1" LineBreakMode="WordWrap">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="[SCENT" TextColor="Black" FontAttributes="Bold" FontSize="Micro" />
+                    <Span Text=" + " TextColor="White" FontAttributes="Bold" FontSize="Micro"/>
+                    <Span Text="SPRAY]" TextColor="Black" FontAttributes="Bold" FontSize="Micro"/>
+                    <Span Text=" / " TextColor="White" FontAttributes="Bold" FontSize="Micro"/>
+                    <Span Text="[Giannis Antentokoumbo - superuser]"
+                          TextColor="White" FontAttributes="Bold" FontSize="Micro"/>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>-->
+        <Label TextType="Html" FontSize="50">
+    <![CDATA[
+     <strong style="font-size:15px" style="color:Black">[SCENT</strong>
+     <strong style="color:white" > + </strong>
+            <strong style="font-size:15px" style="color:Black">SPRAY]</strong>
+            <strong style="color:white" >  / </strong>
+            <strong style="color:white" > [Giannis Antentokoumbo - superuser]</strong>
+    ]]>
+</Label>
+        <!--<Image >
+    <Image.Source>
+        <FontImageSource Glyph="text"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=ionicons.ttf#}"
+                         Size="16" >
+            
+            </FontImageSource>
+    </Image.Source>
+</Image>-->
+    </StackLayout>
+</StackLayout>

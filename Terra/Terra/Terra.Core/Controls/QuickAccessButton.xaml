@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Terra.Core.Controls.QuickAccessButton">
+    
+    <StackLayout Padding="-20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
+    <Grid  ColumnSpacing="0" RowSpacing="0" >
+    <Grid.RowDefinitions>
+        <RowDefinition Height="60*"/>
+        <RowDefinition Height="40*"/>
+    </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0" Spacing="0">
+    <Label x:Name="Title"   FontAttributes="None" Padding="1" TextColor="Black" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+    <Label x:Name="Desc"  FontAttributes="Bold" Padding="1" TextColor="#EF4736" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+            </StackLayout>
+    <Image x:Name="icon" Grid.Row="1" Margin="3" HorizontalOptions="Center" VerticalOptions="Center"/>
+    </Grid>
+        </StackLayout>
+        
+</Frame>
