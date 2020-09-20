@@ -1,4 +1,5 @@
 ﻿using ConnectionLibrary.Network;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.CrossPlatformTintedImage.Abstractions;
 using Rg.Plugins.Popup.Extensions;
@@ -8,6 +9,8 @@ using Terra.Core.Controls;
 using Terra.Core.Enum;
 using Terra.Core.Models;
 using Terra.Core.Utils;
+using Terra.Core.ViewModels;
+using Terra.Service;
 using Xamarin.Forms;
 
 namespace Terra.Core.Views
@@ -15,9 +18,25 @@ namespace Terra.Core.Views
     public partial class DeviceDetailsPage : ContentPage
     {
         Grid AddBtn = null;
+        DeviceDetailsViewModel context;
+        public DeviceDetailsViewModel PageContext
+        {
+            get
+            {
+                if(context==null)
+                {
+                    context = this.BindingContext as DeviceDetailsViewModel;
+                }
+                return context;
+            }
+        }
         public DeviceDetailsPage()
         {
             InitializeComponent();
+            ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
+            PageContext.Result += PageContext_Result;
+            PageContext.OnInit();
+
             Grid grid = new Grid();
             grid.ColumnSpacing = 3;
             grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Star });
@@ -91,13 +110,34 @@ namespace Terra.Core.Views
 
 
             ScheduleView.Children.Add(GetAddButton());
-            /*ScheduleView.Children.Add(Schedule_1);
-            ScheduleView.Children.Add(Schedule_2);
-            ScheduleView.Children.Add(Schedule_3);
-            ScheduleView.Children.Add(Schedule_4);
-            ScheduleView.Children.Add(Schedule_5);
-            ScheduleView.Children.Add(Schedule_6);
-*/
+        }
+
+        private void PageContext_Result(List<Entities.Scheduler> arg)
+        {
+            if(arg!=null)
+            {
+                foreach(var item in arg)
+                {
+                    DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
+                    Schedule_6.indexText = "6";
+                    Schedule_6.editText = "edit";
+                    Schedule_6.EditButtonClick += Schedule_1_EditButtonClick;
+                }
+            }
+        }
+
+        private void BuildScheduleUI(List<Entities.Scheduler> arg)
+        {
+            if (arg != null)
+            {
+                for (int i=0; i<arg.Count; i++ )
+                {
+                    DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
+                    Schedule_6.indexText = (i+1).ToString();
+                    Schedule_6.editText = "edit";
+                    Schedule_6.EditButtonClick += Schedule_1_EditButtonClick;
+                }
+            }
         }
 
         private Grid GetAddButton()
@@ -174,8 +214,11 @@ namespace Terra.Core.Views
             jObject.Add("start", start.ToString());
             jObject.Add("end", stop.ToString());
             jObject.Add("interval", interval);
-            var obj= JSONUtil.buildScheduleObject(uidays,start,stop,interval);
-           // WifiAdapter.Instance.SendMessageAsync(obj.t);
+            var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval);
+            if(PageContext != null && obj!=null)
+            {
+                PageContext.DeviceService.SetScheduler(JsonConvert.SerializeObject(obj));
+            }
         }
 
         public static DateTime FirstDayOfWeek(DateTime dt)

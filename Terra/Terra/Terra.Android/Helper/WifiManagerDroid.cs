@@ -57,21 +57,17 @@ namespace FlyMe.Droid.Helper
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
-            
 
-            
-           
-            // Use ID
-
-
-            int netId = wifiManager.AddNetwork(wifiConfig);
             wifiManager.Disconnect();
+            int netId = wifiManager.AddNetwork(wifiConfig);
+          //  wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
             wifiManager.Reconnect();
             await Task.Delay(2*1000);
 
             if (wifiManager.ConnectionInfo?.SSID != ssid)    
             {
+                System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
                 Console.WriteLine($"Cannot connect to network: {ssid}");
                 return false;
             }

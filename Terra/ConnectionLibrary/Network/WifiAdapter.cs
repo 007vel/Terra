@@ -12,9 +12,11 @@ using Xamarin.Forms;
 
 namespace ConnectionLibrary.Network
 {
-    public class WifiAdapter 
+    public class WifiAdapter : IDisposable
     {
-        static WifiAdapter wifiAdapter=null;
+        static WifiAdapter wifiAdapter=null;        
+        System.Timers.Timer _timer = new System.Timers.Timer(10*1000);
+        ClientWebSocket client = new ClientWebSocket();
         public static WifiAdapter Instance
         {
             get
@@ -33,7 +35,6 @@ namespace ConnectionLibrary.Network
         {
             MessagingCenter.Send(this, "WifiAdapter", wifi);
         }
-
         IPlatformWifiManager formWifiManager;
         public IPlatformWifiManager FormWifiManager
         {
@@ -50,73 +51,79 @@ namespace ConnectionLibrary.Network
         public void OnRequestAvailableNetworks()
         {
             FormWifiManager.RequestWifiNetworks();
-            Wifi wifi1 = new Wifi();
-            wifi1.name = "Terra Spray Office";
-            wifi1.ipAdrs = "121.22.421.21";
-            Wifi wifi2 = new Wifi();
-            wifi2.name = "Terra Spray Conf";
-            wifi2.ipAdrs = "196.12.121.210";
-            Wifi wifi3 = new Wifi();
-            wifi3.name = "Terra Spray hall";
-            wifi3.ipAdrs = "196.126.121.210";
-         //   OnReceiveAvailableNetworks(new List<Wifi>() { wifi1, wifi2, wifi3 });
         }
-
         public async Task<bool> ConnectToWifi(string ssid, string pwd)
         {
            var res= await FormWifiManager.Connect(ssid,pwd);
             return res;
         }
-        CancellationTokenSource cts = new CancellationTokenSource();
-        ClientWebSocket client = new ClientWebSocket();
-        public async void WebSocketInit()
+        internal async void StartWebSocketConnection(string url)
         {
             try
             {
                 var cts = new CancellationTokenSource();
-                await client.ConnectAsync(new Uri("ws://4GKYN13-IN-LE01:9898/"), cts.Token);
-                // UpdateClientState();
-
-                await Task.Factory.StartNew(async () =>
-                {
-                    while (true)
-                    {
-                        await ReadMessage();
-                    }
-                }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-                SendMessageAsync("This is from Mobile app:" + DateTime.Now.ToString());
+                await client.ConnectAsync(new Uri(url), cts.Token);
             }
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
             }
-
         }
-        async Task ReadMessage()
+        internal async Task<string> ReadMessage()
         {
-            WebSocketReceiveResult result;
-            var message = new ArraySegment<byte>(new byte[4096]);
-            do
+            try
             {
-                result = await client.ReceiveAsync(message, cts.Token);
-                if (result.MessageType != WebSocketMessageType.Text)
-                    break;
-                var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
-                string receivedMessage = Encoding.UTF8.GetString(messageBytes);
-                Console.WriteLine("Received: {0}", receivedMessage);
+                WebSocketReceiveResult result;
+                string data = string.Empty;
+                var message = new ArraySegment<byte>(new byte[4096]);
+                do
+                {
+                    result = await client.ReceiveAsync(message, CancellationToken.None);
+                    if (result.MessageType != WebSocketMessageType.Text)
+                        break;
+                    var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
+                    string receivedMessage = Encoding.UTF8.GetString(messageBytes);
+                    data += receivedMessage;
+                    Console.WriteLine("Received: {0}", receivedMessage);
+                }
+                while (!result.EndOfMessage);
+                return data;
             }
-            while (!result.EndOfMessage);
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return string.Empty;
         }
 
-        
-
-        public async void SendMessageAsync(string message)
+        internal async void SendMessageAsync(string message)
         {
             var byteMessage = Encoding.UTF8.GetBytes(message);
             var segmnet = new ArraySegment<byte>(byteMessage);
-
-            await client.SendAsync(segmnet, WebSocketMessageType.Text, true, cts.Token);
+            await client.SendAsync(segmnet, WebSocketMessageType.Text, true, CancellationToken.None);
         }
-
+        internal async void StopWebSocketConnection()
+        {
+            try
+            {
+                if(client!=null)
+                {
+                    if (client.State != WebSocketState.Closed)
+                        await client.CloseAsync(WebSocketCloseStatus.Empty, String.Empty, CancellationToken.None);
+                }
+            }
+            finally
+            {
+                client.Dispose();
+            }
+        }
+        public void Dispose()
+        {
+            if(client!=null)
+            {
+                client.Dispose();
+                client = null;
+            }
+        }
     }
 }

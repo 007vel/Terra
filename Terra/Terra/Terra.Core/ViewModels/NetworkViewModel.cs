@@ -174,9 +174,10 @@ namespace Terra.Core.ViewModels
                 SelectedItem = wifi;
                 if (wifi != null)
                 {
+                    //return if last selected item is same current selection, for color higlight
                     if (LastSelectedItem != null && LastSelectedItem.ipAdrs == wifi.ipAdrs)
                     {
-                        return;
+                        //return;
                     }
                     SelectedItem.LabelTextColor = Color.FromHex("#EF4736");
                     SelectedItem.Image = "terra_spray_orange_device_03";

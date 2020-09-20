@@ -9,7 +9,10 @@ namespace Terra.Core.ViewModels
         {
 
         }
+        public virtual async void OnInit()
+        {
 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

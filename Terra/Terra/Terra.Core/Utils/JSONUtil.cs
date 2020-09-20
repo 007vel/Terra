@@ -10,7 +10,7 @@ namespace Terra.Core.Utils
 {
    public class JSONUtil
     {
-        public static Scheduler buildScheduleObject(List<UIDay> days, TimeSpan start, TimeSpan stop, string interval)
+        public static Scheduler Build_Scheduler(List<UIDay> days, TimeSpan start, TimeSpan stop, string interval)
         {
             Scheduler scheduleObject = new Scheduler();
             scheduleObject.start = timeSpantoSeconds(start);
@@ -26,7 +26,7 @@ namespace Terra.Core.Utils
             }
             scheduleObject.date = string.Join(",", selecteddays);
             return scheduleObject;
-        }
+        }       
         static long timeSpantoSeconds(TimeSpan timeSpan)
         {
             var time_1 = timeSpan.Ticks;

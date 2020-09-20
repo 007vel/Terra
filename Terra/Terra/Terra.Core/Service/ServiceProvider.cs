@@ -1,6 +1,9 @@
 ﻿using System;
+using ConnectionLibrary.Interface;
 using ConnectionLibrary.Network;
+using Terra.Core.ViewModels;
 using Unity;
+using Xamarin.Forms;
 
 namespace Terra.Service
 {
@@ -30,13 +33,26 @@ namespace Terra.Service
         }
         private ServiceProvider()
         {
-            buildMappings();
+            SetMappings();
         }
 
-        private void buildMappings()
+        private void SetMappings()
         {
+            //ViewModel
+            container.RegisterType<DeviceDetailsViewModel>();
+            container.RegisterType<NetworkViewModel>();
+
+            //Service/adapter
             container.RegisterType<WifiAdapter>();
-           // container.RegisterType<IWifiManager, WifiAdapter>(); 
+            container.RegisterType<IDevice, DeviceService>(); 
+        }
+        public object Resolve(Type type)
+        {
+            return container.Resolve(type);
+        }
+        public void SetBinding(Page page, Type viewModelBaseType)
+        {
+            page.BindingContext = (ViewModelBase)ServiceProvider.Instance.Resolve(viewModelBaseType);
         }
     }
 }
