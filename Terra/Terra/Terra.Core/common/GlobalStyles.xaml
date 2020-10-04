@@ -14,10 +14,6 @@
     <Color x:Key="TextOnDarkColor">#FFFFFF</Color>
     <Color x:Key="ColorTabIcon">Black</Color>
     <Color x:Key="ColorTabSelectedIcon">Red</Color>
-
-    <AppThemeColor x:Name="1" x:Key="TextColor" Dark="#FFFFFF" Light="#1d1d1d"/>
-    <AppThemeColor x:Name="2" x:Key="BackgroundColor" Dark="#1d1d1d" Light="#FFFFFF"/>
-
     
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">

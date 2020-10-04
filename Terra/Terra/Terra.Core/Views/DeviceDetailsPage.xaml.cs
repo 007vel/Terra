@@ -33,6 +33,7 @@ namespace Terra.Core.Views
         public DeviceDetailsPage()
         {
             InitializeComponent();
+            PageContext.Result += PageContext_Result1;
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
             PageContext.OnInit();
@@ -76,42 +77,12 @@ namespace Terra.Core.Views
 
             QuickAccess.Children.Add(grid);
 
-                        
-
-            DayConfigControl Schedule_1 = new DayConfigControl(inputDate());
-            Schedule_1.indexText = "1";
-            Schedule_1.editText = "edit";
-            Schedule_1.EditButtonClick += Schedule_1_EditButtonClick;
-
-            DayConfigControl Schedule_2 = new DayConfigControl(inputDate());
-            Schedule_2.indexText = "2";
-            Schedule_2.editText = "edit";
-            Schedule_2.EditButtonClick += Schedule_1_EditButtonClick;
-
-            DayConfigControl Schedule_3 = new DayConfigControl(inputDate());
-            Schedule_3.indexText = "3";
-            Schedule_3.editText = "edit";
-            Schedule_3.EditButtonClick += Schedule_1_EditButtonClick;
-
-            DayConfigControl Schedule_4 = new DayConfigControl(inputDate());
-            Schedule_4.indexText = "4";
-            Schedule_4.editText = "edit";
-            Schedule_4.EditButtonClick += Schedule_1_EditButtonClick;
-
-            DayConfigControl Schedule_5 = new DayConfigControl(inputDate());
-            Schedule_5.indexText = "5";
-            Schedule_5.editText = "edit";
-            Schedule_5.EditButtonClick += Schedule_1_EditButtonClick;
-
-            DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
-            Schedule_6.indexText = "6";
-            Schedule_6.editText = "edit";
-            Schedule_6.EditButtonClick += Schedule_1_EditButtonClick;
-
-
             ScheduleView.Children.Add(GetAddButton());
         }
-
+        private void PageContext_Result1(List<Entities.Scheduler> arg)
+        {
+            BuildScheduleUI(arg);
+        }
         private void PageContext_Result(List<Entities.Scheduler> arg)
         {
             if(arg!=null)

@@ -64,7 +64,7 @@ namespace FlyMe.Droid.Helper
             wifiManager.EnableNetwork(netId, true);
             wifiManager.Reconnect();
             await Task.Delay(2*1000);
-
+            return true;
             if (wifiManager.ConnectionInfo?.SSID != ssid)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);

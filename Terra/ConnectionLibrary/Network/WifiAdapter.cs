@@ -98,9 +98,17 @@ namespace ConnectionLibrary.Network
 
         internal async void SendMessageAsync(string message)
         {
-            var byteMessage = Encoding.UTF8.GetBytes(message);
-            var segmnet = new ArraySegment<byte>(byteMessage);
-            await client.SendAsync(segmnet, WebSocketMessageType.Text, true, CancellationToken.None);
+            try
+            {
+                var byteMessage = Encoding.UTF8.GetBytes(message);
+                var segmnet = new ArraySegment<byte>(byteMessage);
+                await client.SendAsync(segmnet, WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            
         }
         internal async void StopWebSocketConnection()
         {

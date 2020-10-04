@@ -26,6 +26,46 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("Schedulers");
             }
         }
+
+        DeviceInfo battery;
+        public DeviceInfo Battery
+        {
+            get
+            {
+                return battery;
+            }
+            set
+            {
+                battery = value;
+                OnPropertyChanged("Battery");
+            }
+        }
+        DeviceInfo spray;
+        public DeviceInfo Spray
+        {
+            get
+            {
+                return spray;
+            }
+            set
+            {
+                spray = value;
+                OnPropertyChanged("Spray");
+            }
+        }
+        DeviceInfo initializeSpray;
+        public DeviceInfo InitializeSpray
+        {
+            get
+            {
+                return initializeSpray;
+            }
+            set
+            {
+                initializeSpray = value;
+                OnPropertyChanged("InitializeSpray");
+            }
+        }
         public DeviceDetailsViewModel()
         {
           //  WifiAdapter.Instance.WebSocketInit();
@@ -85,6 +125,47 @@ namespace Terra.Core.ViewModels
                 System.Diagnostics.Debug.WriteLine(e);
             }
             return null;
+        }
+
+        /// <summary>
+        /// GetBatteryCount Wil return count from service
+        /// </summary>
+        private async void GetBatteryCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "get";
+            deviceInfoRequest.request = "battery";
+            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
+            Battery= DeserializDeviceInfo(deviceRes);
+        }
+
+        /// <summary>
+        /// GetSprayCount Wil return count from service
+        /// </summary>
+        private async void GetSprayCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "get";
+            deviceInfoRequest.request = "spray";
+            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
+            Spray = DeserializDeviceInfo(deviceRes);
+        }
+
+        /// <summary>
+        /// GetInitCount Wil return count from service
+        /// </summary>
+        private async void GetInitCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "init";
+            deviceInfoRequest.request = "spray";
+            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
+            InitializeSpray = DeserializDeviceInfo(deviceRes);
+        }
+
+        private DeviceInfo DeserializDeviceInfo(string deviceRes)
+        {
+            return JsonConvert.DeserializeObject<DeviceInfo>(deviceRes);
         }
     }
 }

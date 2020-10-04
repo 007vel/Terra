@@ -22,12 +22,13 @@ Device.SetFlags(new[] {
     "Markup_Experimental",
     "Expander_Experimental"
 } );
-
+          //  global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
             InitializeComponent();
 
             MainPage = new AppShell();
             
             this.RequestedThemeChanged += App_RequestedThemeChanged;
+            //global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
         }
 
         private void App_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)

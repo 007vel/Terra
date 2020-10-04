@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Plugin.CrossPlatformTintedImage.Android;
 using Android.Net.Wifi;
 
+
 namespace Terra.Droid
 {
     [Activity(Label = "Terra", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -26,20 +27,15 @@ namespace Terra.Droid
             base.OnCreate(savedInstanceState);
 
             this.SetStatusBarColor(Android.Graphics.Color.Black);
-            
+
+            global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental");
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
-            //Xamarin.Forms.Forms.SetFlags("CarouselView_Experimental");
+          //  Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            /* DependencyService.Register<ToastNotification>(); // Register your dependency
-
-             ToastNotification.Init(this);*/
-            
             TintedImageRenderer.Init();
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             LoadApplication(new App());
-
         }
         public WifiManager.LocalOnlyHotspotReservation mReservation { get; set; }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

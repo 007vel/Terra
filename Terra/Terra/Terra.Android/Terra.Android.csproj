@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86;x86_64</AndroidSupportedAbis>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
@@ -77,17 +77,17 @@
       <Version>2.0.0.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Forms">
+      <Version>4.8.0.1451</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms.StateSquid">
       <Version>1.1.13-beta</Version>
     </PackageReference>
     <PackageReference Include="LiveSharp">
       <Version>1.2.5</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms">
-      <Version>4.6.0.726</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.6.0.726</Version>
+      <Version>4.8.0.1451</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -486,16 +486,16 @@
       <Project>{2d417163-2f01-438c-93c3-fe400b8245f0}</Project>
       <Name>ConnectionLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Terra.Core\Terra.Core.csproj">
-      <Project>{3ED26151-0828-4F80-8B66-74869817A097}</Project>
-      <Name>Terra.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Entities\Entities.csproj">
       <Project>{B101484B-F306-482E-BF4E-D8ADAF7D506A}</Project>
       <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Terra.Core\Terra.Core.csproj">
       <Project>{3ED26151-0828-4F80-8B66-74869817A097}</Project>
+      <Name>Terra.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Terra.Core\Terra.Core.csproj">
+      <Project>{3ed26151-0828-4f80-8b66-74869817a097}</Project>
       <Name>Terra.Core</Name>
     </ProjectReference>
   </ItemGroup>

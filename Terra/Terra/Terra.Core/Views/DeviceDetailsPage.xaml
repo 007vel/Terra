@@ -21,8 +21,8 @@
                     <RowDefinition Height="80*"/>
                 </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0" BackgroundColor="#EF4736">
-                        <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
-                    </StackLayout>
+                    <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
                 <StackLayout Grid.Row="1" BackgroundColor="#989da0" Orientation="Vertical" HorizontalOptions="FillAndExpand">
                     <ScrollView HorizontalOptions="FillAndExpand">
                         <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
@@ -45,8 +45,18 @@
                           </StackLayout>
                       </StackLayout>
                       <StackLayout Grid.Column="1" Orientation="Vertical">
-                           <Image Source="alarm_clock_07" Margin="0,15,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></Image>
-                      </StackLayout>
+                        <!--  <Image Source="alarm_clock_07" Margin="0,15,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></Image> 
+                        <Path Stroke="Black"
+                          StrokeThickness="1"
+                          Fill="#CCCCFF"
+                          Aspect="Uniform"
+                          HorizontalOptions="Start">
+                        </Path>-->
+                        <Ellipse Fill="Red"
+         WidthRequest="50"
+         HeightRequest="50"
+         HorizontalOptions="Start" />
+                    </StackLayout>
                       <StackLayout Grid.Column="2" VerticalOptions="FillAndExpand">
                             <Image Source="demo_button_07" ></Image>
                               <Image Source="personalize_button_14" VerticalOptions="EndAndExpand"></Image>
