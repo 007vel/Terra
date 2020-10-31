@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Terra.Core.ViewModels"
     xmlns:card="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
+    xmlns:prog="clr-namespace:Terra.Core.Views;assembly=Terra.Core"
     x:Class="Terra.Core.Views.DeviceDetailsPage" Title="Configuration" BackgroundColor="White">
     <ContentPage.BindingContext>
         <vm:DeviceDetailsViewModel/>
@@ -44,18 +45,9 @@
                               <Image Source="fan_button_14" VerticalOptions="EndAndExpand"></Image>
                           </StackLayout>
                       </StackLayout>
-                      <StackLayout Grid.Column="1" Orientation="Vertical">
-                        <!--  <Image Source="alarm_clock_07" Margin="0,15,0,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></Image> 
-                        <Path Stroke="Black"
-                          StrokeThickness="1"
-                          Fill="#CCCCFF"
-                          Aspect="Uniform"
-                          HorizontalOptions="Start">
-                        </Path>-->
-                        <Ellipse Fill="Red"
-         WidthRequest="50"
-         HeightRequest="50"
-         HorizontalOptions="Start" />
+                      <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="0">
+                        <!-- <Button Text="Click" Clicked="Button_Clicked"/> -->
+                        <card:ProgressView  HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" />
                     </StackLayout>
                       <StackLayout Grid.Column="2" VerticalOptions="FillAndExpand">
                             <Image Source="demo_button_07" ></Image>

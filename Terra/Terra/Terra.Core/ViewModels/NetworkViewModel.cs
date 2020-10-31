@@ -61,7 +61,7 @@ namespace Terra.Core.ViewModels
                 //      Utils.Utils.Toast("title", "OnRequestAvailableNetworks");
             }
         }
-
+        string wifiCountString = "Wifi list count: ";
         private void WifiAdapter_PropertyChanged(List<Wifi> arg)
         {
             if (arg == null) return;
@@ -76,7 +76,7 @@ namespace Terra.Core.ViewModels
                 NetworkList = new ObservableCollection<Wifi>(_networkList);
                 if(NetworkList.Count>0)
                 {
-                    WifiCount = WifiCount + NetworkList.Count.ToString();
+                    WifiCount = wifiCountString + NetworkList.Count.ToString();
                 }
             }
         }

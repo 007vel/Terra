@@ -5,7 +5,7 @@
     x:Class="Terra.Core.Views.NetworkListPage"
     xmlns:vm="clr-namespace:Terra.Core.ViewModels"
     xmlns:banner="clr-namespace:Terra.Core.Controls"
-    Shell.NavBarIsVisible="True" BackgroundColor="White" Title="Devices">
+    Shell.NavBarIsVisible="True" BackgroundColor="#E9E6E6" Title="Devices">
     <ContentPage.Resources>
         <Style TargetType="StackLayout">
             <Setter Property="VisualStateManager.VisualStateGroups">
@@ -42,7 +42,9 @@
         <vm:NetworkViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <FlexLayout Margin="5,10,5,5" BackgroundColor="White"
+        
+        
+        <FlexLayout Margin="5,10,5,5" 
             Direction="Column">
             <Grid  BackgroundColor="#EF4736" FlexLayout.Basis="32%" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
@@ -72,33 +74,34 @@
                     <TapGestureRecognizer Command="{Binding ScanWifi}"/>
                 </StackLayout.GestureRecognizers>
             </StackLayout>
-            <Grid Margin="25" FlexLayout.Basis="60%" >
+            <Grid Margin="10,25,10,25" FlexLayout.Basis="60%" >
             <CollectionView x:Name="list"  
             VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand"
-            SelectionMode="Single"
+            HorizontalOptions="FillAndExpand" 
+            SelectionMode="Single" 
             ItemsSource="{Binding NetworkList}"
                             >
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout x:Name="netcell" Padding="5">
+                            <StackLayout Margin="5,10,5,10" HorizontalOptions="Fill" BackgroundColor="Transparent">
+                            <Frame CornerRadius="5"  Padding="5" >
+                        <StackLayout x:Name="netcell" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Margin="10">
+                            <FlexLayout HeightRequest="65" Direction="Row" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal" Spacing="0" >
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="11*"/>
+                                                <ColumnDefinition Width="85*"/>
+                                            </Grid.ColumnDefinitions>
 
-                            <FlexLayout HeightRequest="55" BackgroundColor="White" Direction="Row" >
-                                <StackLayout Orientation="Horizontal" Spacing="0">
-                                    <Grid >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="11*"/>
-                                            <ColumnDefinition Width="85*"/>
-                                        </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" BackgroundColor="{Binding LabelTextColor}" HeightRequest="60">
+                                                <Image x:Name="wifiImg"  Source="terra_spray.png" Margin="-8" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
 
-                                            <Grid Grid.Column="0" BackgroundColor="{Binding LabelTextColor}">
-                                            <Image x:Name="wifiImg"  Source="terra_spray.png" Margin="-8" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-
-                                            </Image>
+                                                </Image>
                                             </Grid>
 
-                                            <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
+                                            <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0" Margin="15,0">
 
                                                 <Label x:Name="rowone" Text="{Binding name}" StyleClass="listrow" TextColor="{Binding LabelTextColor}" VerticalOptions="End">
 
@@ -107,27 +110,28 @@
 
                                                 </Label>
                                             </StackLayout>
-                                        
-
-
-                                    </Grid>
-
-
-                                </StackLayout>
-
-
-                            </FlexLayout>
-                            <StackLayout StyleClass="seperator" HorizontalOptions="FillAndExpand" FlexLayout.Basis="2%"/>
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer 
+                                        </Grid>
+                                    </StackLayout>
+                                </FlexLayout>
+                            <StackLayout StyleClass="seperator" IsVisible="False" HorizontalOptions="FillAndExpand" FlexLayout.Basis="2%"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer 
                                     Command="{Binding BindingContext.SelectionChanged, Source={x:Reference list}}"
                                     CommandParameter="{Binding .}"
                                     NumberOfTapsRequired="1"
                                     />
-                            </StackLayout.GestureRecognizers>
-
-                        </StackLayout>
-                    </DataTemplate>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                    Command="{Binding BindingContext.SelectionChanged, Source={x:Reference list}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1"
+                                    />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                            </StackLayout>
+                        </DataTemplate>
                 </CollectionView.ItemTemplate>
 
             </CollectionView>

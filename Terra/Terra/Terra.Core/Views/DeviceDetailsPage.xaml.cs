@@ -19,6 +19,7 @@ namespace Terra.Core.Views
     {
         Grid AddBtn = null;
         DeviceDetailsViewModel context;
+        public delegate void TimeRuleDelegate(TimeSpan startTime,TimeSpan endTime, bool isStartTime);
         public DeviceDetailsViewModel PageContext
         {
             get
@@ -204,5 +205,8 @@ namespace Terra.Core.Views
         {
             await Navigation.PushPopupAsync(new ScheduleInputDialog());
         }
+
+        
+
     }
 }

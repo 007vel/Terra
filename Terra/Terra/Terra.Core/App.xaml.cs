@@ -20,7 +20,8 @@ Device.SetFlags(new[] {
     "RadioButton_Experimental",
     "AppTheme_Experimental",
     "Markup_Experimental",
-    "Expander_Experimental"
+    "Expander_Experimental",
+    "Shapes_Experimental"
 } );
           //  global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
             InitializeComponent();

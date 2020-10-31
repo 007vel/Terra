@@ -1,5 +1,4 @@
 ﻿using Terra.Core.Views;
-using Terra.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -17,8 +16,6 @@ namespace Terra
 
         private void InitRoutes()
         {
-            Routing.RegisterRoute("results", typeof(FlightResultsPage));
-            Routing.RegisterRoute("DeviceDetailsPage", typeof(DeviceDetailsPage));
             Routing.RegisterRoute("DeviceDetailsPage", typeof(DeviceDetailsPage));
         }
 

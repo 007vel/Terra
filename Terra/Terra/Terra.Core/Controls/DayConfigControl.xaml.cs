@@ -52,30 +52,37 @@ namespace Terra.Core.Controls
             BindingContext = this;
             IntervalList = BuildIntervalList();
         }
-        TimeSpan someDate;
+        TimeSpan selectedStopTime;
         public TimeSpan SelectedStopTime
         {
             get
             {
-                return someDate;
+                return selectedStopTime;
             }
             set
             {
-                someDate = value;
-                OnPropertyChanged();
+                var isValid=IsValidDateTime(selectedStartTime, value, false);                
+                selectedStopTime = isValid? value: selectedStopTime;                
+                OnPropertyChanged("SelectedStopTime");
             }
         }
-        TimeSpan sometoDate;
+        TimeSpan selectedStartTime;
         public TimeSpan SelectedStartTime
         {
             get
             {
-                return sometoDate;
+                return selectedStartTime;
             }
             set
             {
-                sometoDate = value;
-                OnPropertyChanged();
+                if (selectedStopTime.Hours == 0)
+                {
+                    SelectedStopTime = new TimeSpan(value.Hours + 1, value.Minutes, value.Seconds);
+                }
+                var isValid = IsValidDateTime(value, selectedStopTime, true);
+                selectedStartTime = isValid? value: selectedStartTime;    
+                
+                OnPropertyChanged("SelectedStartTime");
             }
         }
         ObservableCollection<string> intervalList=new ObservableCollection<string>();
@@ -294,7 +301,29 @@ namespace Terra.Core.Controls
                 SetInterval();
             }
         }
-
+        public bool IsValidDateTime(TimeSpan startTimeSpan, TimeSpan endTimeSpan, bool isStartChanged)
+        {
+            if (startTimeSpan != null && endTimeSpan != null)
+            {
+                if (isStartChanged)
+                {
+                    if (TimeSpan.Compare(startTimeSpan, endTimeSpan) != -1)
+                    {
+                        App.Current.MainPage.DisplayAlert("Alert", "Start time must be less than end time", cancel: "Ok");
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (TimeSpan.Compare(startTimeSpan, endTimeSpan) != -1)
+                    {
+                        App.Current.MainPage.DisplayAlert("Alert", "End time must be greater than start time", cancel: "Ok");
+                        return false;
+                    }   
+                }
+            }
+            return true;
+        }
         private void SetInterval()
         {
             string uiIntervsl = " / " + SelectedIntervsl + "'";

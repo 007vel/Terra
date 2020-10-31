@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Entities\Entities.csproj" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1260" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1451" />
+    <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 </Project>

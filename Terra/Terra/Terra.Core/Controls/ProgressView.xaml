@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Terra.Core.Controls.ProgressView"
+              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnSpacing="3" RowSpacing="3" BackgroundColor="White" Margin="3,3,3,3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="30*" />
+        </Grid.RowDefinitions>
+
+        <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                            PaintSurface="OnCanvasViewPaintSurfaceAsync" 
+                            Grid.Row="0" 
+                            BackgroundColor="White" />
+
+
+        <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"   >
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0,0,10,0">
+              
+            </StackLayout>
+
+           <StackLayout Orientation="Vertical" Spacing="0">
+                <ScrollView >
+                    <ListView x:Name="lstView" IsVisible="false" BackgroundColor="White" RowHeight="50" HasUnevenRows = "true" HeightRequest="400" IsPullToRefreshEnabled="false"
+                      SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell IsEnabled="false" >
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal" Padding="15,0,20,0" HorizontalOptions="FillAndExpand">
+                                          
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+            </StackLayout> 
+
+
+            <Slider x:Name="sweepAngleSlider"
+                   ValueChanged="sliderValueChanged"
+                   Minimum="0" Maximum="260"
+                   IsVisible="false"/>
+        </StackLayout>
+    </Grid>
+</Grid>

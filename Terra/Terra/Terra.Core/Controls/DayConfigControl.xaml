@@ -6,62 +6,65 @@
                   xmlns:time="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core"
              Orientation="Vertical" HorizontalOptions="FillAndExpand"
              Margin="10,10,15,10">
+    <!--Edit layout-->
     <StackLayout x:Name="schduleView" HorizontalOptions="FillAndExpand" Spacing="0" HeightRequest="35">
-    <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="82*"/>
-            <ColumnDefinition Width="10*"/>
-        </Grid.ColumnDefinitions>
-        <StackLayout x:Name="indexLayout" Grid.Column="0" BackgroundColor="Black" HorizontalOptions="FillAndExpand" Margin="0,4,0,4">
-            <Label x:Name="index" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-        </StackLayout>
-        <Frame x:Name="weekFrameLayout1" Grid.Column="1" CornerRadius="4" BackgroundColor="White" >
+        <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="82*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout x:Name="indexLayout" Grid.Column="0" BackgroundColor="Black" HorizontalOptions="FillAndExpand" Margin="0,4,0,4">
+                <Label x:Name="index" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+            <Frame x:Name="weekFrameLayout1" Grid.Column="1" CornerRadius="4" BackgroundColor="White" >
 
-            <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" Margin="-20" InputTransparent="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="29*"/>
-                </Grid.ColumnDefinitions>
-                <StackLayout x:Name="weekFrameLayout" Grid.Column="0" VerticalOptions="CenterAndExpand" Margin="3,0,0,5" InputTransparent="True">
+                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" Margin="-20" InputTransparent="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="29*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout x:Name="weekFrameLayout" Grid.Column="0" VerticalOptions="CenterAndExpand" Margin="3,0,0,5" InputTransparent="True">
 
-                </StackLayout>
-                <StackLayout Grid.Column="1" BackgroundColor="#EF4736">
-                    
-                </StackLayout>
-                <StackLayout x:Name="TimeLayout" Grid.Column="2"  BackgroundColor="White" VerticalOptions="CenterAndExpand" Margin="2,0,0,7" InputTransparent="True">
-                    <Label x:Name="startLabel" Text="00:00" TextColor="#EF4736" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-                </StackLayout>
-            </Grid>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" BackgroundColor="#EF4736">
+
+                    </StackLayout>
+                    <StackLayout x:Name="TimeLayout" Grid.Column="2"  BackgroundColor="White" VerticalOptions="CenterAndExpand" Margin="2,0,0,7" InputTransparent="True">
+                        <Label x:Name="startLabel" Text="00:00" TextColor="#EF4736" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+                    </StackLayout>
+                </Grid>
                 <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Edit_Tapped" />
+                    <TapGestureRecognizer Tapped="Edit_Tapped" />
                 </Frame.GestureRecognizers>
             </Frame>
-        
-        <StackLayout x:Name="editLayout" Grid.Column="2" BackgroundColor="#EF4736" Margin="0,4,0,4">
-            <Label x:Name="editBtn" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
-                <Label.GestureRecognizers>
+
+            <StackLayout x:Name="editLayout" Grid.Column="2" BackgroundColor="#EF4736" Margin="0,4,0,4">
+                <Label x:Name="editBtn" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Edit_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Edit_Tapped" />
-                </Label.GestureRecognizers>
-            </Label>
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Edit_Tapped" />
-            </StackLayout.GestureRecognizers>
-        </StackLayout>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="Edit_Tapped" />
             </Grid.GestureRecognizers>
         </Grid>
     </StackLayout>
+    
+    <!--ExpandLayout-->
     <expand:ScheduleExpandCell x:Name="expandView" BackgroundColor="Transparent" HeightRequest="0" Orientation="Horizontal" Spacing="0">
         <Frame BackgroundColor="White" CornerRadius="10" BorderColor="#EF4736" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <StackLayout Margin="-20">
-            <StackLayout x:Name="weekexpand" HorizontalOptions="FillAndExpand" HeightRequest="50" Margin="5,0,10,5" >
+            <StackLayout Margin="-20">
+                <StackLayout x:Name="weekexpand" HorizontalOptions="FillAndExpand" HeightRequest="50" Margin="5,0,10,5" >
 
-            </StackLayout>
-            <Grid x:Name="timePickerView" HorizontalOptions="FillAndExpand" HeightRequest="70" Margin="10,0,10,10" ColumnSpacing="15" RowSpacing="10">
-                <Grid.ColumnDefinitions>
+                </StackLayout>
+                <Grid x:Name="timePickerView" HorizontalOptions="FillAndExpand" HeightRequest="70" Margin="10,0,10,10" ColumnSpacing="15" RowSpacing="10">
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="25*"/>
                         <ColumnDefinition Width="2*"/>
@@ -76,17 +79,17 @@
                     Format="T" BackgroundColor="#EF4736" TextColor="White" />
                     <time:TimePickerCard Grid.Column="1" CornerRadius="18" CardTitle="On" CardDesc="{Binding SelectedStartTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
                     <TimePicker x:Name="_timePickerTo" Grid.Column="3" Margin="10" 
-                    Time="{Binding SelectedStopTime,Mode=TwoWay}"
+                    Time="{Binding SelectedStopTime,Mode=TwoWay}" 
                     Format="T" BackgroundColor="#EF4736" TextColor="White" />
                     <time:TimePickerCard Grid.Column="3" CornerRadius="18" CardTitle="Off" CardDesc="{Binding SelectedStopTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
 
                     <Picker ItemsSource="{Binding IntervalList}"  Grid.Column="5" ItemDisplayBinding="{Binding .}" Title="Interval" BackgroundColor="Transparent" VerticalOptions="CenterAndExpand" Margin="7"
                             SelectedItem="{Binding SelectedIntervsl}">
-                        
+
                     </Picker>
                     <time:TimePickerCard x:Name="intervalLabel" Grid.Column="5" CornerRadius="20" CardTitle="Interval" CardDesc="00'" BackgroundColor="#EF4736" InputTransparent="True"/>
-            </Grid>
-        </StackLayout>
+                </Grid>
+            </StackLayout>
         </Frame>
         <StackLayout HorizontalOptions="Fill" BackgroundColor="#EF4736" Margin="-6,0,0,0" WidthRequest="60">
             <Label Text="add" FontAttributes="Bold" VerticalOptions="CenterAndExpand" Margin="2,0,2,0">
@@ -100,5 +103,6 @@
         </StackLayout>
 
     </expand:ScheduleExpandCell>
+
 
 </StackLayout>

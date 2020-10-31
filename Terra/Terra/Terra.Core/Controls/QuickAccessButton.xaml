@@ -2,10 +2,10 @@
 <Frame
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Terra.Core.Controls.QuickAccessButton">
+    x:Class="Terra.Core.Controls.QuickAccessButton" Padding="0">
     
-    <StackLayout Padding="-20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
-    <Grid  ColumnSpacing="0" RowSpacing="0" >
+    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
+    <Grid  ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand">
     <Grid.RowDefinitions>
         <RowDefinition Height="60*"/>
         <RowDefinition Height="40*"/>
