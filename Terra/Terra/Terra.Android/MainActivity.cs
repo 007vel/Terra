@@ -12,7 +12,8 @@ using FlyMe.Droid;
 using Xamarin.Forms;
 using Plugin.CrossPlatformTintedImage.Android;
 using Android.Net.Wifi;
-
+using System.Globalization;
+using System.Threading;
 
 namespace Terra.Droid
 {
@@ -31,10 +32,10 @@ namespace Terra.Droid
             global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental");
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-          //  Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             TintedImageRenderer.Init();
-            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            
             LoadApplication(new App());
         }
         public WifiManager.LocalOnlyHotspotReservation mReservation { get; set; }
@@ -43,6 +44,13 @@ namespace Terra.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            var userSelectedCulture = CultureInfo.CreateSpecificCulture("en-US");
+            userSelectedCulture.NumberFormat.CurrencyNegativePattern = 1;
+            Thread.CurrentThread.CurrentCulture = userSelectedCulture;
         }
     }
 }

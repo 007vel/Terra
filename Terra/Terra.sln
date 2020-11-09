@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terra.Android", "Terra\Terr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terra.iOS", "Terra\Terra.iOS\Terra.iOS.csproj", "{CD453E99-9D74-4CC3-B661-EDC2D86F0439}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terra", "Terra\Terra.Core\Terra.Core.csproj", "{3ED26151-0828-4F80-8B66-74869817A097}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terra.Core", "Terra\Terra.Core\Terra.Core.csproj", "{3ED26151-0828-4F80-8B66-74869817A097}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionLibrary", "ConnectionLibrary\ConnectionLibrary.csproj", "{2D417163-2F01-438C-93C3-FE400B8245F0}"
 EndProject

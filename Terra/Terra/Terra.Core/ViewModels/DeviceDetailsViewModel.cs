@@ -41,7 +41,7 @@ namespace Terra.Core.ViewModels
             }
         }
         DeviceInfo spray;
-        public DeviceInfo Spray
+        public DeviceInfo RemSpray
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Terra.Core.ViewModels
             set
             {
                 spray = value;
-                OnPropertyChanged("Spray");
+                OnPropertyChanged("RemSpray");
             }
         }
         DeviceInfo initializeSpray;
@@ -68,16 +68,20 @@ namespace Terra.Core.ViewModels
         }
         public DeviceDetailsViewModel()
         {
-          //  WifiAdapter.Instance.WebSocketInit();
+            var _RemSpray = new DeviceInfo();
+            _RemSpray.value = "12";
+            RemSpray = _RemSpray;
         }
         /// <summary>
         /// This method called during Initialization of ViewModel
         /// </summary>
         public override async void OnInit()
         {
-            var rawSchedule = await GetScheduleFromService();
-            Schedulers = DeserializSchedule(rawSchedule);
-            Result.Invoke(Schedulers);
+          //  var rawSchedule = await GetScheduleFromService();
+           // NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
+          //  Schedulers = DeserializSchedule(rawSchedule);
+            // Result.Invoke(Schedulers);
+          //  GetBatteryCount();
         }
         /// <summary>
         /// Get the schedules from Device service
@@ -87,7 +91,7 @@ namespace Terra.Core.ViewModels
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
-            deviceInfoRequest.request = "scheduler";
+            deviceInfoRequest.info = "scheduler";
             var schedule = await DeviceService.GetScheduler(deviceInfoRequest);
             return schedule;
         }
@@ -126,41 +130,67 @@ namespace Terra.Core.ViewModels
             }
             return null;
         }
+        ////////////////////////////////////////////////
+        ////////////////////////////////////////////////
+        /////////////////Get device values//////////////
+        ////////////////////////////////////////////////
+        ////////////////////////////////////////////////
+
 
         /// <summary>
-        /// GetBatteryCount Wil return count from service
+        /// GetBatteryCount Will return count from service
         /// </summary>
-        private async void GetBatteryCount()
+        public async void GetBatteryCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
-            deviceInfoRequest.request = "battery";
+            deviceInfoRequest.info = "battery";
             var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
             Battery= DeserializDeviceInfo(deviceRes);
         }
 
         /// <summary>
-        /// GetSprayCount Wil return count from service
+        /// GetRemSprayCount Will return count from service
         /// </summary>
-        private async void GetSprayCount()
+        public async Task<DeviceInfo> GetRemSprayCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
-            deviceInfoRequest.request = "spray";
+            deviceInfoRequest.info = "spray";
             var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
-            Spray = DeserializDeviceInfo(deviceRes);
+           // RemSpray = DeserializDeviceInfo(deviceRes);
+            return RemSpray;
         }
 
         /// <summary>
-        /// GetInitCount Wil return count from service
+        /// GetInitilizeSprayCount(Input) Will return count from service
         /// </summary>
-        private async void GetInitCount()
+        public async void GetInitilizeSprayCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "init";
-            deviceInfoRequest.request = "spray";
+            deviceInfoRequest.info = "spray";
             var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
             InitializeSpray = DeserializDeviceInfo(deviceRes);
+        }
+
+        ////////////////////////////////////////////////
+        ////////////////////////////////////////////////
+        /////////////////Set device values//////////////
+        ////////////////////////////////////////////////
+        ////////////////////////////////////////////////
+
+
+
+        /// <summary>
+        /// SetInitCount Will post value to device
+        /// </summary>
+        public async void SetInitilizeSprayCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "init";
+            deviceInfoRequest.info = "spray";
+            var deviceRes = await DeviceService.SetDeviceInfo(deviceInfoRequest);
         }
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)

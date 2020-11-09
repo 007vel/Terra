@@ -22,14 +22,11 @@ namespace Terra.Core.Controls
         public event ActionResult EditButtonClick;
 
         bool isEditMode;
-        public DayConfigControl(List<UIDay> _uIDays)
+        public DayConfigControl(List<UIDay> _uIDays, Entities.Scheduler scheduler=null)
         {
             InitializeComponent();
             this.uIDays = _uIDays;
-           // weekFrameLayout.Margin = new Thickness(-10, -10, -10, -10);
             weekControl = new WeekControl(weekFrameLayout);
-          //  weekFrameLayout.BackgroundColor = Color.Yellow;
-
             
             weekControl.DaysList = this.uIDays;
             weekFrameLayout.Children.Add ( weekControl);

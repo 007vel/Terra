@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Terra.Core.common;
 using Xamarin.Forms;
 
 namespace Terra.Core.Controls
 {
-    public partial class QuickAccessButton : Frame
+    public partial class QuickAccessButton : Frame, IDialog
     {
         public QuickAccessButton()
         {
@@ -14,7 +14,6 @@ namespace Terra.Core.Controls
             BorderColor = Color.Green;
             VerticalOptions = LayoutOptions.FillAndExpand;
             HorizontalOptions = LayoutOptions.FillAndExpand;
-          //  Margin = -20;
         }
         
 
@@ -93,6 +92,22 @@ namespace Terra.Core.Controls
                 _view.IconSrc = (string)newValue;
             }
         }
+
+        public string getValue()
+        {
+            return CardDesc;
+        }
+
+        public void setValue(string val)
+        {
+            CardDesc = val;
+        }
+
+        public string getTitle()
+        {
+            return CardTitle;
+        }
+
         public string CardIcon
         {
             get { return (string)base.GetValue(CardIconProperty); }
@@ -105,6 +120,13 @@ namespace Terra.Core.Controls
                 icon.Source = ImageSource.FromFile( value);
                 OnPropertyChanged();
             }
+        }
+
+        public Keyboard KeyBoardInputView { set; get; }
+
+        public Keyboard getkeyBoardType()
+        {
+            return KeyBoardInputView;
         }
 
     }

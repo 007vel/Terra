@@ -10,6 +10,7 @@ using Terra.Core.Enum;
 using Terra.Core.Models;
 using Terra.Core.Utils;
 using Terra.Core.ViewModels;
+using Terra.Core.Views.PopUpPages;
 using Terra.Service;
 using Xamarin.Forms;
 
@@ -51,24 +52,32 @@ namespace Terra.Core.Views
             conf.CardTitle = "Config";
             conf.CardDesc = "Spray";
             conf.IconSrc = "lock_button_24";
+            conf.KeyBoardInputView = Keyboard.Text;
+            CreateTapGesture(conf);
             Grid.SetColumn(conf,0);
 
             QuickAccessButton initSpray = new QuickAccessButton();
             initSpray.CardTitle = "Input Spray";
-            initSpray.CardDesc = "1432";
+            initSpray.CardDesc = "0";
             initSpray.IconSrc = "lock_button_24";
+            initSpray.KeyBoardInputView = Keyboard.Numeric;
+            CreateTapGesture(initSpray);
             Grid.SetColumn(initSpray, 1);
 
             QuickAccessButton remainSpray = new QuickAccessButton();
             remainSpray.CardTitle = "rem_sprays";
-            remainSpray.CardDesc = "1754";
             remainSpray.IconSrc = "lock_button_24";
+            
+            remainSpray.KeyBoardInputView = Keyboard.Numeric;
+            CreateTapGesture(remainSpray);
             Grid.SetColumn(remainSpray, 2);
 
             QuickAccessButton dayCount = new QuickAccessButton();
             dayCount.CardTitle = "Days Left";
             dayCount.CardDesc="12";
             dayCount.IconSrc = "lock_button_24";
+            dayCount.KeyBoardInputView = Keyboard.Numeric;
+            CreateTapGesture(dayCount);
             Grid.SetColumn(dayCount, 3);
 
             grid.Children.Add(conf);
@@ -79,7 +88,20 @@ namespace Terra.Core.Views
             QuickAccess.Children.Add(grid);
 
             ScheduleView.Children.Add(GetAddButton());
+
+            /// GetValues
+            var remSpray = context.GetRemSprayCount();
+            if(remSpray != null && remSpray.Result!=null)
+            {
+                remainSpray.CardDesc = remSpray.Result.value;
+            }
         }
+
+        private void GotoPopupInputpage1(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void PageContext_Result1(List<Entities.Scheduler> arg)
         {
             BuildScheduleUI(arg);
@@ -90,10 +112,7 @@ namespace Terra.Core.Views
             {
                 foreach(var item in arg)
                 {
-                    DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
-                    Schedule_6.indexText = "6";
-                    Schedule_6.editText = "edit";
-                    Schedule_6.EditButtonClick += Schedule_1_EditButtonClick;
+                    BuildScheduleUI(arg);
                 }
             }
         }
@@ -206,7 +225,21 @@ namespace Terra.Core.Views
             await Navigation.PushPopupAsync(new ScheduleInputDialog());
         }
 
-        
-
+        private async void GotoPopupInputpage(object sender, EventArgs e)
+        {
+            if(sender!=null)
+            {
+                QuickAccessButton quickAccessButton = (QuickAccessButton)sender;
+                var loadingPage = new DialogPopupPage(quickAccessButton);
+                await Navigation.PushPopupAsync(loadingPage);
+            }
+            
+        }
+        private void CreateTapGesture(QuickAccessButton quickAccessButton)
+        {
+            TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += GotoPopupInputpage;
+            quickAccessButton.GestureRecognizers.Add(tapGestureRecognizer);
+        }
     }
 }

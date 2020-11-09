@@ -52,23 +52,23 @@ namespace FlyMe.Droid.Helper
         }
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
+         //   return true;
             var ssid = $"\"{_ssid}\"";
             var pwd = $"\"{_pwd}\"";
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
 
-            wifiManager.Disconnect();
+          //  wifiManager.Disconnect();
             int netId = wifiManager.AddNetwork(wifiConfig);
           //  wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
             wifiManager.Reconnect();
             await Task.Delay(2*1000);
-            return true;
             if (wifiManager.ConnectionInfo?.SSID != ssid)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
-                Console.WriteLine($"Cannot connect to network: {ssid}");
+             //   Console.WriteLine($"Cannot connect to network: {ssid}");
                 return false;
             }
             return true;

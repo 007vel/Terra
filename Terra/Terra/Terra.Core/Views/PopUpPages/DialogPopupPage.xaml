@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+              x:Class="Terra.Core.Views.PopUpPages.DialogPopupPage">
+  
+  <Frame VerticalOptions="Center" HorizontalOptions="FillAndExpand" CornerRadius="5" Margin="20,20,20,20">
+    <StackLayout BackgroundColor="White" Padding="0, 0, 0, 0">
+      <Label x:Name="titleLbl" FontSize="20" TextColor="#EF4736" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center"></Label>
+      <StackLayout Margin="5">
+        <StackLayout>
+          <StackLayout Orientation="Horizontal">
+            <Entry x:Name="inputEntry"
+                   HorizontalOptions="FillAndExpand"
+                   IsEnabled="{Binding Path=IsToggled}" 
+                   PlaceholderColor="Silver" 
+                   Keyboard="Email"
+                   TextColor="Gray"></Entry>
+            
+          </StackLayout>
+          
+          
+          <Button Text="Save" BackgroundColor="#EF4736" Margin="0,20,0,0" Clicked="Button_Clicked" HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5"></Button>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </Frame>
+</rg:PopupPage>

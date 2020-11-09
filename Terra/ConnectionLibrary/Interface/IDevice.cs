@@ -9,7 +9,8 @@ namespace ConnectionLibrary.Interface
    public interface IDevice
     {
         Task<string> GetScheduler(DeviceInfoRequest deviceInfoRequest);
-        Task<string> SetScheduler(string schedule);
+        Task<bool> SetScheduler(string schedule);
         Task<string> GetDeviceInfo(DeviceInfoRequest deviceInfoRequest);
+        Task<bool> SetDeviceInfo(DeviceInfoRequest deviceInfoRequest);
     }
 }

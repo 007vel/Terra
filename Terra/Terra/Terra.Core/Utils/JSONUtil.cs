@@ -33,7 +33,7 @@ namespace Terra.Core.Utils
             var now = DateTime.Now;
             new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
             var time_2 = now.Ticks*10000*1000;
-            long diff = ((time_1 / 10000) / 1000)- ((time_2 / 10000) / 1000);
+            long diff = ((time_2 / 10000) / 1000)-((time_1 / 10000) / 1000);
             return diff;
         }
     }

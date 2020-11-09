@@ -30,8 +30,8 @@ namespace Terra.common
             var styleListType = typeof(List<>).MakeGenericType(styleAttributeType);
             var styleList = (IList)Activator.CreateInstance(styleListType);
 
-            styleList.Add(styleAttributeInstance);
-            dictionaryAdd.Invoke(styleProperties, new object[] { name, styleList });
+          //  styleList.Add(styleAttributeInstance);
+           // dictionaryAdd.Invoke(styleProperties, new object[] { name, styleList });
         }
     }
 }

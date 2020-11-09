@@ -51,6 +51,7 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("tab", "9786297172");
                 wifiPwdList.Add("lap", "Sakthi@123");
                 wifiPwdList.Add("terradev", "12345678");
+                wifiPwdList.Add("AndroidWifi", "9943157172"); 
                 IsWifiLoading = true;
                 MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
                 {
@@ -191,7 +192,7 @@ namespace Terra.Core.ViewModels
                     string pwd = string.Empty;
                     foreach(var item in wifiPwdList)
                     {
-                        if(DeviceName.ToLower().Contains(item.Key))
+                        if(DeviceName.ToLower().Contains(item.Key.ToLower()))
                         {
                             pwd = item.Value;
                             break;

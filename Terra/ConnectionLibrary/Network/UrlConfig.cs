@@ -14,7 +14,13 @@ namespace ConnectionLibrary.Network
     }
     public class UrlConfig
     {
-        readonly static string host = "ws://127.0.0.1";
+        readonly static string host = "ws://192.168.1.10:12345";
+      //  readonly static string host = "ws://192.168.43.57:9898";
+
+        public static string GetBaseURL()
+        {
+            return host;
+        }
         public static string GetFullURL(Endpoint endpoint, Endpoint_Method method)
         {
             string url = "";
@@ -22,7 +28,7 @@ namespace ConnectionLibrary.Network
             if(method==Endpoint_Method.POST)
             {
                 url += "/set";
-            }else if (method == Endpoint_Method.POST)
+            }else if (method == Endpoint_Method.GET)
             {
                 url += "/get";
             }
