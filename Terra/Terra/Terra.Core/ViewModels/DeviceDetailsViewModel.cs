@@ -77,11 +77,11 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public override async void OnInit()
         {
-          //  var rawSchedule = await GetScheduleFromService();
-           // NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
+            var rawSchedule = await GetScheduleFromService();
+            NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
           //  Schedulers = DeserializSchedule(rawSchedule);
-            // Result.Invoke(Schedulers);
-          //  GetBatteryCount();
+          //  Result.Invoke(Schedulers);
+            GetBatteryCount();
         }
         /// <summary>
         /// Get the schedules from Device service
@@ -195,7 +195,14 @@ namespace Terra.Core.ViewModels
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)
         {
-            return JsonConvert.DeserializeObject<DeviceInfo>(deviceRes);
+            try
+            {
+                return JsonConvert.DeserializeObject<DeviceInfo>(deviceRes);
+            }catch(Exception e)
+            {
+                NetworkServiceUtil.Log("DeviceDetailsViewModel DeserializDeviceInfo Exception: " + e);
+            }
+            return null;
         }
     }
 }

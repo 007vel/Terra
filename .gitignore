@@ -4,3 +4,13 @@ obj
 bin
 /Terra/.vs/Terra/DesignTimeBuild/.dtbcache.v2
 /Terra/.vs/Terra/v16/.suo
+Terra/.vs/Terra/xs/UserPrefs.xml
+Terra/.vs/Terra/xs/project-cache/ConnectionLibrary-Debug.json
+Terra/.vs/Terra/xs/project-cache/ConnectionLibrary-Release.json
+Terra/.vs/Terra/xs/project-cache/Entities-Debug.json
+Terra/.vs/Terra/xs/project-cache/Entities-Release.json
+Terra/.vs/Terra/xs/project-cache/Terra.Android-Debug.json
+Terra/.vs/Terra/xs/project-cache/Terra.Android-Release.json
+Terra/.vs/Terra/xs/project-cache/Terra.Core-Debug.json
+Terra/.vs/Terra/xs/project-cache/Terra.Core-Release.json
+Terra/.vs/Terra/xs/project-cache/Terra.iOS-Debug|iPhone.json

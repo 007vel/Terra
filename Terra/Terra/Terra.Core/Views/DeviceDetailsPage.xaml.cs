@@ -38,7 +38,7 @@ namespace Terra.Core.Views
             PageContext.Result += PageContext_Result1;
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
-            PageContext.OnInit();
+            
 
             Grid grid = new Grid();
             grid.ColumnSpacing = 3;
@@ -90,13 +90,17 @@ namespace Terra.Core.Views
             ScheduleView.Children.Add(GetAddButton());
 
             /// GetValues
-            var remSpray = context.GetRemSprayCount();
-            if(remSpray != null && remSpray.Result!=null)
-            {
-                remainSpray.CardDesc = remSpray.Result.value;
-            }
+            //var remSpray = context.GetRemSprayCount();
+            //if(remSpray != null && remSpray.Result!=null)
+            //{
+            //    remainSpray.CardDesc = remSpray.Result.value;
+            //}
         }
-
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+          //  PageContext.OnInit();
+        }
         private void GotoPopupInputpage1(object sender, EventArgs e)
         {
             throw new NotImplementedException();
@@ -162,12 +166,21 @@ namespace Terra.Core.Views
         int countScheduleCount = 0;
         private void AddButtonClicked(object sender, EventArgs e)
         {
+            CreateScheduleView(countScheduleCount);
+            countScheduleCount++;
+            if (countScheduleCount == 7)
+            {
+                AddBtn.IsVisible = false;
+            }
+        }
+        private void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
+        {
             DayConfigControl Schedule_1 = new DayConfigControl(inputDate());
-            Schedule_1.indexText = (countScheduleCount+1).ToString();
+            Schedule_1.indexText = (index + 1).ToString();
             Schedule_1.editText = "edit";
             Schedule_1.EditButtonClick += Schedule_1_EditButtonClick;
             Schedule_1.DefaultUI = UIEnum.Schedul_ExpandView;
-            ScheduleView.Children.Insert(countScheduleCount++,Schedule_1);
+            ScheduleView.Children.Insert(index, Schedule_1);
             if (countScheduleCount == 7)
             {
                 AddBtn.IsVisible = false;
@@ -198,6 +211,7 @@ namespace Terra.Core.Views
             Schedule.editText = "edit";
             Schedule.intervalText = interval;
             Schedule.StartTimeText = start;
+            Schedule.StopTimeText = stop;
             Schedule.EditButtonClick += Schedule_1_EditButtonClick;
             ScheduleView.Children.Insert(Convert.ToInt32(id)-1, Schedule);
             JObject jObject = new JObject();

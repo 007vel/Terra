@@ -270,7 +270,35 @@ namespace Terra.Core.Controls
                 OnPropertyChanged();
             }
         }
+        public static BindableProperty StopTimeTextProperty = BindableProperty.Create(
+                                     propertyName: "StopTimeText",
+                                     returnType: typeof(TimeSpan),
+                                     declaringType: typeof(TimeSpan),
+                                     defaultBindingMode: BindingMode.TwoWay,
+                                     propertyChanged: StopTimeTextPropertyChanged);
 
+        public static void StopTimeTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable != null)
+            {
+                var _view = (DayConfigControl)bindable;
+                _view.ViewStopTimeText = (TimeSpan)newValue;
+            }
+        }
+        public TimeSpan StopTimeText
+        {
+            get { return (TimeSpan)base.GetValue(StopTimeTextProperty); }
+            set { base.SetValue(StopTimeTextProperty, value); }
+        }
+        public TimeSpan ViewStopTimeText
+        {
+            set
+            {
+                SelectedStopTime = value;
+                SetInterval();
+                OnPropertyChanged();
+            }
+        }
         public async void ViewInvisible(StackLayout InputLayout, double startHeight)
         {
             InputLayout.HeightRequest = 0;
@@ -294,7 +322,7 @@ namespace Terra.Core.Controls
             {
                 AnimationHelper.Instance.AnimationInvisible(expandView, expandView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(schduleView, 35);
-                EditButtonClick.Invoke(uIDays, indexText, SelectedStartTime, SelectedStopTime, SelectedIntervsl);
+                EditButtonClick.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl);
                 SetInterval();
             }
         }

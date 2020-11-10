@@ -78,6 +78,7 @@ namespace ConnectionLibrary.Network
        
         internal async Task<string> ReadMessage(ClientWebSocket client)
         {
+            Thread.Sleep(1100);
             NetworkServiceUtil.Log("Socket ReadMessage: start");
             try
             {
@@ -85,13 +86,13 @@ namespace ConnectionLibrary.Network
                 WebSocketReceiveResult result;
                 string data = string.Empty;
                 NetworkServiceUtil.Log("Socket ReadMessage: 2");
-                var rcvBytes = new byte[128];
-                var message = new ArraySegment<byte>(rcvBytes);
-                //var message = new ArraySegment<byte>(new byte[4096]);
+               // var rcvBytes = new byte[128];
+               // var message = new ArraySegment<byte>(rcvBytes);
+                var message = new ArraySegment<byte>(new byte[4096]);
                 NetworkServiceUtil.Log("Socket ReadMessage: 3");
                 do
                 {
-                    var _result =  client.ReceiveAsync(message, CancellationToken.None);
+                    var _result = client.ReceiveAsync(message, CancellationToken.None);
                     NetworkServiceUtil.Log("Socket ReadMessage: 3.1");
                     result = _result!=null? _result.Result:null;
                     
