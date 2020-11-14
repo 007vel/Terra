@@ -56,6 +56,19 @@ namespace ConnectionLibrary.Network
             }
             return true;
         }
+        public async Task<bool> SetDeviceConfig(Config config)
+        {
+            try
+            {
+                var result = await SetWsData(UrlConfig.GetFullURL(Endpoint.config, Endpoint_Method.POST), JsonConvert.SerializeObject(config));
+                return result;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return true;
+        }
 
         public async Task<bool> SetScheduler(string schedule)
         {

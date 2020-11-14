@@ -21,10 +21,10 @@ namespace Terra.Core.Utils
             {
                 if(item.selectionStatus== SelectionStatus.Selected)
                 {
-                    selecteddays.Add(item.day);
+                    selecteddays.Add(item.dateTime.ToString("dddd"));
                 }                
             }
-            scheduleObject.date = string.Join(",", selecteddays);
+            scheduleObject.day = string.Join(",", selecteddays);
             return scheduleObject;
         }       
         static long timeSpantoSeconds(TimeSpan timeSpan)

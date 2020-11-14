@@ -1,4 +1,5 @@
 ﻿using ConnectionLibrary.Network;
+using Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.CrossPlatformTintedImage.Abstractions;
@@ -20,6 +21,8 @@ namespace Terra.Core.Views
     {
         Grid AddBtn = null;
         DeviceDetailsViewModel context;
+        Schedules schedules = new Schedules();
+        
         public delegate void TimeRuleDelegate(TimeSpan startTime,TimeSpan endTime, bool isStartTime);
         public DeviceDetailsViewModel PageContext
         {
@@ -35,6 +38,7 @@ namespace Terra.Core.Views
         public DeviceDetailsPage()
         {
             InitializeComponent();
+            schedules.scheduler = new List<Scheduler>();
             PageContext.Result += PageContext_Result1;
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
@@ -99,7 +103,7 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-          //  PageContext.OnInit();
+           PageContext.OnInit();
         }
         private void GotoPopupInputpage1(object sender, EventArgs e)
         {
@@ -195,6 +199,7 @@ namespace Terra.Core.Views
             {
                 UIDay uIDay = new UIDay();
                 uIDay.day = now.ToString("ddd").Substring(0, 2);
+                uIDay.dateTime = now;
                // uIDay.selectionStatus = uIDays.Count % 2 == 0 ? SelectionStatus.NotSlected : SelectionStatus.Selected;
                 uIDays.Add(uIDay);
 
@@ -220,9 +225,10 @@ namespace Terra.Core.Views
             jObject.Add("end", stop.ToString());
             jObject.Add("interval", interval);
             var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval);
-            if(PageContext != null && obj!=null)
+            schedules.scheduler.Add(obj);
+            if (PageContext != null && obj!=null)
             {
-                PageContext.DeviceService.SetScheduler(JsonConvert.SerializeObject(obj));
+                PageContext.DeviceService.SetScheduler(JsonConvert.SerializeObject(schedules));
             }
         }
 

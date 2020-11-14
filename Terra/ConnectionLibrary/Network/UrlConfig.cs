@@ -6,7 +6,7 @@ namespace ConnectionLibrary.Network
 {
     public enum Endpoint
     {
-        info, scheduler
+        info, scheduler, config
     }
     public enum Endpoint_Method
     {
@@ -14,8 +14,8 @@ namespace ConnectionLibrary.Network
     }
     public class UrlConfig
     {
-      //  readonly static string host = "ws://192.168.1.10:12345";
-        readonly static string host = "ws://192.168.43.57:9898";
+        readonly static string host = "ws://192.168.1.10:12345";
+      //  readonly static string host = "ws://192.168.43.57:9898";
 
         public static string GetBaseURL()
         {

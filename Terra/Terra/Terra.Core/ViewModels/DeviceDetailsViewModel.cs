@@ -82,6 +82,7 @@ namespace Terra.Core.ViewModels
           //  Schedulers = DeserializSchedule(rawSchedule);
           //  Result.Invoke(Schedulers);
             GetBatteryCount();
+            SetSleepmode();
         }
         /// <summary>
         /// Get the schedules from Device service
@@ -191,6 +192,17 @@ namespace Terra.Core.ViewModels
             deviceInfoRequest.request = "init";
             deviceInfoRequest.info = "spray";
             var deviceRes = await DeviceService.SetDeviceInfo(deviceInfoRequest);
+        }
+
+        /// <summary>
+        /// SetInitCount Will post value to device
+        /// </summary>
+        public async void SetSleepmode()
+        {
+            Config config = new Config();
+            config.request = "set";
+            config.sleep_mode = 1;
+            var deviceRes = await DeviceService.SetDeviceConfig(config);
         }
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)
