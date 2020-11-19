@@ -107,7 +107,7 @@ namespace ConnectionLibrary.Network
                     NetworkServiceUtil.Log("Socket ReadMessage: 7");
                     NetworkServiceUtil.Log("Socket appendMsg: " + receivedMessage);
                 }
-                while (!result.EndOfMessage);
+                while (result!=null && !result.EndOfMessage);
                 NetworkServiceUtil.Log("Socket Received: " + data);
                 return data;
             }

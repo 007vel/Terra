@@ -12,5 +12,7 @@ namespace ConnectionLibrary.Interface
         Task<bool> SetScheduler(string schedule);
         Task<string> GetDeviceInfo(DeviceInfoRequest deviceInfoRequest);
         Task<bool> SetDeviceInfo(DeviceInfoRequest deviceInfoRequest);
+        Task<bool> SetDeviceConfig(Config config);
+        Task<bool> SetDeviceDemo(DemoInfo config);
     }
 }

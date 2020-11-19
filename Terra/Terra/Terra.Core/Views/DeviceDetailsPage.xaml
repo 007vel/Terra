@@ -9,7 +9,11 @@
     <ContentPage.BindingContext>
         <vm:DeviceDetailsViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Sleep" Command="{Binding SleepCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
+        
           <Grid BackgroundColor="White" Margin="5,10,5,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
@@ -47,10 +51,12 @@
                       </StackLayout>
                       <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="0">
                         <!-- <Button Text="Click" Clicked="Button_Clicked"/> -->
-                        <card:ProgressView  HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" />
+                        <card:ProgressView x:Name="batteryView" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" />
                     </StackLayout>
                       <StackLayout Grid.Column="2" VerticalOptions="FillAndExpand">
-                            <Image Source="demo_button_07" ></Image>
+                            <ImageButton Source="demo_button_07" Command="{Binding DemoCommand}">
+                              
+                            </ImageButton>
                               <Image Source="personalize_button_14" VerticalOptions="EndAndExpand"></Image>
                       </StackLayout>
                   </Grid>

@@ -6,6 +6,7 @@ using Plugin.CrossPlatformTintedImage.Abstractions;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Terra.Core.Controls;
 using Terra.Core.Enum;
 using Terra.Core.Models;
@@ -21,8 +22,13 @@ namespace Terra.Core.Views
     {
         Grid AddBtn = null;
         DeviceDetailsViewModel context;
-        Schedules schedules = new Schedules();
-        
+        Schedules scheduleList = new Schedules();
+
+        QuickAccessButton conf = new QuickAccessButton();
+        QuickAccessButton initSpray = new QuickAccessButton();
+        QuickAccessButton remainSpray = new QuickAccessButton();
+        QuickAccessButton dayCount = new QuickAccessButton();
+
         public delegate void TimeRuleDelegate(TimeSpan startTime,TimeSpan endTime, bool isStartTime);
         public DeviceDetailsViewModel PageContext
         {
@@ -38,11 +44,15 @@ namespace Terra.Core.Views
         public DeviceDetailsPage()
         {
             InitializeComponent();
-            schedules.scheduler = new List<Scheduler>();
+
+            conf.NotifyValueChange += Conf_NotifyValueChange;
+            initSpray.NotifyValueChange += InitSpray_NotifyValueChange;
+
+            scheduleList.scheduler = new List<Scheduler>();
             PageContext.Result += PageContext_Result1;
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
-            
+            PageContext.DeviceInfoReceived += PageContext_DeviceInfoReceived;
 
             Grid grid = new Grid();
             grid.ColumnSpacing = 3;
@@ -52,7 +62,6 @@ namespace Terra.Core.Views
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
             grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Star });
 
-            QuickAccessButton conf = new QuickAccessButton();
             conf.CardTitle = "Config";
             conf.CardDesc = "Spray";
             conf.IconSrc = "lock_button_24";
@@ -60,28 +69,23 @@ namespace Terra.Core.Views
             CreateTapGesture(conf);
             Grid.SetColumn(conf,0);
 
-            QuickAccessButton initSpray = new QuickAccessButton();
             initSpray.CardTitle = "Input Spray";
-            initSpray.CardDesc = "0";
             initSpray.IconSrc = "lock_button_24";
+            
             initSpray.KeyBoardInputView = Keyboard.Numeric;
             CreateTapGesture(initSpray);
             Grid.SetColumn(initSpray, 1);
 
-            QuickAccessButton remainSpray = new QuickAccessButton();
             remainSpray.CardTitle = "rem_sprays";
             remainSpray.IconSrc = "lock_button_24";
-            
+            remainSpray.SetBinding(QuickAccessButton.CardDescProperty, "Teststr");
             remainSpray.KeyBoardInputView = Keyboard.Numeric;
-            CreateTapGesture(remainSpray);
             Grid.SetColumn(remainSpray, 2);
 
-            QuickAccessButton dayCount = new QuickAccessButton();
             dayCount.CardTitle = "Days Left";
-            dayCount.CardDesc="12";
+            dayCount.CardDesc="1";
             dayCount.IconSrc = "lock_button_24";
             dayCount.KeyBoardInputView = Keyboard.Numeric;
-            CreateTapGesture(dayCount);
             Grid.SetColumn(dayCount, 3);
 
             grid.Children.Add(conf);
@@ -93,22 +97,36 @@ namespace Terra.Core.Views
 
             ScheduleView.Children.Add(GetAddButton());
 
-            /// GetValues
-            //var remSpray = context.GetRemSprayCount();
-            //if(remSpray != null && remSpray.Result!=null)
-            //{
-            //    remainSpray.CardDesc = remSpray.Result.value;
-            //}
         }
+
+        private void InitSpray_NotifyValueChange(string key, string val)
+        {
+            PageContext.SetInitilizeSprayCount(val);
+        }
+
+        private void Conf_NotifyValueChange(string key, string val)
+        {
+            PageContext.SetDispanserType(val);
+        }
+
+        private void PageContext_DeviceInfoReceived(DeviceInfo deviceInfo)
+        {
+            initSpray.CardDesc = PageContext?.InitializeSpray?.value!=null? PageContext?.InitializeSpray?.value: "3200";
+            remainSpray.CardDesc = PageContext?.RemSpray?.value;
+            batteryView.Chartvalue = Convert.ToInt32( PageContext?.Battery?.value);
+            dayCount.CardDesc = PageContext.DaysLeft;
+        }
+
         protected override void OnAppearing()
         {
-            base.OnAppearing();
-           PageContext.OnInit();
+           base.OnAppearing();
+           InitVm();
         }
-        private void GotoPopupInputpage1(object sender, EventArgs e)
+        private async void InitVm()
         {
-            throw new NotImplementedException();
+            PageContext.OnInit();
         }
+        
 
         private void PageContext_Result1(List<Entities.Scheduler> arg)
         {
@@ -118,9 +136,12 @@ namespace Terra.Core.Views
         {
             if(arg!=null)
             {
+                int i = 1;
                 foreach(var item in arg)
                 {
-                    BuildScheduleUI(arg);
+                    item.index = i.ToString();
+                    AddSchedule(item);
+                    i++;
                 }
             }
         }
@@ -134,7 +155,7 @@ namespace Terra.Core.Views
                     DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
                     Schedule_6.indexText = (i+1).ToString();
                     Schedule_6.editText = "edit";
-                    Schedule_6.EditButtonClick += Schedule_1_EditButtonClick;
+                    Schedule_6.ScheduleReceived += Schedule_1_EditButtonClick;
                 }
             }
         }
@@ -167,28 +188,49 @@ namespace Terra.Core.Views
             return AddBtn;
         }
 
-        int countScheduleCount = 0;
         private void AddButtonClicked(object sender, EventArgs e)
         {
-            CreateScheduleView(countScheduleCount);
-            countScheduleCount++;
-            if (countScheduleCount == 7)
+            AddSchedule();
+        }
+
+        
+        private void AddSchedule(Entities.Scheduler scheduler = null)
+        {
+            if(scheduler!=null)
+            {
+                //scheduleList.scheduler.Add(scheduler);
+            }
+            
+            CreateScheduleView(GetScheduleNewIndex(), scheduler);
+            if (GetScheduleNewIndex() == 7)
             {
                 AddBtn.IsVisible = false;
             }
         }
         private void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
         {
-            DayConfigControl Schedule_1 = new DayConfigControl(inputDate());
-            Schedule_1.indexText = (index + 1).ToString();
-            Schedule_1.editText = "edit";
-            Schedule_1.EditButtonClick += Schedule_1_EditButtonClick;
-            Schedule_1.DefaultUI = UIEnum.Schedul_ExpandView;
-            ScheduleView.Children.Insert(index, Schedule_1);
-            if (countScheduleCount == 7)
+            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(), scheduler);
+            Schedule_UI.indexText = (index).ToString();
+            Schedule_UI.editText = "edit";
+            Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
+            Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
+
+            ScheduleView.Children.Insert(index-1, Schedule_UI);
+            if (GetScheduleNewIndex() == 7)
             {
                 AddBtn.IsVisible = false;
             }
+            if(scheduler==null)
+            {
+                scheduler = new Scheduler();
+                scheduler.index = index.ToString();
+                scheduleList.scheduler.Add(scheduler);
+            }
+            else
+            {
+                scheduleList.scheduler.Add(scheduler);
+            }
+            
         }
 
         private List<UIDay> inputDate()
@@ -198,7 +240,7 @@ namespace Terra.Core.Views
             for (int i = 0; i < 7; i++)
             {
                 UIDay uIDay = new UIDay();
-                uIDay.day = now.ToString("ddd").Substring(0, 2);
+                uIDay.day = now.ToString("ddd").Substring(0, 2).ToLower();
                 uIDay.dateTime = now;
                // uIDay.selectionStatus = uIDays.Count % 2 == 0 ? SelectionStatus.NotSlected : SelectionStatus.Selected;
                 uIDays.Add(uIDay);
@@ -209,6 +251,8 @@ namespace Terra.Core.Views
         }
         private void Schedule_1_EditButtonClick(object arg, string id, TimeSpan start, TimeSpan stop, string interval)
         {
+            
+            
             ScheduleView.Children.RemoveAt(Convert.ToInt32( id)-1);
             var uidays = (List<UIDay>)arg;
             DayConfigControl Schedule = new DayConfigControl(uidays);
@@ -217,7 +261,7 @@ namespace Terra.Core.Views
             Schedule.intervalText = interval;
             Schedule.StartTimeText = start;
             Schedule.StopTimeText = stop;
-            Schedule.EditButtonClick += Schedule_1_EditButtonClick;
+            Schedule.ScheduleReceived += Schedule_1_EditButtonClick;
             ScheduleView.Children.Insert(Convert.ToInt32(id)-1, Schedule);
             JObject jObject = new JObject();
             jObject.Add("id",id);
@@ -225,13 +269,26 @@ namespace Terra.Core.Views
             jObject.Add("end", stop.ToString());
             jObject.Add("interval", interval);
             var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval);
-            schedules.scheduler.Add(obj);
+            obj.index = id.ToString();
+
+
+            scheduleList.scheduler[Convert.ToInt32(obj.index)-1]=obj;
+
             if (PageContext != null && obj!=null)
             {
-                PageContext.DeviceService.SetScheduler(JsonConvert.SerializeObject(schedules));
+                PageContext.deviceService.SetScheduler(JsonConvert.SerializeObject(scheduleList));
             }
         }
-
+        private int GetScheduleNewIndex()
+        {
+            int indx = 1;
+            if (scheduleList.scheduler.Count > 0)
+            {
+                indx = Convert.ToInt32(scheduleList.scheduler[scheduleList.scheduler.Count-1].index);
+                indx += 1;
+            }
+            return indx;
+        }
         public static DateTime FirstDayOfWeek(DateTime dt)
         {
             var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
@@ -240,11 +297,6 @@ namespace Terra.Core.Views
                 diff += 7;
             return dt.AddDays(-diff).Date;
         }
-        async void OpenDialog()
-        {
-            await Navigation.PushPopupAsync(new ScheduleInputDialog());
-        }
-
         private async void GotoPopupInputpage(object sender, EventArgs e)
         {
             if(sender!=null)
@@ -253,7 +305,6 @@ namespace Terra.Core.Views
                 var loadingPage = new DialogPopupPage(quickAccessButton);
                 await Navigation.PushPopupAsync(loadingPage);
             }
-            
         }
         private void CreateTapGesture(QuickAccessButton quickAccessButton)
         {

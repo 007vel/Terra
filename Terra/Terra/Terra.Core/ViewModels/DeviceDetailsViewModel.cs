@@ -1,10 +1,15 @@
-﻿using ConnectionLibrary.Network;
+﻿using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network;
+using ConnectionLibrary.Network.Mock;
+using ConnectionLibrary.Network.Util;
 using Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Terra.Core.ViewModels
 {
@@ -12,7 +17,14 @@ namespace Terra.Core.ViewModels
     {
         public delegate void ActionResult(List<Scheduler> arg);
         public event ActionResult Result;
-        public DeviceService DeviceService = new DeviceService();
+        public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
+        public event DeviceInfoResult DeviceInfoReceived;
+      //  public IDevice deviceService = new MockDeviceService();
+       public IDevice deviceService = new DeviceService();
+
+        public ICommand DemoCommand => new Command(SetDemoClicked);
+        public ICommand SleepCommand => new Command(SetSleepClicked);
+
         private List<Scheduler> schedulers;
         public List<Scheduler> Schedulers
         {
@@ -40,6 +52,7 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("Battery");
             }
         }
+
         DeviceInfo spray;
         public DeviceInfo RemSpray
         {
@@ -53,6 +66,7 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("RemSpray");
             }
         }
+
         DeviceInfo initializeSpray;
         public DeviceInfo InitializeSpray
         {
@@ -66,24 +80,41 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("InitializeSpray");
             }
         }
+
+        string daysLeft="0";
+        public string DaysLeft
+        {
+            get
+            {
+                return daysLeft;
+            }
+            set
+            {
+                daysLeft = value;
+                OnPropertyChanged("DaysLeft");
+            }
+        }
+
         public DeviceDetailsViewModel()
         {
-            var _RemSpray = new DeviceInfo();
-            _RemSpray.value = "12";
-            RemSpray = _RemSpray;
+            
         }
+
         /// <summary>
         /// This method called during Initialization of ViewModel
         /// </summary>
-        public override async void OnInit()
+        public async Task OnInit()
         {
+            
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
-          //  Schedulers = DeserializSchedule(rawSchedule);
-          //  Result.Invoke(Schedulers);
+            Schedulers = DeserializSchedule(rawSchedule);
+            Result?.Invoke(Schedulers);
             GetBatteryCount();
-            SetSleepmode();
+            GetInitilizeSprayCount();
+            GetRemSprayCount();
         }
+
         /// <summary>
         /// Get the schedules from Device service
         /// </summary>
@@ -93,9 +124,10 @@ namespace Terra.Core.ViewModels
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "scheduler";
-            var schedule = await DeviceService.GetScheduler(deviceInfoRequest);
+            var schedule = await deviceService.GetScheduler(deviceInfoRequest);
             return schedule;
         }
+
         /// <summary>
         /// Deserialize raw response and make a schedule list
         /// </summary>
@@ -105,25 +137,7 @@ namespace Terra.Core.ViewModels
         {
             try
             {
-                List<Scheduler> SchedulerList = null;
-                if (!string.IsNullOrEmpty(raw))
-                {
-                    JObject jObject = new JObject(raw);
-                    if (jObject != null)
-                    {
-                        JArray scheduleList = (JArray)jObject.SelectToken("scheduler");
-                        if (scheduleList != null && scheduleList.Count > 0)
-                        {
-                            SchedulerList = new List<Scheduler>();
-                            foreach (var sch in scheduleList)
-                            {
-                                Scheduler scheduler = (Scheduler)JsonConvert.DeserializeObject<Scheduler>(sch.ToString());
-                                SchedulerList.Add(scheduler);
-                            }
-                        }
-                    }
-                }
-                return SchedulerList;
+                return JSONHelper.DeserializSchedule(raw);
             }
             catch(Exception e)
             {
@@ -131,6 +145,7 @@ namespace Terra.Core.ViewModels
             }
             return null;
         }
+
         ////////////////////////////////////////////////
         ////////////////////////////////////////////////
         /////////////////Get device values//////////////
@@ -146,21 +161,25 @@ namespace Terra.Core.ViewModels
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "battery";
-            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
-            Battery= DeserializDeviceInfo(deviceRes);
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetBatteryCount get battery: " + deviceRes);
+            Battery = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(Battery);
         }
 
         /// <summary>
         /// GetRemSprayCount Will return count from service
         /// </summary>
-        public async Task<DeviceInfo> GetRemSprayCount()
+        public async void GetRemSprayCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "spray";
-            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
-           // RemSpray = DeserializDeviceInfo(deviceRes);
-            return RemSpray;
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetRemSprayCount get spray: " + deviceRes);
+            RemSpray = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(RemSpray);
+            CalculateRemainingDays();
         }
 
         /// <summary>
@@ -171,8 +190,10 @@ namespace Terra.Core.ViewModels
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "init";
             deviceInfoRequest.info = "spray";
-            var deviceRes = await DeviceService.GetDeviceInfo(deviceInfoRequest);
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetInitilizeSprayCount init spray: " + deviceRes);
             InitializeSpray = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(InitializeSpray);
         }
 
         ////////////////////////////////////////////////
@@ -182,16 +203,16 @@ namespace Terra.Core.ViewModels
         ////////////////////////////////////////////////
 
 
-
         /// <summary>
         /// SetInitCount Will post value to device
         /// </summary>
-        public async void SetInitilizeSprayCount()
+        public async void SetInitilizeSprayCount(string val)
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "init";
             deviceInfoRequest.info = "spray";
-            var deviceRes = await DeviceService.SetDeviceInfo(deviceInfoRequest);
+            deviceInfoRequest.value = val;
+            var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
         }
 
         /// <summary>
@@ -202,19 +223,84 @@ namespace Terra.Core.ViewModels
             Config config = new Config();
             config.request = "set";
             config.sleep_mode = 1;
-            var deviceRes = await DeviceService.SetDeviceConfig(config);
+            var deviceRes = await deviceService.SetDeviceConfig(config);
+        }
+
+        public async void SetDemoClicked()
+        {
+            DemoInfo config = new DemoInfo();
+            config.request = "set";
+            config.demo = 1;
+            var deviceRes = await deviceService.SetDeviceDemo(config);
+        }
+        public async void SetSleepClicked()
+        {
+            Config config = new Config();
+            config.sleep_mode = 1;
+            config.request = "set";
+            var deviceRes = await deviceService.SetDeviceConfig(config);
+        }
+
+        public async void SetDispanserType(string type)
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.Dispenser_Type = type;
+            deviceInfoRequest.request = "set";
+            var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
         }
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)
         {
             try
             {
-                return JsonConvert.DeserializeObject<DeviceInfo>(deviceRes);
-            }catch(Exception e)
+                return JSONHelper.DeserializDeviceInfo(deviceRes);
+            }
+            catch(Exception e)
             {
                 NetworkServiceUtil.Log("DeviceDetailsViewModel DeserializDeviceInfo Exception: " + e);
             }
             return null;
         }
+
+
+        private void CalculateRemainingDays()
+        {
+            var schedulers = Schedulers;
+            long NumberOfSpray=0;
+            if (schedulers!=null && schedulers.Count>0)
+            {
+                foreach(var item in schedulers)
+                {
+                    if(! string.IsNullOrEmpty( item.day))
+                    {
+                        var daysList = item.day.Split(',');
+                        if(daysList.Length>0)
+                        {
+                            var scheduleTimeInMinute = (item.stop - item.start)/60;
+                            if(scheduleTimeInMinute>0)
+                            {
+                                NumberOfSpray += (scheduleTimeInMinute / item.interval)* daysList.Length;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(NumberOfSpray>0 && InitializeSpray!=null && RemSpray!=null)
+            {
+                if(!string.IsNullOrEmpty(InitializeSpray.value) && !string.IsNullOrEmpty(RemSpray.value))
+                {
+                    if(Convert.ToDouble(InitializeSpray.value)>0 && Convert.ToDouble(RemSpray.value) > 0)
+                    {
+                        double remWeeks = Convert.ToDouble(RemSpray.value) / NumberOfSpray;
+                        double remDays = remWeeks * 7;
+                        DaysLeft = Convert.ToInt32( Math.Round(remDays)).ToString();
+                        DeviceInfoReceived?.Invoke(RemSpray);
+                    }
+                }
+            }
+        }
+
+
     }
 }

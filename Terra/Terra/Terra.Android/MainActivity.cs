@@ -14,12 +14,15 @@ using Plugin.CrossPlatformTintedImage.Android;
 using Android.Net.Wifi;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
+using Terra.Droid.Helper;
 
 namespace Terra.Droid
 {
     [Activity(Label = "Terra", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        MobileHelper mobileHelper = new MobileHelper();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -33,6 +36,10 @@ namespace Terra.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             TintedImageRenderer.Init();
             
@@ -51,6 +58,42 @@ namespace Terra.Droid
             var userSelectedCulture = CultureInfo.CreateSpecificCulture("en-US");
             userSelectedCulture.NumberFormat.CurrencyNegativePattern = 1;
             Thread.CurrentThread.CurrentCulture = userSelectedCulture;
+        }
+
+
+     //   ‪#‎region‬ Error handling
+        private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        {
+            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
+            LogUnhandledException(newExc);
+        }
+
+        private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            LogUnhandledException(newExc);
+        }
+
+        internal void LogUnhandledException(Exception exception)
+        {
+            try
+            {
+                mobileHelper.Log("MainActivity  " + exception.ToString());
+               
+                //const string errorFileName = "Fatal.log";
+                //var libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // iOS: Environment.SpecialFolder.Resources
+                //var errorFilePath = Path.Combine(libraryPath, errorFileName);
+                //var errorMessage = String.Format("Time: {0}\r\nError: Unhandled Exception\r\n{1}",
+                //DateTime.Now, exception.ToString());
+                //File.WriteAllText(errorFilePath, errorMessage);
+
+                // Log to Android Device Logging.
+                Android.Util.Log.Error("Crash Report", exception.ToString());
+            }
+            catch
+            {
+                // just suppress any error logging exceptions
+            }
         }
     }
 }

@@ -52,7 +52,7 @@ namespace FlyMe.Droid.Helper
         }
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
-         //   return true;
+          //  return true;
             var ssid = $"\"{_ssid}\"";
             var pwd = $"\"{_pwd}\"";
             WifiConfiguration wifiConfig = new WifiConfiguration();

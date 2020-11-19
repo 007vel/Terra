@@ -29,12 +29,9 @@ namespace Terra.Core.Utils
         }       
         static long timeSpantoSeconds(TimeSpan timeSpan)
         {
-            var time_1 = timeSpan.Ticks;
-            var now = DateTime.Now;
-            new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
-            var time_2 = now.Ticks*10000*1000;
-            long diff = ((time_2 / 10000) / 1000)-((time_1 / 10000) / 1000);
-            return diff;
+            TimeSpan sinceMidnight = timeSpan - new DateTime(year: DateTime.Now.Year,month: DateTime.Now.Month,day: DateTime.Now.Day, hour:0,minute:0,second:0).TimeOfDay;
+            long secs = Convert.ToInt64( sinceMidnight.TotalSeconds);
+            return secs;
         }
     }
 }

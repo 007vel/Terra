@@ -18,7 +18,11 @@ namespace ConnectionLibrary.Network
             {
                 if (deviceInfoRequest != null)
                 {
-                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET), JsonConvert.SerializeObject(deviceInfoRequest));
+                    string jsonIgnoreNullValues = JsonConvert.SerializeObject(deviceInfoRequest, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET), jsonIgnoreNullValues);
                     return info;
                 }
             }
@@ -33,7 +37,11 @@ namespace ConnectionLibrary.Network
         {
             try
             {
-                var _schedule= await GetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.GET),JsonConvert.SerializeObject(deviceInfoRequest));
+                string jsonIgnoreNullValues = JsonConvert.SerializeObject(deviceInfoRequest, Formatting.Indented, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+                var _schedule= await GetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.GET), jsonIgnoreNullValues);
                 return _schedule;
             }
             catch (Exception e)
@@ -47,7 +55,11 @@ namespace ConnectionLibrary.Network
         {
             try
             {
-                var result = await SetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.POST), JsonConvert.SerializeObject(deviceInfoRequest));
+                string jsonIgnoreNullValues = JsonConvert.SerializeObject(deviceInfoRequest, Formatting.Indented, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+                var result = await SetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.POST), jsonIgnoreNullValues);
                 return result;
             }
             catch (Exception e)
@@ -60,7 +72,11 @@ namespace ConnectionLibrary.Network
         {
             try
             {
-                var result = await SetWsData(UrlConfig.GetFullURL(Endpoint.config, Endpoint_Method.POST), JsonConvert.SerializeObject(config));
+                string jsonIgnoreNullValues = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+                var result = await SetWsData(UrlConfig.GetFullURL(Endpoint.config, Endpoint_Method.POST), jsonIgnoreNullValues);
                 return result;
             }
             catch (Exception e)
@@ -136,6 +152,28 @@ namespace ConnectionLibrary.Network
             }
             return true;
         }
+
+        public async Task<bool> SetDeviceDemo(DemoInfo config)
+        {
+            try
+            {
+                if (config != null)
+                {
+                    string jsonIgnoreNullValues = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                    var info = await SetWsData(UrlConfig.GetFullURL(Endpoint.config, Endpoint_Method.POST), jsonIgnoreNullValues);
+                    return info;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return true;
+        }
+
     }
 }
 

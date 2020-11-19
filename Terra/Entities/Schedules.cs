@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Entities
 {
@@ -20,6 +21,8 @@ namespace Entities
     }
     public class Scheduler
     {
+        [JsonIgnore]
+        public string index { get; set; }
         public long start { get; set; }
         public long stop { get; set; }
         public long interval { get; set; }

@@ -7,6 +7,8 @@ namespace Terra.Core.Controls
 {
     public partial class QuickAccessButton : Frame, IDialog
     {
+        public delegate void ActionResult(string key, string val);
+        public event ActionResult NotifyValueChange;
         public QuickAccessButton()
         {
             InitializeComponent();
@@ -84,6 +86,7 @@ namespace Terra.Core.Controls
                                                  defaultBindingMode: BindingMode.TwoWay,
                                                  propertyChanged: CardIconPropertyChanged);
 
+
         public static void CardIconPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable != null)
@@ -101,6 +104,7 @@ namespace Terra.Core.Controls
         public void setValue(string val)
         {
             CardDesc = val;
+            NotifyValueChange.Invoke(getTitle(), val);
         }
 
         public string getTitle()

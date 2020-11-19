@@ -29,6 +29,7 @@ Device.SetFlags(new[] {
             MainPage = new AppShell();
             
             this.RequestedThemeChanged += App_RequestedThemeChanged;
+          //  this.UnhandledException += (o, s) => { };
             //global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
         }
 

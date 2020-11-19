@@ -32,7 +32,7 @@
 
                     </StackLayout>
                     <StackLayout x:Name="TimeLayout" Grid.Column="2"  BackgroundColor="White" VerticalOptions="CenterAndExpand" Margin="2,0,0,7" InputTransparent="True">
-                        <Label x:Name="startLabel" Text="00:00" TextColor="#EF4736" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+                        <Label x:Name="startLabel" TextColor="#EF4736" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
                     </StackLayout>
                 </Grid>
                 <Frame.GestureRecognizers>

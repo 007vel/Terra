@@ -10,4 +10,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Network\Mock\" />
+    <Folder Include="Network\Util\" />
+  </ItemGroup>
 </Project>

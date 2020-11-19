@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Entities;
 using Terra.Core.Enum;
 using Terra.Core.Helper;
 using Terra.Core.Models;
@@ -18,23 +19,31 @@ namespace Terra.Core.Controls
     {
         List<UIDay> uIDays;
         WeekControl weekControl;
-        public delegate void ActionResult(object arg, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval);
-        public event ActionResult EditButtonClick;
+        public delegate void ScheduleResult(object arg, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval);
+        public event ScheduleResult ScheduleReceived;
+
+        
 
         bool isEditMode;
         public DayConfigControl(List<UIDay> _uIDays, Entities.Scheduler scheduler=null)
         {
             InitializeComponent();
             this.uIDays = _uIDays;
+            IntervalList= BuildIntervalList();
+            if(scheduler!=null)
+            {
+                SetIntervalValue(scheduler);
+                SetStartAndStopValue(scheduler);
+                SetDaysValue(scheduler);
+                SetInterval();
+            }
             weekControl = new WeekControl(weekFrameLayout);
-            
             weekControl.DaysList = this.uIDays;
-            weekFrameLayout.Children.Add ( weekControl);
+            weekFrameLayout.Children.Add(weekControl);
             WeekCardControl weekCardControl = new WeekCardControl();
             weekCardControl.DaysList = this.uIDays;
             weekexpand.Children.Add(weekCardControl);
             BindingContext = this;
-            IntervalList= BuildIntervalList();
         }
         public DayConfigControl()
         {
@@ -322,7 +331,7 @@ namespace Terra.Core.Controls
             {
                 AnimationHelper.Instance.AnimationInvisible(expandView, expandView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(schduleView, 35);
-                EditButtonClick.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl);
+                ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl);
                 SetInterval();
             }
         }
@@ -363,6 +372,55 @@ namespace Terra.Core.Controls
                 list.Add(i.ToString());
             }
             return list;
+        }
+
+        private void SetIntervalValue(Scheduler scheduler)
+        {
+            try
+            {
+                if(scheduler!=null)
+                {
+                    SelectedIntervsl = IntervalList.IndexOf(scheduler.interval.ToString()).ToString();
+                 //   startLabel.Text = SelectedStartTime.ToString("HH:mm") + SelectedIntervsl;
+                }
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+        }
+        private void SetStartAndStopValue(Scheduler scheduler)
+        {
+            try
+            {
+                if (scheduler != null)
+                {
+                    SelectedStartTime =  DateTime.Today.AddSeconds(Convert.ToDouble( scheduler.start)).TimeOfDay;
+                    SelectedStopTime = DateTime.Today.AddSeconds(Convert.ToDouble(scheduler.stop)).TimeOfDay;
+                  //  startLabel.Text = DateTime.Today.AddSeconds(Convert.ToDouble(scheduler.start)).ToString("HH:mm") + SelectedIntervsl;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+        }
+        private void SetDaysValue(Scheduler scheduler)
+        {
+            try
+            {
+                if (scheduler != null)
+                {
+                    foreach(var item in scheduler.day.Split(',').ToList())
+                    {
+                        this.uIDays.SingleOrDefault(i=>i.dateTime.ToString("dddd").ToLower()== item).selectionStatus=SelectionStatus.Selected;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
         }
     }
 }

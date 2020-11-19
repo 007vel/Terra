@@ -17,8 +17,31 @@ namespace Terra.Core.Controls
         SKPaintSurfaceEventArgs args;
         ProgressUtils progressUtils = new ProgressUtils();
       
-        int monthlyWorkout = 340;
-        int goal = 900;
+        int chartvalue = 0;
+        public int Chartvalue
+        {
+            get
+            {
+                return chartvalue;
+            }
+            set
+            {
+                chartvalue = value;
+                initiateProgressUpdate();
+            }
+        }
+        int maxValue = 100;
+        public int MaxValue
+        {
+            get
+            {
+                return maxValue;
+            }
+            set
+            {
+                maxValue = value;
+            }
+        }
 
         public ProgressView()
         {
@@ -77,7 +100,7 @@ namespace Terra.Core.Controls
         void initiateProgressUpdate()
         {
           //  if (sw_listToggle.IsToggled)
-                animateProgress(progressUtils.getSweepAngle(goal, monthlyWorkout));
+                animateProgress(progressUtils.getSweepAngle(maxValue, chartvalue));
            // else
              //   animateProgress(progressUtils.getSweepAngle(goal / 30, dailyWorkout));
         }
@@ -87,7 +110,7 @@ namespace Terra.Core.Controls
             // Radial Gauge Constants
             int uPadding = 150;
             int side = 500;
-            int radialGaugeWidth = 45;
+            int radialGaugeWidth = 55;
 
             // Line TextSize inside Radial Gauge
             int lineSize1 = 220;
@@ -209,7 +232,7 @@ namespace Terra.Core.Controls
 
                     // Drawing Achieved Minutes Over Radial Gauge
                   //  if (sw_listToggle.IsToggled)
-                        canvas.DrawText(monthlyWorkout + "", Xc, Yc + progressUtils.getFactoredHeight(lineHeight1), skPaint);
+                   //     canvas.DrawText(chartvalue + "", Xc, Yc + progressUtils.getFactoredHeight(lineHeight1), skPaint);
                    // else
                     //    canvas.DrawText(dailyWorkout + "", Xc, Yc + progressUtils.getFactoredHeight(lineHeight1), skPaint);
                 }
@@ -222,7 +245,7 @@ namespace Terra.Core.Controls
                     skPaint.Color = SKColor.Parse("#676a69");
                     skPaint.TextAlign = SKTextAlign.Center;
                     skPaint.TextSize = progressUtils.getFactoredHeight(lineSize2);
-                    canvas.DrawText("Seconds", Xc, Yc + progressUtils.getFactoredHeight(lineHeight2), skPaint);
+                   // canvas.DrawText("Seconds", Xc, Yc + progressUtils.getFactoredHeight(lineHeight2), skPaint);
                 }
 
                 // Goal Minutes Text Styling
@@ -286,7 +309,7 @@ namespace Terra.Core.Controls
 
                     // Drawing Text Over Radial Gauge
                     // if (sw_listToggle.IsToggled)
-                    canvas.DrawText("Battery 36%", Xc, Yc + progressUtils.getFactoredHeight(lineHeight5), skPaint);
+                    canvas.DrawText("Battery "+Chartvalue+"%", Xc, Yc + progressUtils.getFactoredHeight(lineHeight5), skPaint);
                     //else
                     {
                         //  canvas.DrawText("Goal " + goal / 30 + " Min", Xc, Yc + progressUtils.getFactoredHeight(lineHeight3), skPaint);

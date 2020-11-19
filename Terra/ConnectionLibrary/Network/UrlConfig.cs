@@ -6,7 +6,7 @@ namespace ConnectionLibrary.Network
 {
     public enum Endpoint
     {
-        info, scheduler, config
+        info, scheduler, config, demo
     }
     public enum Endpoint_Method
     {
