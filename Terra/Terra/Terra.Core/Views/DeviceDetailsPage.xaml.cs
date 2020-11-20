@@ -102,6 +102,14 @@ namespace Terra.Core.Views
         private void InitSpray_NotifyValueChange(string key, string val)
         {
             PageContext.SetInitilizeSprayCount(val);
+            GetRemainSprayWithTimeDelay();
+        }
+
+        private async Task<bool> GetRemainSprayWithTimeDelay()
+        {
+            await Task.Delay(4000);
+            PageContext.GetRemSprayCount();
+            return true;
         }
 
         private void Conf_NotifyValueChange(string key, string val)

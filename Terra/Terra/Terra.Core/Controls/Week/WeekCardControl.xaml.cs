@@ -45,12 +45,12 @@ namespace Terra.Core.Controls
                 grid.ColumnDefinitions.Add(columnDefinition);
             }
             RowDefinition rowDefinition = new RowDefinition();
-            rowDefinition.Height = GridLength.Auto;
+            rowDefinition.Height = 45;
             grid.RowDefinitions.Add(rowDefinition);
             grid.Margin = new Thickness(0,5,0,5);
            // grid.ColumnSpacing = 4;
            // grid.RowSpacing = 0;
-            grid.VerticalOptions = LayoutOptions.FillAndExpand;
+            grid.VerticalOptions = LayoutOptions.Fill;
             grid.HorizontalOptions = LayoutOptions.FillAndExpand;
             int index = 0;
             foreach (var item in _DaysList)
@@ -63,14 +63,17 @@ namespace Terra.Core.Controls
                 tapGestureRecognizer_3.Tapped += TapGestureRecognizer_Tapped;
 
                 Card card = new Card();
+                card.VerticalOptions = LayoutOptions.FillAndExpand;
                 tapGestureRecognizer_1.CommandParameter = card;
                 tapGestureRecognizer_2.CommandParameter = card;
                 tapGestureRecognizer_3.CommandParameter = card;
                 
                 card.HasShadow = false;
                 card.CornerRadius = 8;
+                card.Padding = new Thickness(0, 0, 0, 0);
+                card.Margin = new Thickness(0, 4, 0, 4);
                 Label day = new Label();
-                day.Margin = new Thickness(-20,-20,-10,-10);
+                day.Padding = new Thickness(0,0,0,0);
                 day.FontAttributes = FontAttributes.Bold;
                 SetViewState(card, item);
                 day.VerticalOptions = LayoutOptions.CenterAndExpand;
@@ -86,15 +89,14 @@ namespace Terra.Core.Controls
                 stlt.VerticalOptions = LayoutOptions.Fill;
                 stlt.Spacing = 0;
                 stlt.Children.Add(card);
-               // stlt.GestureRecognizers.Add(tapGestureRecognizer_3);
                 Grid.SetColumn(stlt, index);
                 grid.Children.Add(stlt);
 
                 ImageButton button = new ImageButton();
-                button.VerticalOptions = LayoutOptions.FillAndExpand;
+                button.VerticalOptions = LayoutOptions.Fill;
                 button.BackgroundColor = Color.Transparent;
                 button.Margin = new Thickness(5,0,0,-20);
-                button.HeightRequest = 40;
+                button.HeightRequest = 50;
                 button.Clicked += Button_Clicked;
                 button.CommandParameter = card;
                 button.BindingContext = card;

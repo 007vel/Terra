@@ -105,7 +105,7 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public async Task OnInit()
         {
-            
+            SetTime();
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
             Schedulers = DeserializSchedule(rawSchedule);
@@ -247,6 +247,15 @@ namespace Terra.Core.ViewModels
             deviceInfoRequest.Dispenser_Type = type;
             deviceInfoRequest.request = "set";
             var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
+        }
+
+        private async void SetTime()
+        {
+            Config timeConfig = new Config();
+            timeConfig.request = "set";
+            timeConfig.current_epoch = Terra.Core.Utils.Utils.GetEpochSeconds();
+            timeConfig.timeZone = Terra.Core.Utils.Utils.GetTimeZoneInfo();
+            var deviceRes = await deviceService.SetDeviceConfig(timeConfig);
         }
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)
