@@ -59,6 +59,12 @@ namespace ConnectionLibrary.Network
             NetworkServiceUtil.Log("Socket ConnectToWifi");
             return res;
         }
+        public string GetBssid()
+        {
+            var res =  FormWifiManager.GetBssId();
+            NetworkServiceUtil.Log("Socket GetBssid");
+            return res;
+        }
         internal async Task<ClientWebSocket> StartWebSocketConnection(string url)
         {
             //await Task.Delay(1000);

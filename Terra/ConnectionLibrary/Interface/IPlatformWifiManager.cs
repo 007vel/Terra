@@ -18,5 +18,7 @@ namespace ConnectionLibrary.Interface
 
         void NavigateLocationSetting();
 
+        string GetBssId();
+
     }
 }

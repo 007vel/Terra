@@ -12,6 +12,7 @@ using System.Linq;
 using Terra.Core.Utils;
 using Terra.Core.Helper;
 using Xamarin.Essentials;
+using EspTouchMultiPlatformLIbrary;
 
 namespace Terra.Core.ViewModels
 {
@@ -50,6 +51,7 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("galaxy", "9943157172");
                 wifiPwdList.Add("tab", "9786297172");
                 wifiPwdList.Add("lap", "Sakthi@123");
+              //  wifiPwdList.Add("terradev", "9943157172");
                 wifiPwdList.Add("terradev", "12345678");
                 wifiPwdList.Add("AndroidWifi", "9943157172"); 
                 IsWifiLoading = true;
@@ -200,6 +202,7 @@ namespace Terra.Core.ViewModels
                         }
                     }
                     if (await ConnectNetwork(DeviceName, pwd))
+                  // if(await ConfigDevice(DeviceName, wifi.ipAdrs, pwd))
                     {
                         DeviceConnectStatus = "Connected";
                         wifi.isSelected = true;
@@ -232,5 +235,27 @@ namespace Terra.Core.ViewModels
         }
 
 
+
+
+        ISmartConfigTask smartconfig;
+        public async Task<bool> ConfigDevice(String Ssid, String bssid, String Passphrase)
+        {
+            //  var Ssid = $"\"{_Ssid}\"";
+            //  var Passphrase = $"\"{_Passphrase}\"";
+         //   string bssid = wifiAdapter.GetBssid();
+            smartconfig = DependencyService.Get<ISmartConfigHelper>().CreatePlatformTask();
+          //  return true;
+            smartconfig.SetSmartConfigTask(Ssid, bssid, Passphrase,false,60);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice : " + Ssid+"    "+ Passphrase);
+            string Message = "running configuration";
+            await Task.Run(() =>
+            {
+                var result = smartconfig.executeForResult();
+                Message = Message + "Device address set up: " + result.getInetAddress() + "\r\n";
+                NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice : " + Message);
+                return true;
+            });
+            return false;
+        }
     }
 }

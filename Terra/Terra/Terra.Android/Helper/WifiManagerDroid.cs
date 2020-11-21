@@ -52,7 +52,8 @@ namespace FlyMe.Droid.Helper
         }
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
-          //  return true;
+            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
+            //  return true;
             var ssid = $"\"{_ssid}\"";
             var pwd = $"\"{_pwd}\"";
             WifiConfiguration wifiConfig = new WifiConfiguration();
@@ -61,11 +62,16 @@ namespace FlyMe.Droid.Helper
 
           //  wifiManager.Disconnect();
             int netId = wifiManager.AddNetwork(wifiConfig);
-          //  wifiManager.Disconnect();
+            wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
             wifiManager.Reconnect();
+            //wifiManager.Disconnect();
+            //var enableNetwork = wifiManager.EnableNetwork(network.NetworkId, true);
             await Task.Delay(2*1000);
-            if (wifiManager.ConnectionInfo?.SSID != ssid)    
+
+            var network = wifiManager.ConfiguredNetworks
+                 .FirstOrDefault(n => n.Ssid == ssid);
+            if (network==null)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
              //   Console.WriteLine($"Cannot connect to network: {ssid}");
@@ -106,8 +112,21 @@ namespace FlyMe.Droid.Helper
             {
                 Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionLocat‌​ionSourceSettings));
             }
-            
         }
+
+        public string GetBssId()
+        {
+            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
+            if (wifiManager != null)
+            {
+                return  wifiManager.ConnectionInfo.BSSID;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         class WifiNetworkReceiver : BroadcastReceiver
         {
             public List<Wifi> WiFiNetworks;

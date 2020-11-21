@@ -78,6 +78,9 @@
     <PackageReference Include="LiveSharp">
       <Version>1.2.5</Version>
     </PackageReference>
+    <PackageReference Include="EspTouchSmartConfigXamarin">
+      <Version>1.0.4</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\WifiHotspotReservation.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Helper\WifiManagerDroid.cs" />
     <Compile Include="Helper\MobileHelper.cs" />
+    <Compile Include="Helper\SmartConfig_Droid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
