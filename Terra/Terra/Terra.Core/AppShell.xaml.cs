@@ -17,6 +17,7 @@ namespace Terra
         private void InitRoutes()
         {
             Routing.RegisterRoute("DeviceDetailsPage", typeof(DeviceDetailsPage));
+            Routing.RegisterRoute("AboutPage", typeof(AboutPage));
         }
 
         private async void MenuItem_Clicked(object sender, System.EventArgs e)

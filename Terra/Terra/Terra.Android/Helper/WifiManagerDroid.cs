@@ -60,21 +60,63 @@ namespace FlyMe.Droid.Helper
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
 
-          //  wifiManager.Disconnect();
+            var list = wifiManager.ConfiguredNetworks;
+            foreach(var config in list)
+            {
+                wifiManager.RemoveNetwork(config.NetworkId);
+            }
+            //  wifiManager.Disconnect();
             int netId = wifiManager.AddNetwork(wifiConfig);
             wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
             wifiManager.Reconnect();
             //wifiManager.Disconnect();
             //var enableNetwork = wifiManager.EnableNetwork(network.NetworkId, true);
-            await Task.Delay(2*1000);
+            await Task.Delay(3*1000);
+            TimeSpan timeSpan = DateTime.Today.TimeOfDay;
+            while(true)
+            {
+                if(wifiManager.IsWifiEnabled)
+                {
+                    break;
+                }
+                else
+                {
+                    if(DateTime.Today.TimeOfDay.Subtract(timeSpan).TotalSeconds>60)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
 
-            var network = wifiManager.ConfiguredNetworks
-                 .FirstOrDefault(n => n.Ssid == ssid);
-            if (network==null)    
+            timeSpan = DateTime.Today.TimeOfDay;
+            WifiInfo _network = null;
+            while (true)
+            {
+                _network = wifiManager.ConnectionInfo;
+
+                if(_network.SSID == ssid)
+                {
+                    break;
+                }
+                else if(DateTime.Today.TimeOfDay.Subtract(timeSpan).TotalSeconds < 60)
+                {
+                    continue;
+                }
+                else
+                {
+                    _network = null;
+                    break;
+                }
+            }
+            await Task.Delay(2 * 1000);
+            if (_network==null)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
-             //   Console.WriteLine($"Cannot connect to network: {ssid}");
                 return false;
             }
             return true;

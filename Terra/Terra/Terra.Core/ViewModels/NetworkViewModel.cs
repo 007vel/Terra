@@ -20,6 +20,7 @@ namespace Terra.Core.ViewModels
     {
         public ICommand SelectionChanged => new Command<object>(OnSelectionChanged);
         public ICommand ScanWifi => new Command(OnScanWifiClick);
+        public ICommand AboutCommand => new Command(AboutClicked);
         Dictionary<string, string> wifiPwdList = new Dictionary<string, string>();
         public Wifi LastSelectedItem = null;
         WifiAdapter wifiAdapter;
@@ -53,7 +54,9 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("lap", "Sakthi@123");
               //  wifiPwdList.Add("terradev", "9943157172");
                 wifiPwdList.Add("terradev", "12345678");
-                wifiPwdList.Add("AndroidWifi", "9943157172"); 
+                wifiPwdList.Add("AndroidWifi", "9943157172");
+                wifiPwdList.Add("karthi", "9943157172");
+                wifiPwdList.Add("sathya", "9943157172");
                 IsWifiLoading = true;
                 MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
                 {
@@ -201,18 +204,26 @@ namespace Terra.Core.ViewModels
                             break;
                         }
                     }
-                    if (await ConnectNetwork(DeviceName, pwd))
-                  // if(await ConfigDevice(DeviceName, wifi.ipAdrs, pwd))
+                    if(!string.IsNullOrEmpty(DeviceName) && !string.IsNullOrEmpty(pwd))
                     {
-                        DeviceConnectStatus = "Connected";
-                        wifi.isSelected = true;
-                        await Shell.Current.GoToAsync("DeviceDetailsPage");
+                        if (await ConnectNetwork(DeviceName, pwd))
+                        {
+                            DeviceConnectStatus = "Connected";
+                            wifi.isSelected = true;
+                            await Shell.Current.GoToAsync("DeviceDetailsPage");
+                        }
+                        else
+                        {
+                            DeviceConnectStatus = "Failed to Connect";
+                            wifi.isSelected = false;
+                        }
                     }
                     else
                     {
-                        DeviceConnectStatus = "Failed to Connect";
+                        DeviceConnectStatus = "Incorrect Password";
                         wifi.isSelected = false;
                     }
+                    
 
                 }
             }
@@ -256,6 +267,11 @@ namespace Terra.Core.ViewModels
                 return true;
             });
             return false;
+        }
+
+        private async void AboutClicked()
+        {
+            await Shell.Current.GoToAsync("AboutPage");
         }
     }
 }

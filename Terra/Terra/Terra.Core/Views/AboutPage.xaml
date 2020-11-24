@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Terra.Core.Views.AboutPage" Title="About">
+    <ContentPage.Content>
+        <StackLayout Grid.Row="0"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout  BackgroundColor="#EF4736" HorizontalOptions="FillAndExpand" Margin="30">
+            <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="Version" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label x:Name="versionLbl" Text="5.12" HorizontalOptions="Center"></Label>
+                </StackLayout>
+                </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

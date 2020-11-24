@@ -7,6 +7,8 @@
     xmlns:banner="clr-namespace:Terra.Core.Controls"
     Shell.NavBarIsVisible="True" BackgroundColor="#E9E6E6" Title="Devices">
     <ContentPage.Resources>
+       
+        
         <Style TargetType="StackLayout">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -37,7 +39,12 @@
             ]]>
 
         </StyleSheet>
+        
+        
     </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="baseline_info_white_24" Command="{Binding AboutCommand}"/>
+        </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:NetworkViewModel/>
     </ContentPage.BindingContext>
