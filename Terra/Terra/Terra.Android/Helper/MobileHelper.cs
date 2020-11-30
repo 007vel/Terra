@@ -12,6 +12,7 @@ using Android.Util;
 using Java.IO;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Globalization;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MobileHelper))]
 namespace Terra.Droid.Helper
@@ -41,7 +42,7 @@ namespace Terra.Droid.Helper
             FileWriter fileWriter = new FileWriter(logFile, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             DateTime currentTime = new DateTime(DateTime.Now.Ticks);
-            string currentlogtime = DateTime.Now.ToString();
+            string currentlogtime = DateTime.Now.ToString()+ " "+GetVersion();
             bufferedWriter.Append(currentlogtime + ": " + logMessage);
             bufferedWriter.NewLine();
             bufferedWriter.Flush();
@@ -55,7 +56,7 @@ namespace Terra.Droid.Helper
             appPath.Mkdirs();
             string fileName = null;
             DateTime date = new DateTime(DateTime.Now.Ticks);
-            string dateAsString = DateTime.Now.ToString("MMM-dd-yyyy");
+            string dateAsString = DateTime.Now.ToString("MM-dd-yyyy", CultureInfo.InvariantCulture);
             fileName = dateAsString;
 
             File logFile = new File(appPath, fileName + ".txt");

@@ -15,12 +15,14 @@ using Xamarin.Forms;
 using Android.App;
 using Terra.Droid;
 using Android.Locations;
+using Entities.Common;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WifiManagerDroid))]
 namespace FlyMe.Droid.Helper
 {
     public class WifiManagerDroid : IPlatformWifiManager
     {
+        MobileHelper mobileHelper = new MobileHelper();
         private Context context = null;
         private static WifiManager wifi;
         private WifiNetworkReceiver wifiReceiver;
@@ -54,8 +56,19 @@ namespace FlyMe.Droid.Helper
         {
             wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             //  return true;
-            var ssid = $"\"{_ssid}\"";
-            var pwd = $"\"{_pwd}\"";
+            string ssid = string.Empty;
+            string pwd = string.Empty;
+            if (_ssid.ToLower()=="terradev")
+            {
+                ssid = _ssid;
+                pwd = _pwd;
+            }
+            else
+            {
+                ssid = $"\"{_ssid}\"";
+                pwd = $"\"{_pwd}\"";
+            }
+            mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
@@ -69,14 +82,15 @@ namespace FlyMe.Droid.Helper
             int netId = wifiManager.AddNetwork(wifiConfig);
             wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
-            wifiManager.Reconnect();
+            wifiManager.SaveConfiguration();
             //wifiManager.Disconnect();
             //var enableNetwork = wifiManager.EnableNetwork(network.NetworkId, true);
             await Task.Delay(3*1000);
             TimeSpan timeSpan = DateTime.Today.TimeOfDay;
             while(true)
             {
-                if(wifiManager.IsWifiEnabled)
+                mobileHelper.Log("1st while: " + wifiManager.ConnectionInfo?.SSID);
+                if (wifiManager.IsWifiEnabled)
                 {
                     break;
                 }
@@ -97,6 +111,7 @@ namespace FlyMe.Droid.Helper
             WifiInfo _network = null;
             while (true)
             {
+                mobileHelper.Log("2st while: "+wifiManager.ConnectionInfo?.SSID);
                 _network = wifiManager.ConnectionInfo;
 
                 if(_network.SSID == ssid)
@@ -117,8 +132,10 @@ namespace FlyMe.Droid.Helper
             if (_network==null)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
+                mobileHelper.Log("_network false:" + wifiManager.ConnectionInfo?.SSID);
                 return false;
             }
+            mobileHelper.Log("_network true:" + wifiManager.ConnectionInfo?.SSID);
             return true;
         }
 
@@ -126,7 +143,12 @@ namespace FlyMe.Droid.Helper
         {
             return wifi.IsWifiEnabled;
         }
-
+        public bool IsGpsEnable()
+        {
+            LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
+            return locationManager.IsProviderEnabled(LocationManager.GpsProvider);
+        }
+      
         public bool EnableWifi()
         {
            return wifi.SetWifiEnabled(true);
@@ -148,11 +170,17 @@ namespace FlyMe.Droid.Helper
                 mainActivity.mReservation.Close();
             }
         }
-        public void NavigateLocationSetting()
+        public void OpenSetting(MobileSetting mobileSetting)
         {
-            if(!LocationManager.IsProviderEnabled(LocationManager.GpsProvider))
+            if(mobileSetting== MobileSetting.Location)
             {
-                Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionLocat‌​ionSourceSettings));
+                if (!LocationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                {
+                    Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionLocat‌​ionSourceSettings));
+                }
+            }else if (mobileSetting == MobileSetting.Data)
+            {
+                Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionDateSettings));
             }
         }
 
@@ -186,6 +214,7 @@ namespace FlyMe.Droid.Helper
                 {
                     Wifi wifi = new Wifi();
                     wifi.name = wifinetwork.Ssid;
+                    wifi.ssid = wifinetwork.Ssid;
                     wifi.ipAdrs = wifinetwork.Bssid;
                     WiFiNetworks.Add(wifi);
                     System.Diagnostics.Debug.WriteLine("-------------------------");

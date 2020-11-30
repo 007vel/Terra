@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Entities.Common;
 
 namespace ConnectionLibrary.Interface
 {
@@ -16,9 +17,10 @@ namespace ConnectionLibrary.Interface
 
         void DisableWifiHotSpot();
 
-        void NavigateLocationSetting();
+        void OpenSetting(MobileSetting mobileSetting);
 
         string GetBssId();
+        bool IsGpsEnable();
 
     }
 }

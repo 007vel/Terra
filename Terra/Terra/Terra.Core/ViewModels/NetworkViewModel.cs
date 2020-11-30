@@ -13,10 +13,13 @@ using Terra.Core.Utils;
 using Terra.Core.Helper;
 using Xamarin.Essentials;
 using EspTouchMultiPlatformLIbrary;
+using Terra.Core.common;
+using Terra.Core.Views.PopUpPages;
+using Rg.Plugins.Popup.Extensions;
 
 namespace Terra.Core.ViewModels
 {
-    public class NetworkViewModel : ViewModelBase
+    public class NetworkViewModel : ViewModelBase, IDialog
     {
         public ICommand SelectionChanged => new Command<object>(OnSelectionChanged);
         public ICommand ScanWifi => new Command(OnScanWifiClick);
@@ -24,6 +27,8 @@ namespace Terra.Core.ViewModels
         Dictionary<string, string> wifiPwdList = new Dictionary<string, string>();
         public Wifi LastSelectedItem = null;
         WifiAdapter wifiAdapter;
+        Wifi SelectedWifi = null;
+
         public NetworkViewModel()
         {
             Init();
@@ -36,15 +41,20 @@ namespace Terra.Core.ViewModels
             var locationPermission= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
             if(locationPermission==PermissionStatus.Granted)
             {
+                if(!wifiAdapter.IsGpsEnabled())
+                {
+                    wifiAdapter.FormWifiManager.OpenSetting(Entities.Common.MobileSetting.Location);
+                }
+                var popupres = false;
                 if (!wifiAdapter.FormWifiManager.IsWifiEnabled())
                 {
-                    var popupres = await App.Current.MainPage.DisplayAlert(title: "Use Wifi?", message: "The app wants to turn on your device wifi", "YES", "NO");
-                    if (popupres)
-                    {
-                        wifiAdapter.FormWifiManager.NavigateLocationSetting();
-                        wifiAdapter.FormWifiManager.DisableWifiHotSpot();
-                        wifiAdapter.FormWifiManager.EnableWifi();
-                    }
+                    popupres = await App.Current.MainPage.DisplayAlert(title: "Use Wifi?", message: "The app wants to turn on your device wifi", "YES", "NO");
+                    
+                }
+                if (popupres)
+                {
+                    wifiAdapter.FormWifiManager.DisableWifiHotSpot();
+                    wifiAdapter.FormWifiManager.EnableWifi();
                 }
                 //Wifi ssid should be in lower case
                 wifiPwdList.Add("sowmiya", "Avanthika@07");
@@ -87,7 +97,10 @@ namespace Terra.Core.ViewModels
                 }
             }
         }
-
+        public INavigation PageNavigation
+        {
+            get; set;
+        }
         ObservableCollection<Wifi> networkList;
         public ObservableCollection<Wifi> NetworkList
         {
@@ -178,6 +191,7 @@ namespace Terra.Core.ViewModels
             if (obj != null)
             {
                 var wifi = (Wifi)obj;
+                SelectedWifi = wifi;
                 SelectedItem = wifi;
                 if (wifi != null)
                 {
@@ -204,27 +218,9 @@ namespace Terra.Core.ViewModels
                             break;
                         }
                     }
-                    if(!string.IsNullOrEmpty(DeviceName) && !string.IsNullOrEmpty(pwd))
-                    {
-                        if (await ConnectNetwork(DeviceName, pwd))
-                        {
-                            DeviceConnectStatus = "Connected";
-                            wifi.isSelected = true;
-                            await Shell.Current.GoToAsync("DeviceDetailsPage");
-                        }
-                        else
-                        {
-                            DeviceConnectStatus = "Failed to Connect";
-                            wifi.isSelected = false;
-                        }
-                    }
-                    else
-                    {
-                        DeviceConnectStatus = "Incorrect Password";
-                        wifi.isSelected = false;
-                    }
-                    
-
+                    //await ConnectNetwork(wifi.ssid, pwd);
+                    var loadingPage = new DialogPopupPage(this);
+                    await PageNavigation.PushPopupAsync(loadingPage);
                 }
             }
             else
@@ -240,9 +236,42 @@ namespace Terra.Core.ViewModels
 
         private async Task<bool> ConnectNetwork(string ssid, string pwd)
         {
-            //await Task.Delay(1000*1);
-            var res = await wifiAdapter.ConnectToWifi(ssid, pwd);
-            return res;
+            NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice : " + DeviceName + "    " + pwd);
+            if (!string.IsNullOrEmpty(DeviceName) && !string.IsNullOrEmpty(pwd))
+            {
+                if (await wifiAdapter.ConnectToWifi(ssid, pwd))
+                {
+                    NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice success: " + DeviceName + "    " + pwd);
+                    DeviceConnectStatus = "Connected";
+                    SelectedWifi.isSelected = true;
+                    var profiles = Connectivity.ConnectionProfiles;
+                    if (profiles.Contains(ConnectionProfile.WiFi))
+                    {
+                        
+                    }
+                    else
+                    {
+                        var m_data = await App.Current.MainPage.DisplayAlert(title: "Disable Mobile data", message: "The app wants to turn off your mobile data", "Go to settings", "");
+                        if(m_data)
+                        {
+                           // wifiAdapter.FormWifiManager.OpenSetting(Entities.Common.MobileSetting.Location);
+                        }
+                        return true;
+                    }
+                    await Shell.Current.GoToAsync("DeviceDetailsPage");
+                }
+                else
+                {
+                    DeviceConnectStatus = "Failed to Connect";
+                    SelectedWifi.isSelected = false;
+                }
+            }
+            else
+            {
+                DeviceConnectStatus = "Incorrect Password";
+                SelectedWifi.isSelected = false;
+            }
+            return true;
         }
 
 
@@ -272,6 +301,26 @@ namespace Terra.Core.ViewModels
         private async void AboutClicked()
         {
             await Shell.Current.GoToAsync("AboutPage");
+        }
+
+        public string getValue()
+        {
+            return string.Empty;
+        }
+
+        public void setValue(string val)
+        {
+            ConnectNetwork(SelectedWifi.ssid, val.Trim());
+        }
+
+        public string getTitle()
+        {
+            return "Enter Wifi password";
+        }
+
+        public Keyboard getkeyBoardType()
+        {
+            return Keyboard.Default;
         }
     }
 }

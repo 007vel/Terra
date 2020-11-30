@@ -22,7 +22,7 @@ namespace Terra.Droid
     [Activity(Label = "Terra", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        MobileHelper mobileHelper = new MobileHelper();
+        MobileHelper mobileHelper = null;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -58,6 +58,7 @@ namespace Terra.Droid
             var userSelectedCulture = CultureInfo.CreateSpecificCulture("en-US");
             userSelectedCulture.NumberFormat.CurrencyNegativePattern = 1;
             Thread.CurrentThread.CurrentCulture = userSelectedCulture;
+            mobileHelper = new MobileHelper();
         }
 
 
@@ -78,7 +79,9 @@ namespace Terra.Droid
         {
             try
             {
-                mobileHelper.Log("MainActivity  " + exception.ToString());
+                if (mobileHelper == null) return;
+
+               // mobileHelper.Log("MainActivity  " + exception.ToString());
                
                 //const string errorFileName = "Fatal.log";
                 //var libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // iOS: Environment.SpecialFolder.Resources
@@ -88,7 +91,7 @@ namespace Terra.Droid
                 //File.WriteAllText(errorFilePath, errorMessage);
 
                 // Log to Android Device Logging.
-                Android.Util.Log.Error("Crash Report", exception.ToString());
+              //  Android.Util.Log.Error("Crash Report", exception.ToString());
             }
             catch
             {

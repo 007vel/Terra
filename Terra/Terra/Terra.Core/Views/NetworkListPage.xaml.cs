@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities.Wifi;
+using Terra.Core.ViewModels;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Extensions;
 
 namespace Terra.Core.Views
 {
@@ -16,7 +18,11 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            
+            var context = this.BindingContext as NetworkViewModel;
+            if(context!=null)
+            {
+                context.PageNavigation = Navigation;
+            }
         }
         protected override void OnDisappearing()
         {

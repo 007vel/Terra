@@ -128,7 +128,7 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
            base.OnAppearing();
-           InitVm();
+       //    InitVm();
         }
         private async void InitVm()
         {

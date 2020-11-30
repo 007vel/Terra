@@ -48,14 +48,19 @@ namespace ConnectionLibrary.Network
                 return formWifiManager;
             }
         }
-
+        public bool IsGpsEnabled()
+        {
+            return DependencyService.Get<IPlatformWifiManager>().IsGpsEnable();
+        }
         public void OnRequestAvailableNetworks()
         {
             FormWifiManager.RequestWifiNetworks();
         }
         public async Task<bool> ConnectToWifi(string ssid, string pwd)
         {
-           var res= await FormWifiManager.Connect(ssid,pwd);
+            NetworkServiceUtil.Log("Socket ConnectToWifi ssid:" + ssid);
+            NetworkServiceUtil.Log("Socket ConnectToWifi pwd:" +  pwd);
+            var res= await FormWifiManager.Connect(ssid,pwd);
             NetworkServiceUtil.Log("Socket ConnectToWifi");
             return res;
         }
