@@ -74,13 +74,13 @@
                         <ColumnDefinition Width="5*"/>
 
                     </Grid.ColumnDefinitions>
-                    <TimePicker x:Name="_timePickerFrrm" Grid.Column="1" Margin="10"
+                    <TimePicker x:Name="_timePickerFrrm" Grid.Column="1" Margin="10" Format="HH:mm"
                     Time="{Binding SelectedStartTime,Mode=TwoWay}"
-                    Format="T" BackgroundColor="#EF4736" TextColor="White" />
+                     BackgroundColor="#EF4736" TextColor="White" />
                     <time:TimePickerCard Grid.Column="1" CornerRadius="18" CardTitle="On" CardDesc="{Binding SelectedStartTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
                     <TimePicker x:Name="_timePickerTo" Grid.Column="3" Margin="10" 
                     Time="{Binding SelectedStopTime,Mode=TwoWay}" 
-                    Format="T" BackgroundColor="#EF4736" TextColor="White" />
+                    Format="HH:mm" BackgroundColor="#EF4736" TextColor="White" />
                     <time:TimePickerCard Grid.Column="3" CornerRadius="18" CardTitle="Off" CardDesc="{Binding SelectedStopTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
 
                     <Picker ItemsSource="{Binding IntervalList}"  Grid.Column="5" ItemDisplayBinding="{Binding .}" Title="Interval" BackgroundColor="Transparent" VerticalOptions="CenterAndExpand" Margin="7"

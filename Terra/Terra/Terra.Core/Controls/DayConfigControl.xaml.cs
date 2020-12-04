@@ -413,7 +413,7 @@ namespace Terra.Core.Controls
                 {
                     foreach(var item in scheduler.day.Split(',').ToList())
                     {
-                        this.uIDays.SingleOrDefault(i=>i.dateTime.ToString("dddd").ToLower()== item).selectionStatus=SelectionStatus.Selected;
+                        this.uIDays.SingleOrDefault(i=>i.dateTime.ToString("dddd").ToLower()== item.ToLower()).selectionStatus=SelectionStatus.Selected;
                     }
                 }
             }

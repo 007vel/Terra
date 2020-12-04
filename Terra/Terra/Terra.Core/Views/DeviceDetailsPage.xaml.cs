@@ -117,18 +117,27 @@ namespace Terra.Core.Views
             PageContext.SetDispanserType(val);
         }
 
+
+        /// <summary>
+        /// Paint values in UI from viewmodel
+        /// </summary>
+        /// <param name="deviceInfo"></param>
         private void PageContext_DeviceInfoReceived(DeviceInfo deviceInfo)
         {
             initSpray.CardDesc = PageContext?.InitializeSpray?.value!=null? PageContext?.InitializeSpray?.value: "3200";
             remainSpray.CardDesc = PageContext?.RemSpray?.value;
             batteryView.Chartvalue = Convert.ToInt32( PageContext?.Battery?.value);
-            dayCount.CardDesc = PageContext.DaysLeft;
+            if(!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
+            {
+                dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
+            }
+            
         }
 
         protected override void OnAppearing()
         {
            base.OnAppearing();
-       //    InitVm();
+           InitVm();
         }
         private async void InitVm()
         {

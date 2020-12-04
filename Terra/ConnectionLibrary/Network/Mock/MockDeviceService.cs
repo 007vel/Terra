@@ -26,6 +26,11 @@ namespace ConnectionLibrary.Network.Mock
                     // Initial spray
                     return "{\r\n\t\"request\":\"init\",\r\n\t\"info\":\"spray\",\r\n\t\"value\": 200\r\n}";
                 }
+                else if (deviceInfoRequest.request == "get" && deviceInfoRequest.info == "days_left")
+                {
+                    // GET DAYS LEFT
+                    return "{\r\n\t\"request\":\"get\",\r\n\t\"info\":\"days_left\",\r\n\t\"value\": 200000\r\n}";
+                }
             }
 
             return null;
@@ -39,7 +44,7 @@ namespace ConnectionLibrary.Network.Mock
                 // get schedule
                 if (deviceInfoRequest.request == "get" && deviceInfoRequest.info == "scheduler")
                 {
-                    return "{\"scheduler_size\":1,\"scheduler\":[ { \"start\" :3600,\"stop\" :7200,\"interval\" :12,\"day\" :\"monday\"},{\r\n\"start\":3600,\r\n\"stop\":5000,\r\n\"interval\":12,\r\n\"day\":\"monday,tuesday\"\r\n}]}";
+                    return "{\"scheduler_size\":1,\"scheduler\":[ { \"start\" :3600,\"stop\" :7200,\"interval\" :12,\"day\" :\"Monday\"},{\r\n\"start\":3600,\r\n\"stop\":5000,\r\n\"interval\":12,\r\n\"day\":\"Monday,tuesday\"\r\n}]}";
                 }
                     
             }

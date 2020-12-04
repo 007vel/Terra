@@ -218,9 +218,9 @@ namespace Terra.Core.ViewModels
                             break;
                         }
                     }
-                    //await ConnectNetwork(wifi.ssid, pwd);
-                    var loadingPage = new DialogPopupPage(this);
-                    await PageNavigation.PushPopupAsync(loadingPage);
+                    await ConnectNetwork(wifi.ssid, pwd);
+                  //  var loadingPage = new DialogPopupPage(this);
+                  //  await PageNavigation.PushPopupAsync(loadingPage);
                 }
             }
             else
@@ -251,8 +251,8 @@ namespace Terra.Core.ViewModels
                     }
                     else
                     {
-                        var m_data = await App.Current.MainPage.DisplayAlert(title: "Disable Mobile data", message: "The app wants to turn off your mobile data", "Go to settings", "");
-                        if(m_data)
+                       // var m_data = await App.Current.MainPage.DisplayAlert(title: "Disable Mobile data", message: "The app wants to turn off your mobile data", "Go to settings", "");
+                        //if(m_data)
                         {
                            // wifiAdapter.FormWifiManager.OpenSetting(Entities.Common.MobileSetting.Location);
                         }

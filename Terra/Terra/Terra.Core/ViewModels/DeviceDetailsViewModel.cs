@@ -19,7 +19,7 @@ namespace Terra.Core.ViewModels
         public event ActionResult Result;
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
-      //  public IDevice deviceService = new MockDeviceService();
+     //   public IDevice deviceService = new MockDeviceService();
        public IDevice deviceService = new DeviceService();
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
@@ -81,8 +81,8 @@ namespace Terra.Core.ViewModels
             }
         }
 
-        string daysLeft="0";
-        public string DaysLeft
+        DeviceInfo daysLeft;
+        public DeviceInfo DaysLeft
         {
             get
             {
@@ -105,7 +105,7 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public async Task OnInit()
         {
-            SetTime();
+            await SetTime();
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
             Schedulers = DeserializSchedule(rawSchedule);
@@ -113,6 +113,7 @@ namespace Terra.Core.ViewModels
             GetBatteryCount();
             GetInitilizeSprayCount();
             GetRemSprayCount();
+            GetDaysLeftCount();
         }
 
         /// <summary>
@@ -179,7 +180,7 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetRemSprayCount get spray: " + deviceRes);
             RemSpray = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(RemSpray);
-            CalculateRemainingDays();
+          //  CalculateRemainingDays();
         }
 
         /// <summary>
@@ -195,6 +196,21 @@ namespace Terra.Core.ViewModels
             InitializeSpray = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(InitializeSpray);
         }
+        /// <summary>
+        /// GetDaysLeftCount Will return count from service
+        /// </summary>
+        public async void GetDaysLeftCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "get";
+            deviceInfoRequest.info = "days_left";
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetDaysLeftCount get spray: " + deviceRes);
+            DaysLeft = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(RemSpray);
+           // CalculateRemainingDays();
+        }
+
 
         ////////////////////////////////////////////////
         ////////////////////////////////////////////////
@@ -249,13 +265,14 @@ namespace Terra.Core.ViewModels
             var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
         }
 
-        private async void SetTime()
+        private async Task<bool> SetTime()
         {
             Config timeConfig = new Config();
             timeConfig.request = "set";
             timeConfig.current_epoch = Terra.Core.Utils.Utils.GetEpochSeconds();
             timeConfig.timeZone = Terra.Core.Utils.Utils.GetTimeZoneInfo();
             var deviceRes = await deviceService.SetDeviceConfig(timeConfig);
+            return deviceRes;
         }
 
         private DeviceInfo DeserializDeviceInfo(string deviceRes)
@@ -271,7 +288,7 @@ namespace Terra.Core.ViewModels
             return null;
         }
 
-
+/*
         private void CalculateRemainingDays()
         {
             var schedulers = Schedulers;
@@ -308,7 +325,7 @@ namespace Terra.Core.ViewModels
                     }
                 }
             }
-        }
+        } */
 
 
     }

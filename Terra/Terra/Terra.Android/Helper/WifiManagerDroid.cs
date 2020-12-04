@@ -52,22 +52,30 @@ namespace FlyMe.Droid.Helper
             context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.ScanResultsAvailableAction));
             wifi.StartScan();
         }
+        /// <summary>
+        /// Connect to wifi using ssid and password
+        /// </summary>
+        /// <param name="_ssid"></param>
+        /// <param name="_pwd"></param>
+        /// <returns></returns>
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
             wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
-            //  return true;
-            string ssid = string.Empty;
-            string pwd = string.Empty;
-            if (_ssid.ToLower()=="terradev")
-            {
-                ssid = _ssid;
-                pwd = _pwd;
-            }
-            else
-            {
-                ssid = $"\"{_ssid}\"";
-                pwd = $"\"{_pwd}\"";
-            }
+           //  return true;
+            string ssid = "";
+            string pwd = "";
+            //if (_ssid.ToLower()=="terradev")
+            //{
+            //    ssid = _ssid;
+            //    pwd = _pwd;
+            //}
+            //else
+            //{
+            //    ssid = $"\"{_ssid}\"";
+            //    pwd = $"\"{_pwd}\"";
+            //}
+            ssid = $"\"{_ssid}\"";
+            pwd = $"\"{_pwd}\"";
             mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifiConfig.Ssid = ssid;
@@ -78,37 +86,17 @@ namespace FlyMe.Droid.Helper
             {
                 wifiManager.RemoveNetwork(config.NetworkId);
             }
-            //  wifiManager.Disconnect();
             int netId = wifiManager.AddNetwork(wifiConfig);
             wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
             wifiManager.SaveConfiguration();
-            //wifiManager.Disconnect();
-            //var enableNetwork = wifiManager.EnableNetwork(network.NetworkId, true);
+            wifiManager.Reconnect();
             await Task.Delay(3*1000);
             TimeSpan timeSpan = DateTime.Today.TimeOfDay;
-            while(true)
-            {
-                mobileHelper.Log("1st while: " + wifiManager.ConnectionInfo?.SSID);
-                if (wifiManager.IsWifiEnabled)
-                {
-                    break;
-                }
-                else
-                {
-                    if(DateTime.Today.TimeOfDay.Subtract(timeSpan).TotalSeconds>60)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-
+           
             timeSpan = DateTime.Today.TimeOfDay;
             WifiInfo _network = null;
+            // Check 1 minute for ConnectionInfo
             while (true)
             {
                 mobileHelper.Log("2st while: "+wifiManager.ConnectionInfo?.SSID);
