@@ -6,5 +6,6 @@ namespace ConnectionLibrary.Interface
         void Log(string msg);
         string GetVersion();
         string GetBuildNumber();
+        void TerminateApp();
     }
 }

@@ -362,12 +362,13 @@ namespace Terra.Core.Controls
         {
             string uiIntervsl = " / " + SelectedIntervsl + "'";
             DateTime time = DateTime.Today.Add(SelectedStartTime);
-            startLabel.Text = time.ToString("HH:mm") + uiIntervsl;
+            timeLabel.Text = time.ToString("HH:mm") + System.Environment.NewLine + DateTime.Today.Add(SelectedStopTime).ToString("HH:mm");
+            IntervalLabel.Text = uiIntervsl;
         }
          private ObservableCollection<string> BuildIntervalList()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            for (int i=1; i<61; i++)
+            for (int i=0; i<61; i++)
             {
                 list.Add(i.ToString());
             }
@@ -381,7 +382,6 @@ namespace Terra.Core.Controls
                 if(scheduler!=null)
                 {
                     SelectedIntervsl = IntervalList.IndexOf(scheduler.interval.ToString()).ToString();
-                 //   startLabel.Text = SelectedStartTime.ToString("HH:mm") + SelectedIntervsl;
                 }
             }
             catch(Exception e)
@@ -397,7 +397,6 @@ namespace Terra.Core.Controls
                 {
                     SelectedStartTime =  DateTime.Today.AddSeconds(Convert.ToDouble( scheduler.start)).TimeOfDay;
                     SelectedStopTime = DateTime.Today.AddSeconds(Convert.ToDouble(scheduler.stop)).TimeOfDay;
-                  //  startLabel.Text = DateTime.Today.AddSeconds(Convert.ToDouble(scheduler.start)).ToString("HH:mm") + SelectedIntervsl;
                 }
             }
             catch (Exception e)

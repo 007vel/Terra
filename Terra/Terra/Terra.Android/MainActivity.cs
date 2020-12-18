@@ -16,10 +16,11 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Terra.Droid.Helper;
+using Acr.UserDialogs;
 
 namespace Terra.Droid
 {
-    [Activity(Label = "Terra", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Terra", NoHistory = false, LaunchMode = LaunchMode.SingleInstance, Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         MobileHelper mobileHelper = null;
@@ -36,7 +37,7 @@ namespace Terra.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
-
+            UserDialogs.Init(this);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 

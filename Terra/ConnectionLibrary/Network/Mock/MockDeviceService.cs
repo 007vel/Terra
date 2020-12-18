@@ -31,6 +31,11 @@ namespace ConnectionLibrary.Network.Mock
                     // GET DAYS LEFT
                     return "{\r\n\t\"request\":\"get\",\r\n\t\"info\":\"days_left\",\r\n\t\"value\": 200000\r\n}";
                 }
+                else if (deviceInfoRequest.request == "get" && deviceInfoRequest.info == "spray_counter")
+                {
+                    // GET NEXT SPRAY COUNTER
+                    return "{\r\n    \"request\": \"get\",\r\n    \"info\":\"spray_counter\",\r\n    \"value\":10040\r\n}";
+                }
             }
 
             return null;

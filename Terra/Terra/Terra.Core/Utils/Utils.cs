@@ -39,5 +39,21 @@ namespace Terra.Core.Utils
             return offset;
 
         }
+        public static string pad_an_int(int N, int P)
+        {
+            // string used in Format() method 
+            string s = "{0:";
+            for (int i = 0; i < P; i++)
+            {
+                s += "0";
+            }
+            s += "}";
+
+            // use of string.Format() method 
+            string value = string.Format(s, N);
+
+            // return output 
+            return value;
+        }
     }
 }

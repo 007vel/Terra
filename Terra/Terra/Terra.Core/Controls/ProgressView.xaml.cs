@@ -264,7 +264,7 @@ namespace Terra.Core.Controls
 
                     // Drawing Text Over Radial Gauge
                     // if (sw_listToggle.IsToggled)
-                    canvas.DrawText(DateTime.Now.ToString("dddd, dd'-'MM'-'yyyy"), Xc, Yc + progressUtils.getFactoredHeight(lineHeight3), skPaint);
+                   // canvas.DrawText(DateTime.Now.ToString("dddd, dd'-'MM'-'yyyy"), Xc, Yc + progressUtils.getFactoredHeight(lineHeight3), skPaint);
                     //else
                     {
                       //  canvas.DrawText("Goal " + goal / 30 + " Min", Xc, Yc + progressUtils.getFactoredHeight(lineHeight3), skPaint);
@@ -287,7 +287,7 @@ namespace Terra.Core.Controls
 
                     // Drawing Text Over Radial Gauge
                     // if (sw_listToggle.IsToggled)
-                    canvas.DrawText(DateTime.Now.ToString("HH:mm:ss"), Xc, Yc + progressUtils.getFactoredHeight(lineHeight4), skPaint);
+                  //  canvas.DrawText(DateTime.Now.ToString("HH:mm:ss"), Xc, Yc + progressUtils.getFactoredHeight(lineHeight4), skPaint);
                     //else
                     {
                         //  canvas.DrawText("Goal " + goal / 30 + " Min", Xc, Yc + progressUtils.getFactoredHeight(lineHeight3), skPaint);

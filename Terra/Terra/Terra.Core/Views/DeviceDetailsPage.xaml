@@ -49,9 +49,36 @@
                               <Image Source="fan_button_14" VerticalOptions="EndAndExpand"></Image>
                           </StackLayout>
                       </StackLayout>
-                      <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="0">
+                      <StackLayout Grid.Column="1" Orientation="Vertical" Spacing="0" >
                         <!-- <Button Text="Click" Clicked="Button_Clicked"/> -->
-                        <card:ProgressView x:Name="batteryView" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" />
+                        <card:ProgressView x:Name="batteryView" HorizontalOptions="Start" VerticalOptions="FillAndExpand" />
+                          <Frame VerticalOptions="Start" HorizontalOptions="Center"  Padding="0" BorderColor="#EF4736" Opacity="0.9" HasShadow="False" Margin="30,0,30,0" CornerRadius="5" >
+                          <Grid  ColumnSpacing="0" RowSpacing="0" BackgroundColor="#EF4736" Opacity="0.9">
+                              <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*" />
+                                  <ColumnDefinition Width="*" />
+                                  <ColumnDefinition Width="*" />
+                                  <ColumnDefinition Width="*" />
+                              </Grid.ColumnDefinitions>
+                              <Grid.RowDefinitions>
+                                  <RowDefinition Height="*"/>
+                                  <RowDefinition Height="*"/>
+                              </Grid.RowDefinitions>
+                              <Label x:Name="dayLabel" Grid.Column="0" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" FontSize="Small" TextColor="White" HorizontalOptions="Center" />
+                              <Label x:Name="HHLabel" Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" FontSize="Small" TextColor="White" HorizontalOptions="Center" />
+                              <Label x:Name="MMLabel" Grid.Column="2" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" FontSize="Small" TextColor="White" HorizontalOptions="Center" />
+                              <Label x:Name="SSLabel" Grid.Column="3" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" FontSize="Small" TextColor="White" HorizontalOptions="Center" />
+
+                              <Label Text="DAY" Grid.Column="0" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="None" FontSize="Micro" TextColor="White" HorizontalOptions="Center" />
+                              <Label Text="HH" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="None" FontSize="Micro" TextColor="White" HorizontalOptions="Center" />
+                              <Label Text="MM" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="None" FontSize="Micro" TextColor="White" HorizontalOptions="Center" />
+                              <Label Text="SS" Grid.Column="3" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" FontAttributes="None" FontSize="Micro" TextColor="White" HorizontalOptions="Center" />
+
+                          </Grid>
+                              </Frame>
+                          <!--<Label x:Name="_timer" VerticalOptions="Start" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+                          <Label x:Name="label" Text="DAY | HH | MM | SS" FontSize="Micro" VerticalOptions="Start" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />-->
+                          <Label x:Name="_timerLabel" Text="Next Spray" VerticalOptions="Start" HorizontalOptions="Center"/>
                     </StackLayout>
                       <StackLayout Grid.Column="2" VerticalOptions="FillAndExpand">
                             <ImageButton Source="demo_button_07" Command="{Binding DemoCommand}">

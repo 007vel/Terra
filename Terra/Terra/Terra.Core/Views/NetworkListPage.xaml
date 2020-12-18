@@ -66,7 +66,7 @@
 
 
                     <Image HorizontalOptions="Center" VerticalOptions="CenterAndExpand" HeightRequest="55" WidthRequest="90" Margin="0,15,0,15"
-                        Source="wifi_03" ></Image>
+                        Source="baseline_wifi_white_48.png" ></Image>
                     <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="13,0,0,0">
                         <Label Text="{Binding DeviceName}" FontSize="Large" FontAttributes="Bold" TextColor="White"/>
                         <Label Text="{Binding DeviceConnectStatus}" FontSize="Large" FontAttributes="Bold" TextColor="White"/>

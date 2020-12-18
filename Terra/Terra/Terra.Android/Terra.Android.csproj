@@ -81,6 +81,9 @@
     <PackageReference Include="EspTouchSmartConfigXamarin">
       <Version>1.0.4</Version>
     </PackageReference>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.468</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\WifiHotspotReservation.cs" />
@@ -492,6 +495,30 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\baseline_info_white_24.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\baseline_wifi_white_48.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-mdpi\baseline_wifi_white_48.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xhdpi\baseline_wifi_white_48.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\baseline_wifi_white_48.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\baseline_wifi_white_48.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\baseline_wifi_white_48.png">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

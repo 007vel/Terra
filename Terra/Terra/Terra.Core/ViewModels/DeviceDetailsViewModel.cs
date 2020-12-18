@@ -1,4 +1,5 @@
-﻿using ConnectionLibrary.Interface;
+﻿using Acr.UserDialogs;
+using ConnectionLibrary.Interface;
 using ConnectionLibrary.Network;
 using ConnectionLibrary.Network.Mock;
 using ConnectionLibrary.Network.Util;
@@ -7,7 +8,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,12 +18,14 @@ namespace Terra.Core.ViewModels
 {
     public class DeviceDetailsViewModel : ViewModelBase
     {
+        System.Timers.Timer timer;
+        int expireTime = 0;
         public delegate void ActionResult(List<Scheduler> arg);
         public event ActionResult Result;
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
-     //   public IDevice deviceService = new MockDeviceService();
-       public IDevice deviceService = new DeviceService();
+        //public IDevice deviceService = new MockDeviceService();
+        public IDevice deviceService = new DeviceService();
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
         public ICommand SleepCommand => new Command(SetSleepClicked);
@@ -94,6 +99,19 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("DaysLeft");
             }
         }
+        DeviceInfo nextSprayCounter;
+        public DeviceInfo NextSprayCounter
+        {
+            get
+            {
+                return nextSprayCounter;
+            }
+            set
+            {
+                nextSprayCounter = value;
+                OnPropertyChanged("NextSprayCounter");
+            }
+        }
 
         public DeviceDetailsViewModel()
         {
@@ -114,6 +132,7 @@ namespace Terra.Core.ViewModels
             GetInitilizeSprayCount();
             GetRemSprayCount();
             GetDaysLeftCount();
+            GetNextSprayCounterCount();
         }
 
         /// <summary>
@@ -210,6 +229,20 @@ namespace Terra.Core.ViewModels
             DeviceInfoReceived?.Invoke(RemSpray);
            // CalculateRemainingDays();
         }
+        /// <summary>
+        /// GetNextSprayCounterCount Will return count from service
+        /// </summary>
+        public async void GetNextSprayCounterCount()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "get";
+            deviceInfoRequest.info = "spray_counter";
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetNextSprayCounterCount: " + deviceRes);
+            NextSprayCounter = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(RemSpray);
+            // CalculateRemainingDays();
+        }
 
 
         ////////////////////////////////////////////////
@@ -255,6 +288,25 @@ namespace Terra.Core.ViewModels
             config.sleep_mode = 1;
             config.request = "set";
             var deviceRes = await deviceService.SetDeviceConfig(config);
+            Device.BeginInvokeOnMainThread(async () => {
+
+                try
+                {
+                    using (UserDialogs.Instance.Loading("Closing app..."))
+                    {
+                        await Task.Delay(1000*3);
+                        UserDialogs.Instance.HideLoading();
+                        IMobile mobile = DependencyService.Get<IMobile>();
+                        mobile.TerminateApp();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var val = ex.Message;
+                    
+                }
+            });
+
         }
 
         public async void SetDispanserType(string type)
@@ -287,46 +339,6 @@ namespace Terra.Core.ViewModels
             }
             return null;
         }
-
-/*
-        private void CalculateRemainingDays()
-        {
-            var schedulers = Schedulers;
-            long NumberOfSpray=0;
-            if (schedulers!=null && schedulers.Count>0)
-            {
-                foreach(var item in schedulers)
-                {
-                    if(! string.IsNullOrEmpty( item.day))
-                    {
-                        var daysList = item.day.Split(',');
-                        if(daysList.Length>0)
-                        {
-                            var scheduleTimeInMinute = (item.stop - item.start)/60;
-                            if(scheduleTimeInMinute>0)
-                            {
-                                NumberOfSpray += (scheduleTimeInMinute / item.interval)* daysList.Length;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(NumberOfSpray>0 && InitializeSpray!=null && RemSpray!=null)
-            {
-                if(!string.IsNullOrEmpty(InitializeSpray.value) && !string.IsNullOrEmpty(RemSpray.value))
-                {
-                    if(Convert.ToDouble(InitializeSpray.value)>0 && Convert.ToDouble(RemSpray.value) > 0)
-                    {
-                        double remWeeks = Convert.ToDouble(RemSpray.value) / NumberOfSpray;
-                        double remDays = remWeeks * 7;
-                        DaysLeft = Convert.ToInt32( Math.Round(remDays)).ToString();
-                        DeviceInfoReceived?.Invoke(RemSpray);
-                    }
-                }
-            }
-        } */
-
-
+        
     }
 }

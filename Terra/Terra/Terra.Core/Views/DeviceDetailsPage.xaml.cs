@@ -7,6 +7,7 @@ using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 using Terra.Core.Controls;
 using Terra.Core.Enum;
 using Terra.Core.Models;
@@ -127,13 +128,70 @@ namespace Terra.Core.Views
             initSpray.CardDesc = PageContext?.InitializeSpray?.value!=null? PageContext?.InitializeSpray?.value: "3200";
             remainSpray.CardDesc = PageContext?.RemSpray?.value;
             batteryView.Chartvalue = Convert.ToInt32( PageContext?.Battery?.value);
-            if(!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
+            InitTimer(Convert.ToInt32(PageContext?.NextSprayCounter?.value));
+            if (!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
             {
                 dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
             }
-            
         }
+        int expireTime = 0;
+        bool isTimerStarted = false;
+        System.Timers.Timer timer = null;
+        private void InitTimer(int totalSec)
+        {
+            expireTime = totalSec;
+            if(!isTimerStarted)
+            {
+                SetTimer();
+                isTimerStarted = true;
+            }
+        }
+        private void SetTimer()
+        {
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+            timer.Start();
+            
+           // timer.Dispose();
+        }
+        int timerBegin = 0;
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+             Device.BeginInvokeOnMainThread(() =>
+                {
+                    if (timerBegin != expireTime)
+                    {
+                        DateTime dateTime = DateTime.Now;
+                        TimeSpan _TimeSpan = TimeSpan.FromSeconds(expireTime - timerBegin);
+                        string seconds = "00";
+                        if (_TimeSpan.Seconds < 10) {
+                            seconds = Terra.Core.Utils.Utils.pad_an_int(_TimeSpan.Seconds, 2);
+                        } else {
+                            seconds = _TimeSpan.Seconds.ToString();
+                        }
+                        Console.WriteLine(timerBegin + " ======================>> " + seconds.ToString());
+                        var sec = string.Format("{0:00}:{1:00}:{2:00}", _TimeSpan.Days + " ", " "+_TimeSpan.Hours+" ", " " + _TimeSpan.Minutes + " ")+ ": " + seconds;
+                        dayLabel.Text = string.Format("{0:00}", _TimeSpan.Days);
+                        HHLabel.Text = string.Format("{0:00}", _TimeSpan.Hours);
+                        MMLabel.Text = string.Format("{0:00}", _TimeSpan.Minutes);
+                        SSLabel.Text =  seconds;
+                       // _timer.Text = sec;
 
+                        timerBegin = timerBegin + 1;
+                        
+                    }else
+                    {
+                        timer?.Stop();
+                        isTimerStarted = false;
+                    }
+
+                });
+                
+            }
+            
+        
         protected override void OnAppearing()
         {
            base.OnAppearing();
@@ -252,7 +310,7 @@ namespace Terra.Core.Views
 
         private List<UIDay> inputDate()
         {
-            DateTime now = FirstDayOfWeek(DateTime.Now);
+            DateTime now = FirstDayOfWeek(DateTime.Now).AddDays(1);
             List<UIDay> uIDays = new List<UIDay>();
             for (int i = 0; i < 7; i++)
             {
@@ -294,6 +352,7 @@ namespace Terra.Core.Views
             if (PageContext != null && obj!=null)
             {
                 PageContext.deviceService.SetScheduler(JsonConvert.SerializeObject(scheduleList));
+                PageContext.GetDaysLeftCount();
             }
         }
         private int GetScheduleNewIndex()

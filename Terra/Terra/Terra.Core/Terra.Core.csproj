@@ -24,6 +24,7 @@
     <PackageReference Include="LiveSharp" Version="1.2.5" />
     <PackageReference Include="Unity" Version="5.11.7" />
     <PackageReference Include="EspTouchSmartConfigXamarin" Version="1.0.4" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.468" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="common\fa-solid-900.ttf" />

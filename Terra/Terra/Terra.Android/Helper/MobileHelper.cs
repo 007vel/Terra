@@ -68,5 +68,10 @@ namespace Terra.Droid.Helper
             return logFile;
 
         }
+        public void TerminateApp()
+        {
+            var activity = (Activity)Forms.Context;
+            activity.FinishAffinity();
+        }
     }
 }

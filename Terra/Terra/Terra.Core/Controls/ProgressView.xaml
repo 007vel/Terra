@@ -5,8 +5,8 @@
               xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnSpacing="3" RowSpacing="3" BackgroundColor="White" Margin="3,3,3,3">
         <Grid.RowDefinitions>
-            <RowDefinition Height="70*" />
-            <RowDefinition Height="30*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="20*" />
         </Grid.RowDefinitions>
 
         <skia:SKCanvasView x:Name="canvas" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
@@ -15,13 +15,13 @@
                             BackgroundColor="White" />
 
 
-        <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"   >
+        <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  IsVisible="False" >
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0,0,10,0">
               
             </StackLayout>
 
-           <StackLayout Orientation="Vertical" Spacing="0">
+           <StackLayout Orientation="Vertical" Spacing="0" >
                 <ScrollView >
                     <ListView x:Name="lstView" IsVisible="false" BackgroundColor="White" RowHeight="50" HasUnevenRows = "true" HeightRequest="400" IsPullToRefreshEnabled="false"
                       SeparatorVisibility="None">
