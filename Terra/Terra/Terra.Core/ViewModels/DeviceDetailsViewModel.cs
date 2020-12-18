@@ -112,7 +112,6 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("NextSprayCounter");
             }
         }
-
         public DeviceDetailsViewModel()
         {
             
@@ -123,16 +122,22 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public async Task OnInit()
         {
+            LoadData();
+        }
+
+        private async void LoadData()
+        {
             await SetTime();
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
-            GetBatteryCount();
-            GetInitilizeSprayCount();
-            GetRemSprayCount();
-            GetDaysLeftCount();
-            GetNextSprayCounterCount();
+            return;
+            await GetBatteryCount();
+            await GetInitilizeSprayCount();
+            await GetRemSprayCount();
+            await GetDaysLeftCount();
+            await GetNextSprayCounterCount();
         }
 
         /// <summary>
@@ -176,7 +181,7 @@ namespace Terra.Core.ViewModels
         /// <summary>
         /// GetBatteryCount Will return count from service
         /// </summary>
-        public async void GetBatteryCount()
+        public async Task<bool> GetBatteryCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
@@ -185,12 +190,13 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetBatteryCount get battery: " + deviceRes);
             Battery = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(Battery);
+            return false;
         }
 
         /// <summary>
         /// GetRemSprayCount Will return count from service
         /// </summary>
-        public async void GetRemSprayCount()
+        public async Task<bool> GetRemSprayCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
@@ -199,13 +205,14 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetRemSprayCount get spray: " + deviceRes);
             RemSpray = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(RemSpray);
-          //  CalculateRemainingDays();
+            //  CalculateRemainingDays();
+            return false;
         }
 
         /// <summary>
         /// GetInitilizeSprayCount(Input) Will return count from service
         /// </summary>
-        public async void GetInitilizeSprayCount()
+        public async Task<bool> GetInitilizeSprayCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "init";
@@ -214,11 +221,12 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetInitilizeSprayCount init spray: " + deviceRes);
             InitializeSpray = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(InitializeSpray);
+            return true;
         }
         /// <summary>
         /// GetDaysLeftCount Will return count from service
         /// </summary>
-        public async void GetDaysLeftCount()
+        public async Task<bool> GetDaysLeftCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
@@ -227,12 +235,13 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetDaysLeftCount get spray: " + deviceRes);
             DaysLeft = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(RemSpray);
-           // CalculateRemainingDays();
+            // CalculateRemainingDays();
+            return true;
         }
         /// <summary>
         /// GetNextSprayCounterCount Will return count from service
         /// </summary>
-        public async void GetNextSprayCounterCount()
+        public async Task<bool> GetNextSprayCounterCount()
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
@@ -242,6 +251,7 @@ namespace Terra.Core.ViewModels
             NextSprayCounter = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(RemSpray);
             // CalculateRemainingDays();
+            return false;
         }
 
 

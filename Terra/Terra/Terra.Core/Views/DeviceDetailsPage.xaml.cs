@@ -133,6 +133,8 @@ namespace Terra.Core.Views
             {
                 dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
             }
+            LoadingView.IsRunning = false;
+            LoadingView.IsVisible = false;
         }
         int expireTime = 0;
         bool isTimerStarted = false;
@@ -199,7 +201,12 @@ namespace Terra.Core.Views
         }
         private async void InitVm()
         {
-            PageContext.OnInit();
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000),()=>
+            {
+                PageContext.OnInit();
+                return false;
+            });
+           
         }
         
 

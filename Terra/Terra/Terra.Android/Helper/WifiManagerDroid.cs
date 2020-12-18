@@ -64,22 +64,14 @@ namespace FlyMe.Droid.Helper
            //  return true;
             string ssid = "";
             string pwd = "";
-            //if (_ssid.ToLower()=="terradev")
-            //{
-            //    ssid = _ssid;
-            //    pwd = _pwd;
-            //}
-            //else
-            //{
-            //    ssid = $"\"{_ssid}\"";
-            //    pwd = $"\"{_pwd}\"";
-            //}
             ssid = $"\"{_ssid}\"";
             pwd = $"\"{_pwd}\"";
             mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
+
             WifiConfiguration wifiConfig = new WifiConfiguration();
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
+            wifiConfig.StatusField = WifiStatus.Enabled;
 
             var list = wifiManager.ConfiguredNetworks;
             foreach(var config in list)
@@ -91,12 +83,13 @@ namespace FlyMe.Droid.Helper
             wifiManager.EnableNetwork(netId, true);
             wifiManager.SaveConfiguration();
             wifiManager.Reconnect();
-            await Task.Delay(3*1000);
+            await Task.Delay(2*1000);
             TimeSpan timeSpan = DateTime.Today.TimeOfDay;
            
             timeSpan = DateTime.Today.TimeOfDay;
             WifiInfo _network = null;
             // Check 1 minute for ConnectionInfo
+            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             while (true)
             {
                 mobileHelper.Log("2st while: "+wifiManager.ConnectionInfo?.SSID);

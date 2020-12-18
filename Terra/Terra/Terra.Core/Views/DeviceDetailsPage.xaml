@@ -13,8 +13,9 @@
         <ToolbarItem Text="Sleep" Command="{Binding SleepCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        
-          <Grid BackgroundColor="White" Margin="5,10,5,5">
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+          <Grid BackgroundColor="White" Margin="5,10,5,5" Grid.Column="0" Grid.Row="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="35*"/>
@@ -95,6 +96,11 @@
                       
                             </StackLayout>
             </Grid>
+                        <ActivityIndicator x:Name="LoadingView" Grid.Column="0" Grid.Row="0" Color="#EF4736" 
+                               VerticalOptions="Center" HorizontalOptions="Center"
+                               IsVisible="True" IsRunning="True">
 
+            </ActivityIndicator>
+            </Grid>
     </ContentPage.Content>
 </ContentPage>
