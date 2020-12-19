@@ -49,7 +49,8 @@ namespace Terra.Core.Controls
 
             // Drawing the Radial Gauge
             initiateProgressUpdate();
-
+            day.Text = DateTime.Now.ToString("ddd, HH:mm:ss");
+            date.Text = DateTime.Now.ToString("yyyy MMM-dd");
         }
 
         // Initializing the canvas & drawing over it

@@ -164,6 +164,9 @@ namespace ConnectionLibrary.Network
                         await client.CloseAsync(WebSocketCloseStatus.Empty, String.Empty, CancellationToken.None);
                     NetworkServiceUtil.Log("Socket StopWebSocketConnection" );
                 }
+            }catch(Exception e)
+            {
+                NetworkServiceUtil.Log("Exception: StopWebSocketConnection:"+e);
             }
             finally
             {

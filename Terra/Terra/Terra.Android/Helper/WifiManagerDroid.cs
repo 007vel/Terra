@@ -16,6 +16,7 @@ using Android.App;
 using Terra.Droid;
 using Android.Locations;
 using Entities.Common;
+using Android.Net;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WifiManagerDroid))]
 namespace FlyMe.Droid.Helper
@@ -29,6 +30,7 @@ namespace FlyMe.Droid.Helper
         WifiManager wifiManager;
         LocationManager LocationManager;
         MainActivity mainActivity;
+        bool isHotspotEnabled = false;
 
         public WifiManagerDroid()
         {
@@ -38,7 +40,6 @@ namespace FlyMe.Droid.Helper
             wifi = (WifiManager)context.GetSystemService(Context.WifiService);
             mainActivity = Forms.Context as MainActivity;
             
-           // DisableWifiHotSpot();
         }
 
         /// <summary>
@@ -139,16 +140,24 @@ namespace FlyMe.Droid.Helper
         {
             return wifi.SetWifiEnabled(false);
         }
-        private void TurnOnHotspot()
+        public void TurnOnHotspot()
         {
-            wifiManager.StartLocalOnlyHotspot(new WifiHotspotReservation(mainActivity), new Handler());
+            if(!isHotspotEnabled)
+            {
+                isHotspotEnabled = true;
+                wifiManager.StartLocalOnlyHotspot(new WifiHotspotReservation(mainActivity), new Handler());
+            }
         }
 
-        public void DisableWifiHotSpot()
+        public void TurnOffWifiHotSpot()
         {
-            if (mainActivity.mReservation != null)
+            if (isHotspotEnabled)
             {
-                mainActivity.mReservation.Close();
+                if (mainActivity.mReservation != null)
+                {
+                    mainActivity.mReservation.Close();
+                    isHotspotEnabled = false;
+                }
             }
         }
         public void OpenSetting(MobileSetting mobileSetting)
@@ -178,6 +187,44 @@ namespace FlyMe.Droid.Helper
             }
         }
 
+        public bool IsHotSpotEnabled()
+        {
+            var method = wifiManager.Class.GetDeclaredMethod("getWifiApState");
+            method.Accessible=true;
+            int actualState = (int)method.Invoke(wifiManager,null);
+            return actualState == 13 || actualState == 12;
+        }
+
+
+        /// <summary>
+        /// Forces the wifi over cellular
+        /// </summary>
+        public void ForceWifiOverCellular()
+        {
+            //ForceCellularOverWifi();
+            //return;
+            ConnectivityManager connection_manager = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
+
+            NetworkRequest.Builder request = new NetworkRequest.Builder();
+            request.AddTransportType(TransportType.Wifi);
+
+            var callback = new ConnectivityManager.NetworkCallback();
+            connection_manager.RegisterNetworkCallback(request.Build(), new CustomNetworkAvailableCallBack());
+        }
+
+        /// <summary>
+        /// Forces the cellular over wifi.
+        /// </summary>
+        public void ForceCellularOverWifi()
+        {
+            ConnectivityManager connection_manager = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
+
+            NetworkRequest.Builder request = new NetworkRequest.Builder();
+            request.AddTransportType(TransportType.Cellular);
+
+            connection_manager.RegisterNetworkCallback(request.Build(), new CustomNetworkAvailableCallBack());
+        }
+
         class WifiNetworkReceiver : BroadcastReceiver
         {
             public List<Wifi> WiFiNetworks;
@@ -205,6 +252,25 @@ namespace FlyMe.Droid.Helper
                 {
                     instance.OnReceiveAvailableNetworks(WiFiNetworks);
                 }
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// Custom network available call back.
+        /// </summary>
+        public class CustomNetworkAvailableCallBack : ConnectivityManager.NetworkCallback
+        {
+            public static Context _context = Android.App.Application.Context;
+
+            ConnectivityManager connection_manager = (ConnectivityManager)_context.GetSystemService(Context.ConnectivityService);
+
+            public override void OnAvailable(Network network)
+            {
+                //ConnectivityManager.SetProcessDefaultNetwork(network);    //deprecated (but works even in Android P)
+                connection_manager.BindProcessToNetwork(network);           //this works in Android P
             }
         }
     }

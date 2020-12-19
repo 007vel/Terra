@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Terra.Core.Controls.ProgressView"
               xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
-    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnSpacing="3" RowSpacing="3" BackgroundColor="White" Margin="3,3,3,3">
+    <Grid VerticalOptions="Fill" HorizontalOptions="FillAndExpand" ColumnSpacing="3" RowSpacing="3" BackgroundColor="White" Margin="3,3,3,3">
         <Grid.RowDefinitions>
             <RowDefinition Height="80*" />
             <RowDefinition Height="20*" />
@@ -13,7 +13,7 @@
                             PaintSurface="OnCanvasViewPaintSurfaceAsync" 
                             Grid.Row="0" 
                             BackgroundColor="White" />
-
+        
 
         <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  IsVisible="False" >
 
@@ -40,11 +40,14 @@
                 </ScrollView>
             </StackLayout> 
 
-
             <Slider x:Name="sweepAngleSlider"
                    ValueChanged="sliderValueChanged"
                    Minimum="0" Maximum="260"
                    IsVisible="false"/>
         </StackLayout>
     </Grid>
+    <StackLayout VerticalOptions="End">
+            <Label x:Name="day"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-5" HorizontalTextAlignment="End"/>
+            <Label x:Name="date"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-1" HorizontalTextAlignment="Start"/>
+        </StackLayout>
 </Grid>

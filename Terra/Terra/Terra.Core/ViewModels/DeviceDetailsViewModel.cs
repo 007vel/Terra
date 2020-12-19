@@ -24,11 +24,13 @@ namespace Terra.Core.ViewModels
         public event ActionResult Result;
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
-        //public IDevice deviceService = new MockDeviceService();
+      //  public IDevice deviceService = new MockDeviceService();
         public IDevice deviceService = new DeviceService();
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
         public ICommand SleepCommand => new Command(SetSleepClicked);
+
+        int sleeptime = 750;
 
         private List<Scheduler> schedulers;
         public List<Scheduler> Schedulers
@@ -128,15 +130,22 @@ namespace Terra.Core.ViewModels
         private async void LoadData()
         {
             await SetTime();
+            Thread.Sleep(sleeptime);
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
             return;
+            Thread.Sleep(1100);
+
             await GetBatteryCount();
+            Thread.Sleep(sleeptime);
             await GetInitilizeSprayCount();
+            Thread.Sleep(sleeptime);
             await GetRemSprayCount();
+            Thread.Sleep(sleeptime);
             await GetDaysLeftCount();
+            Thread.Sleep(sleeptime);
             await GetNextSprayCounterCount();
         }
 
@@ -223,6 +232,7 @@ namespace Terra.Core.ViewModels
             DeviceInfoReceived?.Invoke(InitializeSpray);
             return true;
         }
+        bool trap = false;
         /// <summary>
         /// GetDaysLeftCount Will return count from service
         /// </summary>
@@ -233,7 +243,8 @@ namespace Terra.Core.ViewModels
             deviceInfoRequest.info = "days_left";
             var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetDaysLeftCount get spray: " + deviceRes);
-            DaysLeft = DeserializDeviceInfo(deviceRes);
+            var _DaysLeft = DeserializDeviceInfo(deviceRes);
+            DaysLeft = _DaysLeft;
             DeviceInfoReceived?.Invoke(RemSpray);
             // CalculateRemainingDays();
             return true;

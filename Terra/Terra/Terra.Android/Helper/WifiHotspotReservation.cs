@@ -32,6 +32,7 @@ namespace Terra.Droid.Helper
             base.OnStarted(reservation);
             Log.Debug(TAG, "Wifi Hotspot is on now");
             mainActivity.mReservation = reservation;
+            var tt = reservation.WifiConfiguration;
         }
 
         public override void OnFailed([GeneratedEnum] LocalOnlyHotspotCallbackErrorCode reason)

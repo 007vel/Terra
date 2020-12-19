@@ -15,7 +15,13 @@ namespace ConnectionLibrary.Interface
 
         bool DisableWifi();
 
-        void DisableWifiHotSpot();
+        void TurnOffWifiHotSpot();
+
+        void TurnOnHotspot();
+
+        bool IsHotSpotEnabled();
+
+        void ForceWifiOverCellular();
 
         void OpenSetting(MobileSetting mobileSetting);
 

@@ -16,6 +16,7 @@ using EspTouchMultiPlatformLIbrary;
 using Terra.Core.common;
 using Terra.Core.Views.PopUpPages;
 using Rg.Plugins.Popup.Extensions;
+using ConnectionLibrary.Interface;
 
 namespace Terra.Core.ViewModels
 {
@@ -53,7 +54,7 @@ namespace Terra.Core.ViewModels
                 }
                 if (popupres)
                 {
-                    wifiAdapter.FormWifiManager.DisableWifiHotSpot();
+                    wifiAdapter.FormWifiManager.TurnOffWifiHotSpot();
                     wifiAdapter.FormWifiManager.EnableWifi();
                 }
                 //Wifi ssid should be in lower case
@@ -219,8 +220,6 @@ namespace Terra.Core.ViewModels
                         }
                     }
                     await ConnectNetwork(wifi.ssid, pwd);
-                  //  var loadingPage = new DialogPopupPage(this);
-                  //  await PageNavigation.PushPopupAsync(loadingPage);
                 }
             }
             else
@@ -229,9 +228,6 @@ namespace Terra.Core.ViewModels
             }
 
             LastSelectedItem = SelectedItem;
-            //#ef5145 orange
-            //#989da0 gray
-            //#373535 4,4
         }
 
         private async Task<bool> ConnectNetwork(string ssid, string pwd)
@@ -241,9 +237,11 @@ namespace Terra.Core.ViewModels
             {
                 if (await wifiAdapter.ConnectToWifi(ssid, pwd))
                 {
+                    DependencyService.Get<IPlatformWifiManager>().ForceWifiOverCellular();
                     NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice success: " + DeviceName + "    " + pwd);
                     DeviceConnectStatus = "Connected";
                     SelectedWifi.isSelected = true;
+                    //await Task.Delay(1000);
                     var profiles = Connectivity.ConnectionProfiles;
                     if (profiles.Contains(ConnectionProfile.WiFi))
                     {

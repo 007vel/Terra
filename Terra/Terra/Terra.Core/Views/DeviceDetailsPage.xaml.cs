@@ -6,6 +6,7 @@ using Plugin.CrossPlatformTintedImage.Abstractions;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Timers;
 using Terra.Core.Controls;
@@ -128,6 +129,8 @@ namespace Terra.Core.Views
             initSpray.CardDesc = PageContext?.InitializeSpray?.value!=null? PageContext?.InitializeSpray?.value: "3200";
             remainSpray.CardDesc = PageContext?.RemSpray?.value;
             batteryView.Chartvalue = Convert.ToInt32( PageContext?.Battery?.value);
+            //_timerLabel.IsVisible = true;
+            //_timerLabel.Text= DateTime.Now.ToString(CultureInfo.CurrentCulture);
             InitTimer(Convert.ToInt32(PageContext?.NextSprayCounter?.value));
             if (!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
             {
@@ -150,6 +153,7 @@ namespace Terra.Core.Views
         }
         private void SetTimer()
         {
+            TimerLayout.IsVisible = true;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += OnTimedEvent;
             timer.AutoReset = true;
@@ -167,18 +171,19 @@ namespace Terra.Core.Views
                     {
                         DateTime dateTime = DateTime.Now;
                         TimeSpan _TimeSpan = TimeSpan.FromSeconds(expireTime - timerBegin);
+                        TimerValue.Text = (expireTime - timerBegin).ToString();
                         string seconds = "00";
                         if (_TimeSpan.Seconds < 10) {
                             seconds = Terra.Core.Utils.Utils.pad_an_int(_TimeSpan.Seconds, 2);
                         } else {
                             seconds = _TimeSpan.Seconds.ToString();
                         }
-                        Console.WriteLine(timerBegin + " ======================>> " + seconds.ToString());
-                        var sec = string.Format("{0:00}:{1:00}:{2:00}", _TimeSpan.Days + " ", " "+_TimeSpan.Hours+" ", " " + _TimeSpan.Minutes + " ")+ ": " + seconds;
-                        dayLabel.Text = string.Format("{0:00}", _TimeSpan.Days);
-                        HHLabel.Text = string.Format("{0:00}", _TimeSpan.Hours);
-                        MMLabel.Text = string.Format("{0:00}", _TimeSpan.Minutes);
-                        SSLabel.Text =  seconds;
+                       // Console.WriteLine(timerBegin + " ======================>> " + seconds.ToString());
+                        //var sec = string.Format("{0:00}:{1:00}:{2:00}", _TimeSpan.Days + " ", " "+_TimeSpan.Hours+" ", " " + _TimeSpan.Minutes + " ")+ ": " + seconds;
+                        //dayLabel.Text = string.Format("{0:00}", _TimeSpan.Days);
+                        //HHLabel.Text = string.Format("{0:00}", _TimeSpan.Hours);
+                        //MMLabel.Text = string.Format("{0:00}", _TimeSpan.Minutes);
+                        //SSLabel.Text =  seconds;
                        // _timer.Text = sec;
 
                         timerBegin = timerBegin + 1;
@@ -201,7 +206,7 @@ namespace Terra.Core.Views
         }
         private async void InitVm()
         {
-            Device.StartTimer(TimeSpan.FromMilliseconds(1000),()=>
+            Device.StartTimer(TimeSpan.FromMilliseconds(2000),()=>
             {
                 PageContext.OnInit();
                 return false;
@@ -295,7 +300,7 @@ namespace Terra.Core.Views
             Schedule_UI.indexText = (index).ToString();
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
-            Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
+            Schedule_UI.DefaultUI = UIEnum.Schedul_ExpandView;
 
             ScheduleView.Children.Insert(index-1, Schedule_UI);
             if (GetScheduleNewIndex() == 7)
