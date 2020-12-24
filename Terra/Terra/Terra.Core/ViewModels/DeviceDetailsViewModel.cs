@@ -135,7 +135,7 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
-            return;
+          //  return;
             Thread.Sleep(1100);
 
             await GetBatteryCount();

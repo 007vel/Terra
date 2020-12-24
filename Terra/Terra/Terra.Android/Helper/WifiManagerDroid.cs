@@ -73,7 +73,6 @@ namespace FlyMe.Droid.Helper
             wifiConfig.Ssid = ssid;
             wifiConfig.PreSharedKey = pwd;
             wifiConfig.StatusField = WifiStatus.Enabled;
-
             var list = wifiManager.ConfiguredNetworks;
             foreach(var config in list)
             {
@@ -82,8 +81,7 @@ namespace FlyMe.Droid.Helper
             int netId = wifiManager.AddNetwork(wifiConfig);
             wifiManager.Disconnect();
             wifiManager.EnableNetwork(netId, true);
-            wifiManager.SaveConfiguration();
-            wifiManager.Reconnect();
+           // wifiManager.Reconnect();
             await Task.Delay(2*1000);
             TimeSpan timeSpan = DateTime.Today.TimeOfDay;
            

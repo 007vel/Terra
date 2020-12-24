@@ -300,7 +300,7 @@ namespace Terra.Core.Views
             Schedule_UI.indexText = (index).ToString();
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
-            Schedule_UI.DefaultUI = UIEnum.Schedul_ExpandView;
+            Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
 
             ScheduleView.Children.Insert(index-1, Schedule_UI);
             if (GetScheduleNewIndex() == 7)
