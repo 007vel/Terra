@@ -174,6 +174,26 @@ namespace ConnectionLibrary.Network
             return true;
         }
 
+        public async Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
+        {
+            try
+            {
+                if (scheduleIndex != null)
+                {
+                    string jsonIgnoreNullValues = JsonConvert.SerializeObject(scheduleIndex, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                    var info = await SetWsData(UrlConfig.GetFullURL(Endpoint.deleteschedule, Endpoint_Method.POST), jsonIgnoreNullValues);
+                    return info;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return true;
+        }
     }
 }
 

@@ -8,6 +8,11 @@ namespace ConnectionLibrary.Network.Mock
 {
     public class MockDeviceService: IDevice
     {
+        public Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
+        {
+           throw new NotImplementedException();
+        }
+
         public async Task<string> GetDeviceInfo(DeviceInfoRequest deviceInfoRequest)
         {
           //  return null;

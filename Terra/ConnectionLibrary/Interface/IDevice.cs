@@ -14,5 +14,6 @@ namespace ConnectionLibrary.Interface
         Task<bool> SetDeviceInfo(DeviceInfoRequest deviceInfoRequest);
         Task<bool> SetDeviceConfig(Config config);
         Task<bool> SetDeviceDemo(DemoInfo config);
+        Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex);
     }
 }

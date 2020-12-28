@@ -21,7 +21,8 @@ Device.SetFlags(new[] {
     "AppTheme_Experimental",
     "Markup_Experimental",
     "Expander_Experimental",
-    "Shapes_Experimental"
+    "Shapes_Experimental",
+    "SwipeView_Experimental"
 } );
           //  global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
             InitializeComponent();

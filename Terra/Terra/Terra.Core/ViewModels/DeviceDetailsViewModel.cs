@@ -24,7 +24,7 @@ namespace Terra.Core.ViewModels
         public event ActionResult Result;
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
-      //  public IDevice deviceService = new MockDeviceService();
+       // public IDevice deviceService = new MockDeviceService();
         public IDevice deviceService = new DeviceService();
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
@@ -360,6 +360,15 @@ namespace Terra.Core.ViewModels
             }
             return null;
         }
+
+        public async Task<bool> DeleteScheduleItem(string index)
+        {
+            ScheduleIndex scheduleIndex = new ScheduleIndex();
+            scheduleIndex.deleteindex = index;
+            var deviceRes = await deviceService.DeleteScheduleIndex(scheduleIndex);
+            return deviceRes;
+        }
+
         
     }
 }

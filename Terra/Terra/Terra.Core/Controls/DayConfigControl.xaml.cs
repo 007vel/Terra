@@ -22,7 +22,10 @@ namespace Terra.Core.Controls
         public delegate void ScheduleResult(object arg, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval);
         public event ScheduleResult ScheduleReceived;
 
-        
+        public delegate void DeleteSchedule(string id);
+        public event DeleteSchedule DeleteDelegate;
+
+
 
         bool isEditMode;
         public DayConfigControl(List<UIDay> _uIDays, Entities.Scheduler scheduler=null)
@@ -115,6 +118,19 @@ namespace Terra.Core.Controls
             {
                 selectedIntervsl = value;
                 intervalLabel.CardDesc = value;
+                OnPropertyChanged();
+            }
+        }
+        string id;
+        public string ID
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
                 OnPropertyChanged();
             }
         }
@@ -239,7 +255,7 @@ namespace Terra.Core.Controls
                 else
                 {
                     ViewInvisible(expandView,0);
-                    ViewVisible(schduleView,35);
+                    ViewVisible(schduleView,40);
                 }
                 OnPropertyChanged();
             }
@@ -330,7 +346,7 @@ namespace Terra.Core.Controls
             else
             {
                 AnimationHelper.Instance.AnimationInvisible(expandView, expandView.HeightRequest);
-                AnimationHelper.Instance.AnimationVisible(schduleView, 35);
+                AnimationHelper.Instance.AnimationVisible(schduleView, 40);
                 ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl);
                 SetInterval();
             }
@@ -404,6 +420,20 @@ namespace Terra.Core.Controls
                 System.Diagnostics.Debug.WriteLine(e);
             }
         }
+        private void SetId(Scheduler scheduler)
+        {
+            try
+            {
+                if (scheduler != null)
+                {
+                    ID = scheduler.index;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+        }
         private void SetDaysValue(Scheduler scheduler)
         {
             try
@@ -420,6 +450,11 @@ namespace Terra.Core.Controls
             {
                 System.Diagnostics.Debug.WriteLine(e);
             }
+        }
+
+        void SwipeItem_Invoked(System.Object sender, System.EventArgs e)
+        {
+            DeleteDelegate.Invoke(this.indexText);
         }
     }
 }

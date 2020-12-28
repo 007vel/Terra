@@ -6,8 +6,17 @@
                   xmlns:time="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core"
              Orientation="Vertical" HorizontalOptions="FillAndExpand"
              Margin="10,10,15,10">
-    <!--Edit layout-->
-    <StackLayout x:Name="schduleView" HorizontalOptions="FillAndExpand" Spacing="0" HeightRequest="35">
+    <!--Edit layout -->
+  
+    <StackLayout x:Name="schduleView" HorizontalOptions="FillAndExpand" Spacing="0" HeightRequest="40">
+          <SwipeView BackgroundColor="Transparent" >
+        <SwipeView.RightItems >
+        <SwipeItems  >
+            
+            <SwipeItem BackgroundColor="Transparent" IconImageSource="baseline_delete_forever_black_24"
+                        Text="Delete"  Invoked="SwipeItem_Invoked"/>
+        </SwipeItems>
+    </SwipeView.RightItems>
         <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
@@ -55,7 +64,9 @@
                 <TapGestureRecognizer Tapped="Edit_Tapped" />
             </Grid.GestureRecognizers>
         </Grid>
+         </SwipeView>
     </StackLayout>
+       
     
     <!--ExpandLayout-->
     <expand:ScheduleExpandCell x:Name="expandView" BackgroundColor="Transparent" HeightRequest="0" Orientation="Horizontal" Spacing="0">

@@ -39,7 +39,7 @@ namespace Terra.Core.ViewModels
         {
             wifiAdapter = WifiAdapter.Instance;
            
-            var locationPermission= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
+            var locationPermission= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
             if(locationPermission==PermissionStatus.Granted)
             {
                 if(!wifiAdapter.IsGpsEnabled())
@@ -68,6 +68,7 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("AndroidWifi", "9943157172");
                 wifiPwdList.Add("karthi", "9943157172");
                 wifiPwdList.Add("sathya", "9943157172");
+                wifiPwdList.Add("Sakthivel’s MacBook Pro", "9943157172");
                 IsWifiLoading = true;
                 MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
                 {
@@ -98,10 +99,12 @@ namespace Terra.Core.ViewModels
                 }
             }
         }
+
         public INavigation PageNavigation
         {
             get; set;
         }
+
         ObservableCollection<Wifi> networkList;
         public ObservableCollection<Wifi> NetworkList
         {
@@ -129,8 +132,9 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("SelectedItem");
             }
         }
+
         bool isWifiLoading;
-         public bool IsWifiLoading
+        public bool IsWifiLoading
         {
             get
             {
@@ -170,7 +174,7 @@ namespace Terra.Core.ViewModels
             }
         }
 
-        string deviceConnectStatus = "";
+        string deviceConnectStatus = "   ";
         public string DeviceConnectStatus
         {
             get
@@ -183,10 +187,12 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("DeviceConnectStatus");
             }
         }
+
         void OnScanWifiClick()
         {
             wifiAdapter.OnRequestAvailableNetworks();
         }
+
         private async void OnSelectionChanged(object obj)
         {
             if (obj != null)
@@ -196,11 +202,7 @@ namespace Terra.Core.ViewModels
                 SelectedItem = wifi;
                 if (wifi != null)
                 {
-                    //return if last selected item is same current selection, for color higlight
-                    if (LastSelectedItem != null && LastSelectedItem.ipAdrs == wifi.ipAdrs)
-                    {
-                        //return;
-                    }
+                    DeviceConnectStatus = "Connecting...";
                     SelectedItem.LabelTextColor = Color.FromHex("#EF4736");
                     SelectedItem.Image = "terra_spray_orange_device_03";
                     if (LastSelectedItem != null)
@@ -209,7 +211,7 @@ namespace Terra.Core.ViewModels
                         LastSelectedItem.Image = "terra_spray_device_03";
                     }
                     DeviceName = wifi.name;
-                    DeviceConnectStatus = "Connecting...";
+                    
                     string pwd = string.Empty;
                     foreach(var item in wifiPwdList)
                     {
@@ -233,47 +235,46 @@ namespace Terra.Core.ViewModels
         private async Task<bool> ConnectNetwork(string ssid, string pwd)
         {
             NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice : " + DeviceName + "    " + pwd);
+            bool wifiConnected = false;
             if (!string.IsNullOrEmpty(DeviceName) && !string.IsNullOrEmpty(pwd))
             {
-                if (await wifiAdapter.ConnectToWifi(ssid, pwd))
+                var Fssid = $"\"{ssid}\"";
+                if (DependencyService.Get<IPlatformWifiManager>().GetSsId() == Fssid)
                 {
-                    DependencyService.Get<IPlatformWifiManager>().ForceWifiOverCellular();
-                    NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice success: " + DeviceName + "    " + pwd);
-                    DeviceConnectStatus = "Connected";
-                    SelectedWifi.isSelected = true;
-                    //await Task.Delay(1000);
-                    var profiles = Connectivity.ConnectionProfiles;
-                    if (profiles.Contains(ConnectionProfile.WiFi))
+                    wifiConnected = true;
+                }
+
+                if(!wifiConnected)
+                {
+                    if (await wifiAdapter.ConnectToWifi(ssid, pwd))
                     {
+                        wifiConnected = true;
+                        DependencyService.Get<IPlatformWifiManager>().ForceWifiOverCellular();
+                        NetworkServiceUtil.Log("DeviceDetailsViewModel ConfigDevice success: " + DeviceName + "    " + pwd);
                         
+                        SelectedWifi.isSelected = true;
                     }
                     else
                     {
-                       // var m_data = await App.Current.MainPage.DisplayAlert(title: "Disable Mobile data", message: "The app wants to turn off your mobile data", "Go to settings", "");
-                        //if(m_data)
-                        {
-                           // wifiAdapter.FormWifiManager.OpenSetting(Entities.Common.MobileSetting.Location);
-                        }
-                        return true;
+                        DeviceConnectStatus = "Failed to Connect";
+                        SelectedWifi.isSelected = false;
                     }
-                    await Shell.Current.GoToAsync("DeviceDetailsPage");
                 }
-                else
-                {
-                    DeviceConnectStatus = "Failed to Connect";
-                    SelectedWifi.isSelected = false;
-                }
+                
             }
             else
             {
                 DeviceConnectStatus = "Incorrect Password";
                 SelectedWifi.isSelected = false;
             }
+
+            if(wifiConnected)
+            {
+                DeviceConnectStatus = "Connected";
+                await Shell.Current.GoToAsync("DeviceDetailsPage");
+            }
             return true;
         }
-
-
-
 
         ISmartConfigTask smartconfig;
         public async Task<bool> ConfigDevice(String Ssid, String bssid, String Passphrase)

@@ -17,6 +17,8 @@ using Terra.Droid;
 using Android.Locations;
 using Entities.Common;
 using Android.Net;
+using System.Threading;
+using Android.Net.Wifi;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WifiManagerDroid))]
 namespace FlyMe.Droid.Helper
@@ -25,7 +27,6 @@ namespace FlyMe.Droid.Helper
     {
         MobileHelper mobileHelper = new MobileHelper();
         private Context context = null;
-        private static WifiManager wifi;
         private WifiNetworkReceiver wifiReceiver;
         WifiManager wifiManager;
         LocationManager LocationManager;
@@ -37,9 +38,8 @@ namespace FlyMe.Droid.Helper
             this.context = Android.App.Application.Context;
             wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             LocationManager= (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
-            wifi = (WifiManager)context.GetSystemService(Context.WifiService);
             mainActivity = Forms.Context as MainActivity;
-            
+            wifiReceiver = new WifiNetworkReceiver(wifiManager);
         }
 
         /// <summary>
@@ -48,11 +48,12 @@ namespace FlyMe.Droid.Helper
 		/// </summary>
         public void RequestWifiNetworks()
         {
-          //  wifi.setWifiEnabled(true);
-            wifiReceiver = new WifiNetworkReceiver();
+            
             context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.ScanResultsAvailableAction));
-            wifi.StartScan();
+            context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.NetworkStateChangedAction));
+            wifiManager.StartScan();
         }
+
         /// <summary>
         /// Connect to wifi using ssid and password
         /// </summary>
@@ -61,44 +62,55 @@ namespace FlyMe.Droid.Helper
         /// <returns></returns>
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
-            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
-           //  return true;
+            Connect1(_ssid, _pwd);
+            //   wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
+            //  return true;
             string ssid = "";
             string pwd = "";
             ssid = $"\"{_ssid}\"";
             pwd = $"\"{_pwd}\"";
-            mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
+            //mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
 
-            WifiConfiguration wifiConfig = new WifiConfiguration();
-            wifiConfig.Ssid = ssid;
-            wifiConfig.PreSharedKey = pwd;
-            wifiConfig.StatusField = WifiStatus.Enabled;
-            var list = wifiManager.ConfiguredNetworks;
-            foreach(var config in list)
-            {
-                wifiManager.RemoveNetwork(config.NetworkId);
-            }
-            int netId = wifiManager.AddNetwork(wifiConfig);
-            wifiManager.Disconnect();
-            wifiManager.EnableNetwork(netId, true);
-           // wifiManager.Reconnect();
-            await Task.Delay(2*1000);
-            TimeSpan timeSpan = DateTime.Today.TimeOfDay;
-           
-            timeSpan = DateTime.Today.TimeOfDay;
+
+            //var list = wifiManager.ConfiguredNetworks;
+            //foreach(var config in list)
+            //{
+            //    wifiManager.RemoveNetwork(config.NetworkId);
+            //}
+
+            //var currentConnection = wifiManager.ConnectionInfo;
+            //if(currentConnection!=null)
+            //{
+            //    wifiManager.DisableNetwork(currentConnection.NetworkId);
+            //}
+
+            //WifiConfiguration wifiConfig = new WifiConfiguration();
+            //wifiConfig.Ssid = ssid;
+            //wifiConfig.PreSharedKey = pwd;
+            //wifiConfig.StatusField = WifiStatus.Enabled;
+            //wifiConfig.AllowedKeyManagement.Set((int)Android.Net.Wifi.KeyManagementType.None);
+            //wifiConfig.AllowedGroupCiphers.Set((int)Android.Net.Wifi.GroupCipherType.Wep40);
+            //int netId = wifiManager.AddNetwork(wifiConfig);
+            //wifiManager.EnableNetwork(netId, true);
+            //wifiManager.DisableNetwork(wifiManager.ConnectionInfo.NetworkId);
+            //wifiManager.EnableNetwork(wifiManager.ConnectionInfo.NetworkId, true);
+
+            DateTime timeSpan = DateTime.Now;
             WifiInfo _network = null;
-            // Check 1 minute for ConnectionInfo
-            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
+
             while (true)
             {
-                mobileHelper.Log("2st while: "+wifiManager.ConnectionInfo?.SSID);
+                string msg = wifiManager.ConnectionInfo?.SSID;
+                mobileHelper.Log("2st while: "+ msg);
+                System.Diagnostics.Debug.WriteLine(msg);
                 _network = wifiManager.ConnectionInfo;
-
-                if(_network.SSID == ssid)
+                Thread.Sleep(1000);
+                
+                if (_network.SupplicantState == SupplicantState.Completed && _network.SSID == ssid)
                 {
                     break;
                 }
-                else if(DateTime.Today.TimeOfDay.Subtract(timeSpan).TotalSeconds < 60)
+                else if(DateTime.Now.Subtract(timeSpan).TotalSeconds < 30)
                 {
                     continue;
                 }
@@ -107,6 +119,7 @@ namespace FlyMe.Droid.Helper
                     _network = null;
                     break;
                 }
+                
             }
             await Task.Delay(2 * 1000);
             if (_network==null)    
@@ -119,10 +132,53 @@ namespace FlyMe.Droid.Helper
             return true;
         }
 
+        ////////////////////////////////////////////
+        ConnectivityManager _wifiManager = Android.App.Application.Context.GetSystemService(Context.ConnectivityService) as ConnectivityManager;
+        NetworkCallback _networkCallback = null;
+        public async void Connect1(string _ssid, string _pwd)
+        {
+            string ssid = "";
+            string pwd = "";
+            ssid = $"\"{_ssid}\"";
+            pwd = $"\"{_pwd}\"";
+            var specifier = new WifiNetworkSpecifier.Builder()
+                           .SetSsid(_ssid)
+                           .SetWpa2Passphrase(_pwd)
+                           .Build();
+
+            var request = new NetworkRequest.Builder()
+                .AddTransportType(TransportType.Wifi) // we want WiFi
+                .RemoveCapability(NetCapability.Internet) // Internet not required
+                .SetNetworkSpecifier(specifier) // we want _our_ network
+                .Build();
+
+            NetworkCallback _callback = new NetworkCallback(_wifiManager);
+            _wifiManager.RequestNetwork(request, _callback);
+
+        }
+
+        public void DisconnectWifi()
+        {
+            if (_networkCallback is null || _wifiManager is null)
+                return;
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
+            {
+                _wifiManager.UnregisterNetworkCallback(_networkCallback);
+            }
+
+
+        }
+        //////////////////////////////////////////
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsWifiEnabled()
         {
-            return wifi.IsWifiEnabled;
+            return wifiManager.IsWifiEnabled;
         }
+
         public bool IsGpsEnable()
         {
             LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
@@ -131,13 +187,14 @@ namespace FlyMe.Droid.Helper
       
         public bool EnableWifi()
         {
-           return wifi.SetWifiEnabled(true);
+           return wifiManager.SetWifiEnabled(true);
         }
 
         public bool DisableWifi()
         {
-            return wifi.SetWifiEnabled(false);
+            return wifiManager.SetWifiEnabled(false);
         }
+
         public void TurnOnHotspot()
         {
             if(!isHotspotEnabled)
@@ -158,6 +215,7 @@ namespace FlyMe.Droid.Helper
                 }
             }
         }
+
         public void OpenSetting(MobileSetting mobileSetting)
         {
             if(mobileSetting== MobileSetting.Location)
@@ -174,7 +232,6 @@ namespace FlyMe.Droid.Helper
 
         public string GetBssId()
         {
-            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             if (wifiManager != null)
             {
                 return  wifiManager.ConnectionInfo.BSSID;
@@ -223,9 +280,26 @@ namespace FlyMe.Droid.Helper
             connection_manager.RegisterNetworkCallback(request.Build(), new CustomNetworkAvailableCallBack());
         }
 
+        public string GetSsId()
+        {
+            if (wifiManager != null)
+            {
+                return wifiManager.ConnectionInfo.SSID;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         class WifiNetworkReceiver : BroadcastReceiver
         {
             public List<Wifi> WiFiNetworks;
+            WifiManager RcvWifiManager;
+            public WifiNetworkReceiver(WifiManager wifiManager)
+            {
+                RcvWifiManager = wifiManager;
+            }
 
             /// <summary>
             /// Once the scan is completed, the OnReceive method will receive available WiFiNetworks
@@ -235,7 +309,7 @@ namespace FlyMe.Droid.Helper
             public override void OnReceive(Context context, Intent intent)
             {
                 WiFiNetworks = new List<Wifi>();
-                IList<ScanResult> scanwifinetworks = wifi.ScanResults;
+                IList<ScanResult> scanwifinetworks = RcvWifiManager.ScanResults;
                 foreach (ScanResult wifinetwork in scanwifinetworks)
                 {
                     Wifi wifi = new Wifi();
@@ -251,6 +325,7 @@ namespace FlyMe.Droid.Helper
                     instance.OnReceiveAvailableNetworks(WiFiNetworks);
                 }
             }
+            
         }
 
 
@@ -269,6 +344,35 @@ namespace FlyMe.Droid.Helper
             {
                 //ConnectivityManager.SetProcessDefaultNetwork(network);    //deprecated (but works even in Android P)
                 connection_manager.BindProcessToNetwork(network);           //this works in Android P
+            }
+        }
+
+
+        private class NetworkCallback : ConnectivityManager.NetworkCallback
+        {
+            private ConnectivityManager _conn;
+            public Action<Network> NetworkAvailable { get; set; }
+            public Action NetworkUnavailable { get; set; }
+
+            public NetworkCallback(ConnectivityManager connectivityManager)
+            {
+                _conn = connectivityManager;
+            }
+
+            public override void OnAvailable(Network network)
+            {
+                base.OnAvailable(network);
+                // Need this to bind to network otherwise it is connected to wifi 
+                // but traffic is not routed to the wifi specified
+                _conn.BindProcessToNetwork(network);
+                NetworkAvailable?.Invoke(network);
+            }
+
+            public override void OnUnavailable()
+            {
+                base.OnUnavailable();
+
+                NetworkUnavailable?.Invoke();
             }
         }
     }

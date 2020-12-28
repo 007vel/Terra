@@ -26,6 +26,9 @@ namespace ConnectionLibrary.Interface
         void OpenSetting(MobileSetting mobileSetting);
 
         string GetBssId();
+
+        string GetSsId();
+
         bool IsGpsEnable();
 
     }

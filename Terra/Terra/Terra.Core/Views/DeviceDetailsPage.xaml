@@ -55,7 +55,7 @@
                                 <card:ProgressView x:Name="batteryView" Grid.Column="0" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" >
                                 </card:ProgressView>
                                 <StackLayout x:Name="TimerLayout" Grid.Column="0" Grid.Row="0"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="false">
-                                    <Label Text="On" FontSize="Micro" FontAttributes="Bold"></Label>
+                                    <Label Text="" FontSize="Micro" FontAttributes="Bold"></Label>
                                     <StackLayout Orientation="Horizontal">
                                         <Label x:Name="TimerValue" TextColor="#EF4736" FontSize="Large" VerticalOptions="End"  ></Label>
                                         <Label Text="Sec" FontSize="Micro" VerticalOptions="Center" VerticalTextAlignment="Center"  ></Label>

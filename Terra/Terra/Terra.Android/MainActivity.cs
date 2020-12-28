@@ -7,7 +7,6 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Graphics;
-using Android.Support.V4.View;
 using FlyMe.Droid;
 using Xamarin.Forms;
 using Plugin.CrossPlatformTintedImage.Android;

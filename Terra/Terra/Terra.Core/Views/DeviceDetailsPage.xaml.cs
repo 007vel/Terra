@@ -178,14 +178,6 @@ namespace Terra.Core.Views
                         } else {
                             seconds = _TimeSpan.Seconds.ToString();
                         }
-                       // Console.WriteLine(timerBegin + " ======================>> " + seconds.ToString());
-                        //var sec = string.Format("{0:00}:{1:00}:{2:00}", _TimeSpan.Days + " ", " "+_TimeSpan.Hours+" ", " " + _TimeSpan.Minutes + " ")+ ": " + seconds;
-                        //dayLabel.Text = string.Format("{0:00}", _TimeSpan.Days);
-                        //HHLabel.Text = string.Format("{0:00}", _TimeSpan.Hours);
-                        //MMLabel.Text = string.Format("{0:00}", _TimeSpan.Minutes);
-                        //SSLabel.Text =  seconds;
-                       // _timer.Text = sec;
-
                         timerBegin = timerBegin + 1;
                         
                     }else
@@ -241,10 +233,28 @@ namespace Terra.Core.Views
                 {
                     DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
                     Schedule_6.indexText = (i+1).ToString();
+                    Schedule_6.ID = (i + 1).ToString();
                     Schedule_6.editText = "edit";
                     Schedule_6.ScheduleReceived += Schedule_1_EditButtonClick;
+                    Schedule_6.DeleteDelegate += Schedule_6_DeleteDelegate;
                 }
             }
+        }
+
+        private void Schedule_6_DeleteDelegate(string id)
+        {
+            PageContext. DeleteScheduleItem(id);
+            scheduleList.scheduler.RemoveAt(Convert.ToInt32(id)-1);
+            int index = 1;
+            foreach(var item in scheduleList.scheduler)
+            {
+                item.index = index.ToString();
+                index++;
+            }
+            var neList = new List<Scheduler>(scheduleList.scheduler);
+            scheduleList.scheduler.Clear();
+            ScheduleView.Children.Clear();
+            PageContext_Result(neList);
         }
 
         private Grid GetAddButton()
@@ -301,7 +311,7 @@ namespace Terra.Core.Views
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
             Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
-
+            Schedule_UI.DeleteDelegate += Schedule_6_DeleteDelegate;
             ScheduleView.Children.Insert(index-1, Schedule_UI);
             if (GetScheduleNewIndex() == 7)
             {
