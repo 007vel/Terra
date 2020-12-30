@@ -31,9 +31,15 @@
                     </StackLayout>
                     <StackLayout Grid.Row="1" BackgroundColor="#989da0" Orientation="Vertical" HorizontalOptions="FillAndExpand">
                         <ScrollView HorizontalOptions="FillAndExpand">
-                            <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
+                            <StackLayout x:Name="ScheduleViewRoot" HorizontalOptions="FillAndExpand" Spacing="0">
+                                <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
 
                             </StackLayout>
+                                <StackLayout x:Name="ScheduleViewButtons" HorizontalOptions="FillAndExpand">
+
+                            </StackLayout>
+                            </StackLayout>
+                            
                         </ScrollView>
                     </StackLayout>
                 </Grid>
@@ -51,14 +57,14 @@
                             </StackLayout>
                         </StackLayout>
                         <StackLayout Grid.Column="1" Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" >
-                            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Margin="0,0,0,30">
+                            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Margin="0,0,0,30" ColumnSpacing="0" RowSpacing="0">
                                 <card:ProgressView x:Name="batteryView" Grid.Column="0" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" >
                                 </card:ProgressView>
-                                <StackLayout x:Name="TimerLayout" Grid.Column="0" Grid.Row="0"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="false">
-                                    <Label Text="" FontSize="Micro" FontAttributes="Bold"></Label>
-                                    <StackLayout Orientation="Horizontal">
+                                <StackLayout x:Name="TimerLayout" Grid.Column="0" Grid.Row="0" Spacing="0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="false">
+                               
+                                    <StackLayout Orientation="Vertical" Spacing="0">
                                         <Label x:Name="TimerValue" TextColor="#EF4736" FontSize="Large" VerticalOptions="End"  ></Label>
-                                        <Label Text="Sec" FontSize="Micro" VerticalOptions="Center" VerticalTextAlignment="Center"  ></Label>
+                                        <Label Text="Sec" FontSize="Micro" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand" VerticalTextAlignment="Start" Margin="0,-7,0,0" ></Label>
                                     </StackLayout>
                                 </StackLayout>
 

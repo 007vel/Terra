@@ -454,7 +454,7 @@ namespace Terra.Core.Controls
 
         void SwipeItem_Invoked(System.Object sender, System.EventArgs e)
         {
-            DeleteDelegate.Invoke(this.indexText);
+            DeleteDelegate?.Invoke(this.indexText);
         }
     }
 }

@@ -59,6 +59,7 @@ namespace Terra.Droid
             userSelectedCulture.NumberFormat.CurrencyNegativePattern = 1;
             Thread.CurrentThread.CurrentCulture = userSelectedCulture;
             mobileHelper = new MobileHelper();
+            
         }
 
 

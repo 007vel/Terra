@@ -62,9 +62,10 @@ namespace FlyMe.Droid.Helper
         /// <returns></returns>
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
+
             Connect1(_ssid, _pwd);
             //   wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
-            //  return true;
+            
             string ssid = "";
             string pwd = "";
             ssid = $"\"{_ssid}\"";
@@ -104,13 +105,14 @@ namespace FlyMe.Droid.Helper
                 mobileHelper.Log("2st while: "+ msg);
                 System.Diagnostics.Debug.WriteLine(msg);
                 _network = wifiManager.ConnectionInfo;
-                Thread.Sleep(1000);
-                
+                //Thread.Sleep(1000);
+                await Task.Delay(1 * 1000);
+
                 if (_network.SupplicantState == SupplicantState.Completed && _network.SSID == ssid)
                 {
                     break;
                 }
-                else if(DateTime.Now.Subtract(timeSpan).TotalSeconds < 30)
+                else if(DateTime.Now.Subtract(timeSpan).TotalSeconds < 20)
                 {
                     continue;
                 }
@@ -121,7 +123,7 @@ namespace FlyMe.Droid.Helper
                 }
                 
             }
-            await Task.Delay(2 * 1000);
+            //await Task.Delay(2 * 1000);
             if (_network==null)    
             {
                 System.Diagnostics.Debug.WriteLine("ConnectionInfo:"+ wifiManager.ConnectionInfo?.SSID);
@@ -187,7 +189,9 @@ namespace FlyMe.Droid.Helper
       
         public bool EnableWifi()
         {
-           return wifiManager.SetWifiEnabled(true);
+            Intent panelIntent = new Intent(Android.Provider.Settings.Panel.ActionWifi);
+            mainActivity.StartActivityForResult(panelIntent,1);
+            return wifiManager.SetWifiEnabled(true);
         }
 
         public bool DisableWifi()

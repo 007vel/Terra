@@ -35,12 +35,13 @@ namespace Terra.Core.ViewModels
             Init();
         }
 
-        private async void Init()
+        public async void Init()
         {
             wifiAdapter = WifiAdapter.Instance;
            
-            var locationPermission= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
-            if(locationPermission==PermissionStatus.Granted)
+            var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
+            var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
+            if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)
             {
                 if(!wifiAdapter.IsGpsEnabled())
                 {
@@ -203,6 +204,8 @@ namespace Terra.Core.ViewModels
                 if (wifi != null)
                 {
                     DeviceConnectStatus = "Connecting...";
+                    OnPropertyChanged("DeviceConnectStatus");
+                    await Task.Delay(500);
                     SelectedItem.LabelTextColor = Color.FromHex("#EF4736");
                     SelectedItem.Image = "terra_spray_orange_device_03";
                     if (LastSelectedItem != null)

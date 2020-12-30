@@ -23,6 +23,7 @@ namespace Terra.Core.Views
     public partial class DeviceDetailsPage : ContentPage
     {
         Grid AddBtn = null;
+        Button DelButton = null;
         DeviceDetailsViewModel context;
         Schedules scheduleList = new Schedules();
 
@@ -51,7 +52,7 @@ namespace Terra.Core.Views
             initSpray.NotifyValueChange += InitSpray_NotifyValueChange;
 
             scheduleList.scheduler = new List<Scheduler>();
-            PageContext.Result += PageContext_Result1;
+           // PageContext.Result += PageContext_Result1;
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
             PageContext.DeviceInfoReceived += PageContext_DeviceInfoReceived;
@@ -96,8 +97,9 @@ namespace Terra.Core.Views
             grid.Children.Add(dayCount);
 
             QuickAccess.Children.Add(grid);
-
-            ScheduleView.Children.Add(GetAddButton());
+            ScheduleViewButtons.Children.Add(GetAddButton());
+            ScheduleViewButtons.Children.Add(GetDeleteButton());
+          
 
         }
 
@@ -207,10 +209,10 @@ namespace Terra.Core.Views
         }
         
 
-        private void PageContext_Result1(List<Entities.Scheduler> arg)
-        {
-            BuildScheduleUI(arg);
-        }
+        //private void PageContext_Result1(List<Entities.Scheduler> arg)
+        //{
+        //    BuildScheduleUI(arg);
+        //}
         private void PageContext_Result(List<Entities.Scheduler> arg)
         {
             if(arg!=null)
@@ -222,6 +224,7 @@ namespace Terra.Core.Views
                     AddSchedule(item);
                     i++;
                 }
+                ButtonVisibleChange();
             }
         }
 
@@ -236,21 +239,34 @@ namespace Terra.Core.Views
                     Schedule_6.ID = (i + 1).ToString();
                     Schedule_6.editText = "edit";
                     Schedule_6.ScheduleReceived += Schedule_1_EditButtonClick;
-                    Schedule_6.DeleteDelegate += Schedule_6_DeleteDelegate;
+                    Schedule_6.DeleteDelegate += SingleDeleteDelegate;
                 }
             }
         }
 
-        private void Schedule_6_DeleteDelegate(string id)
+        private void SingleDeleteDelegate(string id)
         {
-            PageContext. DeleteScheduleItem(id);
-            scheduleList.scheduler.RemoveAt(Convert.ToInt32(id)-1);
-            int index = 1;
-            foreach(var item in scheduleList.scheduler)
+            DeleteSchedule(id);
+            ButtonVisibleChange();
+        }
+        private void DeleteSchedule(string id)
+        {
+            PageContext.DeleteScheduleItem(id);
+            if (id == "-1")
             {
-                item.index = index.ToString();
-                index++;
+                scheduleList.scheduler.Clear();
             }
+            else
+            {
+                scheduleList.scheduler.RemoveAt(Convert.ToInt32(id) - 1);
+                int index = 1;
+                foreach (var item in scheduleList.scheduler)
+                {
+                    item.index = index.ToString();
+                    index++;
+                }
+            }
+            //to a copy and send it to UI builder so dont impact in original item
             var neList = new List<Scheduler>(scheduleList.scheduler);
             scheduleList.scheduler.Clear();
             ScheduleView.Children.Clear();
@@ -259,50 +275,63 @@ namespace Terra.Core.Views
 
         private Grid GetAddButton()
         {
-            if(AddBtn == null)
-            {
-                AddBtn = new Grid();
-                AddBtn.WidthRequest=40;
-                AddBtn.HeightRequest = 40;
-                ImageButton imageButton = new ImageButton();
-                AddBtn.BackgroundColor = Color.Transparent;
-                TintedImage tintedImage = new TintedImage();
-                tintedImage.Source= ImageSource.FromFile("baseline_add_black_36");
-                tintedImage.TintColor = Color.White;
-                tintedImage.InputTransparent = true;
-                tintedImage.Margin = new Thickness(8);
-                imageButton.BackgroundColor = Color.Black;
-                imageButton.CornerRadius = 1;
-                
-                AddBtn.Children.Add(imageButton);
-                AddBtn.Children.Add(tintedImage);
+            AddBtn = new Grid();
+            AddBtn.WidthRequest = 40;
+            AddBtn.HeightRequest = 40;
+            ImageButton imageButton = new ImageButton();
+            AddBtn.BackgroundColor = Color.Transparent;
+            TintedImage tintedImage = new TintedImage();
+            tintedImage.Source = ImageSource.FromFile("baseline_add_black_36");
+            tintedImage.TintColor = Color.White;
+            tintedImage.InputTransparent = true;
+            tintedImage.Margin = new Thickness(8);
+            imageButton.BackgroundColor = Color.Black;
+            imageButton.CornerRadius = 3;
 
-                AddBtn.HorizontalOptions = LayoutOptions.EndAndExpand;
-                AddBtn.VerticalOptions = LayoutOptions.StartAndExpand;
-                AddBtn.Margin = new Thickness(10, 10, 15, 10);
-                imageButton.Clicked += AddButtonClicked;
-            }
+            AddBtn.Children.Add(imageButton);
+            AddBtn.Children.Add(tintedImage);
+
+            AddBtn.HorizontalOptions = LayoutOptions.EndAndExpand;
+            AddBtn.VerticalOptions = LayoutOptions.StartAndExpand;
+            AddBtn.Margin = new Thickness(10, 10, 15, 10);
+            imageButton.Clicked += AddButtonClicked;
             return AddBtn;
         }
 
+        private Button GetDeleteButton()
+        {
+            DelButton = new Button();
+            DelButton.BackgroundColor = Color.FromHex("#EF4736");
+            DelButton.CornerRadius = 3;
+            DelButton.Text = "Delete All";
+            DelButton.TextColor = Color.White;
+
+            DelButton.HorizontalOptions = LayoutOptions.EndAndExpand;
+            DelButton.VerticalOptions = LayoutOptions.StartAndExpand;
+            DelButton.Margin = new Thickness(10, 10, 15, 10);
+            DelButton.Clicked += DelAllButton_Clicked; ;
+            return DelButton;
+        }
+
+
+
+        private void DelAllButton_Clicked(object sender, EventArgs e)
+        {
+            SingleDeleteDelegate("-1");
+            ButtonVisibleChange();
+        }
+        
         private void AddButtonClicked(object sender, EventArgs e)
         {
             AddSchedule();
+            ButtonVisibleChange();
         }
 
         
         private void AddSchedule(Entities.Scheduler scheduler = null)
         {
-            if(scheduler!=null)
-            {
-                //scheduleList.scheduler.Add(scheduler);
-            }
-            
             CreateScheduleView(GetScheduleNewIndex(), scheduler);
-            if (GetScheduleNewIndex() == 7)
-            {
-                AddBtn.IsVisible = false;
-            }
+          //  ButtonVisibleChange();
         }
         private void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
         {
@@ -311,13 +340,10 @@ namespace Terra.Core.Views
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
             Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
-            Schedule_UI.DeleteDelegate += Schedule_6_DeleteDelegate;
+            Schedule_UI.DeleteDelegate += SingleDeleteDelegate;
             ScheduleView.Children.Insert(index-1, Schedule_UI);
-            if (GetScheduleNewIndex() == 7)
-            {
-                AddBtn.IsVisible = false;
-            }
-            if(scheduler==null)
+           
+            if (scheduler==null)
             {
                 scheduler = new Scheduler();
                 scheduler.index = index.ToString();
@@ -328,6 +354,13 @@ namespace Terra.Core.Views
                 scheduleList.scheduler.Add(scheduler);
             }
             
+        }
+
+        private void ButtonVisibleChange()
+        {
+            var i=GetScheduleNewIndex();
+            AddBtn.IsVisible = i > 6 ? false : true;
+            DelButton.IsVisible = i > 1 ? true : false;
         }
 
         private List<UIDay> inputDate()
@@ -377,6 +410,10 @@ namespace Terra.Core.Views
                 PageContext.GetDaysLeftCount();
             }
         }
+        /// <summary>
+        /// it will return new index value for next element, ex: if the lsit count is 3 means, this methood will return 4
+        /// </summary>
+        /// <returns></returns>
         private int GetScheduleNewIndex()
         {
             int indx = 1;

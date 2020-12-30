@@ -15,13 +15,26 @@ namespace Terra.Core.Views
             InitializeComponent();
          //   NavigationPage.SetHasNavigationBar(this, false);
         }
+        NetworkViewModel context = null;
+        public NetworkViewModel Context
+        {
+            get
+            {
+                if(context==null)
+                {
+                    context = this.BindingContext as NetworkViewModel;
+                }
+                return context;
+            }
+        }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var context = this.BindingContext as NetworkViewModel;
+         
             if(context!=null)
             {
                 context.PageNavigation = Navigation;
+                context.Init();
             }
         }
         protected override void OnDisappearing()
