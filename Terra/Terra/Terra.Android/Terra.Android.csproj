@@ -51,6 +51,11 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/tecsack/Desktop/scent.jks</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Terra@123</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>scent</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Terra@123</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
