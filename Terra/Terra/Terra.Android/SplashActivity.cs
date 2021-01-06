@@ -15,7 +15,7 @@ using Terra.Droid;
 
 namespace Terra.Droid
 {
-    [Activity(Theme = "@style/MainTheme.Splash", Icon = "@mipmap/icon", MainLauncher = true, NoHistory = true)]
+    [Activity(Theme = "@style/MainTheme.Splash", Icon = "@drawable/app_logo_8bits", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
         static readonly string TAG = "X:" + typeof(SplashActivity).Name;
