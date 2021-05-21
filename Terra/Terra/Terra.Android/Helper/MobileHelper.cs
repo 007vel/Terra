@@ -73,5 +73,25 @@ namespace Terra.Droid.Helper
             var activity = (Activity)Forms.Context;
             activity.FinishAffinity();
         }
+
+        public byte[] ReadOtaFile()
+        {
+            AssetManager assets = Android.App.Application.Context.Assets;
+
+            return GetImageStreamAsBytes(assets.Open("ota_data_initial.bin"));
+        }
+        private byte[] GetImageStreamAsBytes(System.IO.Stream input)
+        {
+            var buffer = new byte[16 * 1024];
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
     }
 }

@@ -47,6 +47,7 @@
     <Folder Include="Service\" />
     <Folder Include="common\UIControls\" />
     <Folder Include="Views\PopUpPages\" />
+    <Folder Include="Controls\UIInterface\" />
   </ItemGroup>
   <ItemGroup>
     <SharedImage Include="Resources\beach_1.jpg">

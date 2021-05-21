@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Terra.Core.Views.ConfigurationSettingPage"
+             Title="Working  Period Setting">
+   <ContentPage.ToolbarItems>
+       <ToolbarItem Text="Save" Clicked="ToolbarItem_Clicked"/>
+   </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="15*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+              
+                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="#d4d9d8" HeightRequest="80" HorizontalOptions="FillAndExpand"> 
+                 <Label Text="Start time" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/> 
+                <Label Text="End time" VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+
+                <Frame BorderColor="#EF4736" CornerRadius="3" Grid.Column="0" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
+                    <TimePicker x:Name="_timePickerFrom" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm" 
+                    Time="{Binding SelectedStartTime,Mode=TwoWay}"  />
+                </Frame>
+
+                <Frame BorderColor="#EF4736" CornerRadius="3" Grid.Column="1" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
+                    <TimePicker x:Name="_timePickerTo" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm" 
+                    Time="{Binding SelectedStopTime,Mode=TwoWay}"
+                       />
+                </Frame>
+                <StackLayout Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="20,0,0,0" >
+                    <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+
+                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                         <Label Text="Repeat" FontAttributes="Bold" TextColor="Black" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End"/>
+                       
+                         <StackLayout x:Name="DayConfig" HorizontalOptions="FillAndExpand">
+
+                    </StackLayout>
+                    </StackLayout>
+                <!--   <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0,20,10,20">
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="10*"/>
+                            </Grid.ColumnDefinitions>
+                        
+                        <Label Text="Repeat" FontAttributes="Bold" TextColor="Black" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="End"/>
+                        
+                        <Frame BorderColor="#34ebdb" Padding="0" Grid.Column="1">
+                            <Label Text="Mon" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame BorderColor="#34ebdb" Padding="4" Grid.Column="2">
+                            <Label Text="Tue" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame BorderColor="#34ebdb" Padding="4" Grid.Column="3">
+                            <Label Text="Wed" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+
+                        <Frame BorderColor="#34ebdb" Padding="4" Grid.Column="4">
+                            <Label Text="Thu" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame BorderColor="#34ebdb" Padding="4" Grid.Column="5">
+                            <Label Text="Fri" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                        <Frame BorderColor="#34ebdb" Padding="4" Grid.Column="6">
+                            <Label Text="Sat" FontSize="Micro" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                        <Button Text="Sun" FontSize="Micro" BorderColor="#34ebdb" BackgroundColor="Transparent" BorderWidth="2" Padding="4" Grid.Column="7">
+                            
+                        </Button>
+                            </Grid>
+                        </StackLayout> -->
+                </StackLayout>
+
+                <StackLayout Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="20,0,0,0" >
+                    <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+                    <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" FlowDirection="RightToLeft" Margin="0,0,20,0">
+                        
+                        <Button Text="-" TextColor="White" Clicked="ButtonDeccrease_Clicked" WidthRequest="50" HeightRequest="40" VerticalOptions="Center" BackgroundColor="#EF4736" />
+                        <Label Text="{Binding Interval}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" WidthRequest="30" Margin="0,0,2,0"/>
+                        <Button Text="+" TextColor="White" WidthRequest="50" Clicked="ButtonIncrease_Clicked" HeightRequest="40" VerticalOptions="Center" BackgroundColor="#EF4736"/>
+                        <Label Text="Interval" FontAttributes="Bold" TextColor="Black" FontSize="Large" VerticalOptions="CenterAndExpand" />
+                     </StackLayout>
+                    <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="End"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,0,20,0">
+                        <Label Text="Active"/>
+                        <Switch IsToggled="{Binding IsActive}" OnColor="#EF4736"></Switch>
+                    </StackLayout>
+                    
+                </StackLayout>
+                
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

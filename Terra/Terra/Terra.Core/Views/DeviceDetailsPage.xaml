@@ -11,6 +11,7 @@
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Sleep" Command="{Binding SleepCommand}" />
+                <ToolbarItem Text="OTA" Command="{Binding OtaCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">

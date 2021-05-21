@@ -15,5 +15,7 @@ namespace ConnectionLibrary.Interface
         Task<bool> SetDeviceConfig(Config config);
         Task<bool> SetDeviceDemo(DemoInfo config);
         Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex);
+        Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest);
+        Task<bool> PutBinary(string url, byte[] requestBody);
     }
 }

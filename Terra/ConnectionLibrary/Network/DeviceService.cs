@@ -3,7 +3,10 @@ using Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +15,48 @@ namespace ConnectionLibrary.Network
 {
     public class DeviceService : IDevice
     {
+        ClientWebSocket client;
+
+        private static HttpClient httpClient;
+
+        static DeviceService deviceService = null;
+        public static DeviceService Instance
+        {
+            get
+            {
+                if(deviceService==null)
+                {
+                    deviceService = new DeviceService();
+                }
+                return deviceService;
+            }
+        }
+
+        private void InitializeHttpClient()
+        {
+            if (httpClient == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Initializing HttpClient....");
+                httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.Timeout = TimeSpan.FromMinutes(1);
+            }
+        }
+
+        object m_lock = new object();
+        private async Task<ClientWebSocket> InitClientWebSocket(string endPoint)
+        {
+            //lock(m_lock)
+            {
+                if (client == null || client.State != WebSocketState.Open)
+                {
+                    client =  await WifiAdapter.Instance.StartWebSocketConnection(endPoint);
+                }
+                return client;
+            }
+            
+        }
+
         public async Task<string> GetDeviceInfo(DeviceInfoRequest deviceInfoRequest)
         {
             try
@@ -22,11 +67,31 @@ namespace ConnectionLibrary.Network
                     {
                         NullValueHandling = NullValueHandling.Ignore
                     });
-                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET), jsonIgnoreNullValues);
+                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET, isNewFW:true), jsonIgnoreNullValues);
                     return info;
                 }
             }
             catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return string.Empty;
+        }
+        public async Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest)
+        {
+            try
+            {
+                if (deviceInfoRequest != null)
+                {
+                    string jsonIgnoreNullValues = JsonConvert.SerializeObject(deviceInfoRequest, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.snapshot, Endpoint_Method.GET), jsonIgnoreNullValues);
+                    return info;
+                }
+            }
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
             }
@@ -102,13 +167,13 @@ namespace ConnectionLibrary.Network
         private async Task<string> GetWsData(string endPoint, string deviceInfoRequest)
         {
             NetworkServiceUtil.Log("Socket GetWsData: start");
-            ClientWebSocket client = null;
             try
             {
                 if (deviceInfoRequest != null)
                 {
                     NetworkServiceUtil.Log("Socket GetWsData:1");
-                    client = await WifiAdapter.Instance.StartWebSocketConnection(endPoint);
+                    client = await InitClientWebSocket(endPoint);
+
                     NetworkServiceUtil.Log("Socket GetWsData:2");
                     await WifiAdapter.Instance.SendMessageAsync(deviceInfoRequest, client);
                     NetworkServiceUtil.Log("Socket GetWsData:3");
@@ -125,19 +190,19 @@ namespace ConnectionLibrary.Network
             finally
             {
                 NetworkServiceUtil.Log("Socket GetWsData: finally");
-                WifiAdapter.Instance.StopWebSocketConnection(client);
+              //  WifiAdapter.Instance.StopWebSocketConnection(client);
             }
             NetworkServiceUtil.Log("Socket GetWsData: end");
             return null;
         }
         private async Task<bool> SetWsData(string endPoint, string deviceInfoRequest)
         {
-            ClientWebSocket client = null;
+
             try
             {
                 if (deviceInfoRequest != null)
                 {
-                    client=await WifiAdapter.Instance.StartWebSocketConnection(endPoint);
+                    client = await InitClientWebSocket(endPoint);
                     await WifiAdapter.Instance.SendMessageAsync(deviceInfoRequest, client);
                     return true;
                 }
@@ -148,7 +213,7 @@ namespace ConnectionLibrary.Network
             }
             finally
             {
-                WifiAdapter.Instance.StopWebSocketConnection(client);
+               // WifiAdapter.Instance.StopWebSocketConnection(client);
             }
             return true;
         }
@@ -193,6 +258,42 @@ namespace ConnectionLibrary.Network
                 System.Diagnostics.Debug.WriteLine(e);
             }
             return true;
+        }
+
+        public async Task<bool> PutBinary(string endPoint, byte[] requestBody)
+        {
+            try
+            {
+                //Task.Delay(1 * 1000);
+                string url = UrlConfig.GetFullURL(Endpoint.upload, Endpoint_Method.POST);
+                InitializeHttpClient();
+                var requestContent = new StreamContent(new MemoryStream(requestBody));
+
+                HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                httpRequestMessage.Content = requestContent;
+
+                System.Diagnostics.Debug.WriteLine("Service call Put url : " + url);
+                System.Diagnostics.Debug.WriteLine("Service call Put requestBody : " + requestBody);
+
+                var httpResponse = await httpClient.SendAsync(httpRequestMessage);
+
+                System.Diagnostics.Debug.WriteLine("Service call Put response: " + httpResponse);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+
         }
     }
 }

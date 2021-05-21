@@ -5,5 +5,6 @@ namespace Entities
     {
         public string request { get; set; }
         public int demo { get; set; }
+        public string info { get; set; }
     }
 }

@@ -10,12 +10,13 @@ namespace Terra.Core.Utils
 {
    public class JSONUtil
     {
-        public static Scheduler Build_Scheduler(List<UIDay> days, TimeSpan start, TimeSpan stop, string interval)
+        public static Scheduler Build_Scheduler(List<UIDay> days, TimeSpan start, TimeSpan stop, string interval, bool _active)
         {
             Scheduler scheduleObject = new Scheduler();
             scheduleObject.start = timeSpantoSeconds(start);
             scheduleObject.stop = timeSpantoSeconds(stop);
             scheduleObject.interval = Convert.ToInt64( interval);
+            scheduleObject.active = _active.ToString();
             var selecteddays = new List<string>();
             foreach(var item in days)
             {

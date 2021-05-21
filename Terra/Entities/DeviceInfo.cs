@@ -9,7 +9,6 @@ namespace Entities
     {
         public string request { get; set; }
         public string info { get; set; }
-
         string _value;
         public string value
         {

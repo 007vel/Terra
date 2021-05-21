@@ -46,6 +46,15 @@ namespace ConnectionLibrary.Network.Mock
             return null;
         }
 
+        public async Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest)
+        {
+            if (deviceInfoRequest.request == "get" && deviceInfoRequest.info == "snapshot")
+            {
+                return "{\r\n\"snapshotinfo\":[\r\n{\r\n\"request\": \"get\",\r\n\"info\": \"battery\",\r\n\"value\": 4\r\n},\r\n{\r\n\"request\": \"init\",\r\n\"info\": \"spray\",\r\n\"value\": 3200\r\n},\r\n{\r\n\"request\": \"get\",\r\n\"info\": \"days_left\",\r\n\"value\": 35683200\r\n},\r\n{\r\n\"request\": \"get\",\r\n\"info\": \"spray\",\r\n\"value\": 3200\r\n},\r\n{\r\n\"request\": \"get\",\r\n\"info\": \"spray_counter\",\r\n\"value\": 3200\r\n}]\r\n\r\n}";
+            }
+            return null;
+        }
+
         public async Task<string> GetScheduler(DeviceInfoRequest deviceInfoRequest)
         {
          //   return null;
@@ -59,6 +68,11 @@ namespace ConnectionLibrary.Network.Mock
                     
             }
             return null;
+        }
+
+        public Task<bool> PutBinary(string url, byte[] requestBody)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> SetDeviceConfig(Config config)

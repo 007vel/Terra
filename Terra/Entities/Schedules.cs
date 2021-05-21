@@ -17,6 +17,9 @@ namespace Entities
                 return 0;
             }
         }
+
+        public string request { get; set; }
+        public string info { get; set; }
         public List<Scheduler> scheduler { get; set; }
     }
     public class Scheduler
@@ -27,5 +30,6 @@ namespace Entities
         public long stop { get; set; }
         public long interval { get; set; }
         public string day { get; set; }
+        public string active { get; set; }
     }
 }

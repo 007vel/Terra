@@ -24,11 +24,13 @@ namespace Terra.Core.ViewModels
         public event ActionResult Result;
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
-       // public IDevice deviceService = new MockDeviceService();
-        public IDevice deviceService = new DeviceService();
+        // public IDevice deviceService = new MockDeviceService();
+          public IDevice deviceService = new DeviceService();
+       // public IDevice deviceService = DeviceService.Instance;
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
         public ICommand SleepCommand => new Command(SetSleepClicked);
+        public ICommand OtaCommand => new Command(OtaUploadClicked); 
 
         int sleeptime = 750;
 
@@ -138,15 +140,16 @@ namespace Terra.Core.ViewModels
           //  return;
             Thread.Sleep(1100);
 
-            await GetBatteryCount();
-            Thread.Sleep(sleeptime);
-            await GetInitilizeSprayCount();
-            Thread.Sleep(sleeptime);
-            await GetRemSprayCount();
-            Thread.Sleep(sleeptime);
-            await GetDaysLeftCount();
-            Thread.Sleep(sleeptime);
-            await GetNextSprayCounterCount();
+          //  await GetBatteryCount();
+            //Thread.Sleep(sleeptime);
+           // await GetInitilizeSprayCount();
+            //Thread.Sleep(sleeptime);
+           // await GetRemSprayCount();
+            //Thread.Sleep(sleeptime);
+           // await GetDaysLeftCount();
+            //Thread.Sleep(sleeptime);
+          //  await GetNextSprayCounterCount();
+            await GetSnapshotAPI();
         }
 
         /// <summary>
@@ -207,6 +210,7 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public async Task<bool> GetRemSprayCount()
         {
+            return false;
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "spray";
@@ -238,6 +242,7 @@ namespace Terra.Core.ViewModels
         /// </summary>
         public async Task<bool> GetDaysLeftCount()
         {
+            return false;
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "days_left";
@@ -245,7 +250,7 @@ namespace Terra.Core.ViewModels
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetDaysLeftCount get spray: " + deviceRes);
             var _DaysLeft = DeserializDeviceInfo(deviceRes);
             DaysLeft = _DaysLeft;
-            DeviceInfoReceived?.Invoke(RemSpray);
+            DeviceInfoReceived?.Invoke(DaysLeft);
             // CalculateRemainingDays();
             return true;
         }
@@ -260,7 +265,54 @@ namespace Terra.Core.ViewModels
             var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetNextSprayCounterCount: " + deviceRes);
             NextSprayCounter = DeserializDeviceInfo(deviceRes);
+            DeviceInfoReceived?.Invoke(NextSprayCounter);
+            // CalculateRemainingDays();
+            return false;
+        }
+
+        /// <summary>
+        /// GetSnapshotAPI Will return count from service
+        /// </summary>
+        public async Task<bool> GetSnapshotAPI()
+        {
+            DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
+            deviceInfoRequest.request = "get";
+            deviceInfoRequest.info = "snapshot";
+            var deviceRes = await deviceService.GetDeviceSnapShotInfo(deviceInfoRequest);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetNextSprayCounterCount: " + deviceRes);
+            Devicesnapshot devicesnapshot = null;
+            if (!string.IsNullOrEmpty(deviceRes))
+            {
+                devicesnapshot = JsonConvert.DeserializeObject<Devicesnapshot>(deviceRes);
+            }
+            if(devicesnapshot!=null && devicesnapshot.snapshotinfo!=null)
+            {
+                foreach (var i in devicesnapshot.snapshotinfo)
+                {
+                    if(i.request=="get" && i.info== "battery")
+                    {
+                        Battery = i;
+                    }else if (i.request == "init" && i.info == "spray")
+                    {
+                        InitializeSpray = i;
+                    }else if (i.request == "get" && i.info == "days_left")
+                    {
+                        DaysLeft = i;
+                    }else if (i.request == "get" && i.info == "spray")
+                    {
+                        RemSpray = i;
+                    }
+                    else if (i.request == "get" && i.info == "spray_counter")
+                    {
+                        NextSprayCounter = i;
+                    }
+                }
+            }
+            
             DeviceInfoReceived?.Invoke(RemSpray);
+            DeviceInfoReceived?.Invoke(NextSprayCounter);
+            DeviceInfoReceived?.Invoke(DaysLeft);
+            DeviceInfoReceived?.Invoke(InitializeSpray);
             // CalculateRemainingDays();
             return false;
         }
@@ -301,6 +353,7 @@ namespace Terra.Core.ViewModels
             DemoInfo config = new DemoInfo();
             config.request = "set";
             config.demo = 1;
+            config.info = "demo";
             var deviceRes = await deviceService.SetDeviceDemo(config);
         }
         public async void SetSleepClicked()
@@ -308,6 +361,7 @@ namespace Terra.Core.ViewModels
             Config config = new Config();
             config.sleep_mode = 1;
             config.request = "set";
+            config.info = "config";
             var deviceRes = await deviceService.SetDeviceConfig(config);
             Device.BeginInvokeOnMainThread(async () => {
 
@@ -330,11 +384,37 @@ namespace Terra.Core.ViewModels
 
         }
 
+        public async void OtaUploadClicked()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    using (UserDialogs.Instance.Loading("Uploading..."))
+                    {
+                        var otaByte = DependencyService.Get<IMobile>().ReadOtaFile();
+                        await deviceService.PutBinary("", otaByte);
+                        //Task.Delay(2*1000);
+                        UserDialogs.Instance.HideLoading();
+                        await Shell.Current.Navigation.PopAsync();
+                    }
+                    UserDialogs.Instance.HideLoading();
+                }
+                catch (Exception ex)
+                {
+                    await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Error in OTA update", cancel: "OK");
+                    Console.WriteLine(ex);
+                    UserDialogs.Instance.HideLoading();
+                }
+            });
+        }
+
         public async void SetDispanserType(string type)
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.Dispenser_Type = type;
             deviceInfoRequest.request = "set";
+            deviceInfoRequest.info = "type_disp";
             var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
         }
 
@@ -363,8 +443,11 @@ namespace Terra.Core.ViewModels
 
         public async Task<bool> DeleteScheduleItem(string index)
         {
+            NetworkServiceUtil.Log("DeleteScheduleItem ==> called");
             ScheduleIndex scheduleIndex = new ScheduleIndex();
-            scheduleIndex.deleteindex = index;
+            scheduleIndex.deleteindex = (Convert.ToInt32( index)-1).ToString();
+            scheduleIndex.request = "delete";
+            scheduleIndex.info = "scheduler";
             var deviceRes = await deviceService.DeleteScheduleIndex(scheduleIndex);
             return deviceRes;
         }

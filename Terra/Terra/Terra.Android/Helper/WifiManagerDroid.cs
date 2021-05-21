@@ -62,7 +62,7 @@ namespace FlyMe.Droid.Helper
         /// <returns></returns>
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
-
+            //return true;
             Connect1(_ssid, _pwd);
             //   wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             

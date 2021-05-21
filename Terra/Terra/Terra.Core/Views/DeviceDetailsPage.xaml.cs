@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Timers;
 using Terra.Core.Controls;
+using Terra.Core.Controls.UIInterface;
 using Terra.Core.Enum;
 using Terra.Core.Models;
 using Terra.Core.Utils;
@@ -20,7 +21,7 @@ using Xamarin.Forms;
 
 namespace Terra.Core.Views
 {
-    public partial class DeviceDetailsPage : ContentPage
+    public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
     {
         Grid AddBtn = null;
         Button DelButton = null;
@@ -31,6 +32,8 @@ namespace Terra.Core.Views
         QuickAccessButton initSpray = new QuickAccessButton();
         QuickAccessButton remainSpray = new QuickAccessButton();
         QuickAccessButton dayCount = new QuickAccessButton();
+
+        bool isPageInitilized = false;
 
         public delegate void TimeRuleDelegate(TimeSpan startTime,TimeSpan endTime, bool isStartTime);
         public DeviceDetailsViewModel PageContext
@@ -47,7 +50,7 @@ namespace Terra.Core.Views
         public DeviceDetailsPage()
         {
             InitializeComponent();
-
+            isPageInitilized = true;
             conf.NotifyValueChange += Conf_NotifyValueChange;
             initSpray.NotifyValueChange += InitSpray_NotifyValueChange;
 
@@ -130,13 +133,14 @@ namespace Terra.Core.Views
         {
             initSpray.CardDesc = PageContext?.InitializeSpray?.value!=null? PageContext?.InitializeSpray?.value: "3200";
             remainSpray.CardDesc = PageContext?.RemSpray?.value;
-            batteryView.Chartvalue = Convert.ToInt32( PageContext?.Battery?.value);
+            batteryView.Chartvalue = Convert.ToInt32(Convert.ToDouble( PageContext?.Battery?.value));
             //_timerLabel.IsVisible = true;
             //_timerLabel.Text= DateTime.Now.ToString(CultureInfo.CurrentCulture);
             InitTimer(Convert.ToInt32(PageContext?.NextSprayCounter?.value));
             if (!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
             {
-                dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
+                dayCount.CardDesc = (Convert.ToInt32(PageContext.DaysLeft.value) / 1).ToString();
+               // dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
             }
             LoadingView.IsRunning = false;
             LoadingView.IsVisible = false;
@@ -196,7 +200,12 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
            base.OnAppearing();
-           InitVm();
+            if(isPageInitilized)
+            {
+                isPageInitilized = false;
+                InitVm();
+            }
+           
         }
         private async void InitVm()
         {
@@ -228,21 +237,6 @@ namespace Terra.Core.Views
             }
         }
 
-        private void BuildScheduleUI(List<Entities.Scheduler> arg)
-        {
-            if (arg != null)
-            {
-                for (int i=0; i<arg.Count; i++ )
-                {
-                    DayConfigControl Schedule_6 = new DayConfigControl(inputDate());
-                    Schedule_6.indexText = (i+1).ToString();
-                    Schedule_6.ID = (i + 1).ToString();
-                    Schedule_6.editText = "edit";
-                    Schedule_6.ScheduleReceived += Schedule_1_EditButtonClick;
-                    Schedule_6.DeleteDelegate += SingleDeleteDelegate;
-                }
-            }
-        }
 
         private void SingleDeleteDelegate(string id)
         {
@@ -266,7 +260,7 @@ namespace Terra.Core.Views
                     index++;
                 }
             }
-            //to a copy and send it to UI builder so dont impact in original item
+            //to a copy and send it to UI builder so doesn't impact in original item
             var neList = new List<Scheduler>(scheduleList.scheduler);
             scheduleList.scheduler.Clear();
             ScheduleView.Children.Clear();
@@ -303,7 +297,7 @@ namespace Terra.Core.Views
             DelButton = new Button();
             DelButton.BackgroundColor = Color.FromHex("#EF4736");
             DelButton.CornerRadius = 3;
-            DelButton.Text = "Delete All";
+            DelButton.Text = "delete all";
             DelButton.TextColor = Color.White;
 
             DelButton.HorizontalOptions = LayoutOptions.EndAndExpand;
@@ -333,9 +327,9 @@ namespace Terra.Core.Views
             CreateScheduleView(GetScheduleNewIndex(), scheduler);
           //  ButtonVisibleChange();
         }
-        private void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
+        private async void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
         {
-            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(), scheduler);
+            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(),Navigation,this, scheduler);
             Schedule_UI.indexText = (index).ToString();
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
@@ -348,12 +342,12 @@ namespace Terra.Core.Views
                 scheduler = new Scheduler();
                 scheduler.index = index.ToString();
                 scheduleList.scheduler.Add(scheduler);
+                await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", false));
             }
             else
             {
                 scheduleList.scheduler.Add(scheduler);
             }
-            
         }
 
         private void ButtonVisibleChange()
@@ -379,35 +373,45 @@ namespace Terra.Core.Views
             }
             return uIDays;
         }
-        private void Schedule_1_EditButtonClick(object arg, string id, TimeSpan start, TimeSpan stop, string interval)
+        public async void Schedule_1_EditButtonClick(object arg, string id, TimeSpan start, TimeSpan stop, string interval, bool active)
         {
             
             
             ScheduleView.Children.RemoveAt(Convert.ToInt32( id)-1);
             var uidays = (List<UIDay>)arg;
-            DayConfigControl Schedule = new DayConfigControl(uidays);
+
+            //Add new schedule item view in small row
+            DayConfigControl Schedule = new DayConfigControl(uidays,Navigation,this);
             Schedule.indexText = id;
             Schedule.editText = "edit";
             Schedule.intervalText = interval;
             Schedule.StartTimeText = start;
             Schedule.StopTimeText = stop;
+            Schedule.IsActive = active;
             Schedule.ScheduleReceived += Schedule_1_EditButtonClick;
+            Schedule.DeleteDelegate += SingleDeleteDelegate;
+            Schedule.DefaultUI = UIEnum.Schedul_NormalView;
             ScheduleView.Children.Insert(Convert.ToInt32(id)-1, Schedule);
-            JObject jObject = new JObject();
-            jObject.Add("id",id);
-            jObject.Add("start", start.ToString());
-            jObject.Add("end", stop.ToString());
-            jObject.Add("interval", interval);
-            var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval);
+
+            //Make API call to update scheule to device
+            var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval, active);
             obj.index = id.ToString();
 
 
             scheduleList.scheduler[Convert.ToInt32(obj.index)-1]=obj;
-
+            scheduleList.request = "set";
+            scheduleList.info = "schedule";
             if (PageContext != null && obj!=null)
             {
-                PageContext.deviceService.SetScheduler(JsonConvert.SerializeObject(scheduleList));
-                PageContext.GetDaysLeftCount();
+
+                await PageContext.deviceService.SetScheduler(JsonConvert.SerializeObject(scheduleList));
+                DeviceInfoRequest activeStatus = new DeviceInfoRequest();
+                activeStatus.request = "status";
+                activeStatus.info = "scheduler";
+                activeStatus.index = Convert.ToInt32(id);
+                activeStatus.value = active.ToString().ToLower();
+                await PageContext.deviceService.SetDeviceInfo(activeStatus);
+               // await PageContext.GetDaysLeftCount();
             }
         }
         /// <summary>

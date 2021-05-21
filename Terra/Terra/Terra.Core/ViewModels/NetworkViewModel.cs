@@ -70,6 +70,7 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("karthi", "9943157172");
                 wifiPwdList.Add("sathya", "9943157172");
                 wifiPwdList.Add("Sakthivel’s MacBook Pro", "9943157172");
+                wifiPwdList.Add("TARS 2.4G", "kjhgfjkhv");
                 IsWifiLoading = true;
                 MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
                 {

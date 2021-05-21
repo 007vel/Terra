@@ -51,7 +51,6 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
-    <AndroidKeyStore>True</AndroidKeyStore>
     <AndroidSigningKeyStore>/Users/tecsack/Desktop/scent.jks</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Terra@123</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>scent</AndroidSigningKeyAlias>
@@ -100,6 +99,8 @@
     <Compile Include="Helper\WifiManagerDroid.cs" />
     <Compile Include="Helper\MobileHelper.cs" />
     <Compile Include="Helper\SmartConfig_Droid.cs" />
+    <Compile Include="Renderers\MyTimerPicker.cs" />
+    <Compile Include="Renderers\MyContentPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -651,6 +652,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\baseline_add_black_36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\ota_data_initial.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

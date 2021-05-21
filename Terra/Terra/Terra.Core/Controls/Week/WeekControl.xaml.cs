@@ -20,6 +20,8 @@ namespace Terra.Core.Controls
             Spacing = 0;
             BindingContext = this;
             this.view = view;
+            InputTransparent = true;
+            view.InputTransparent = true;
             view.Children.Add(this);
         }
         public WeekControl()
@@ -74,6 +76,7 @@ namespace Terra.Core.Controls
         public virtual void buildDayUI(List<UIDay> _DaysList)
         {
             Grid grid = new Grid();
+            grid.InputTransparent = true;
             this.Children.Add(grid);
             foreach (var item in _DaysList)
             {
@@ -139,21 +142,25 @@ namespace Terra.Core.Controls
             }
             return label;
         }
-        public View SetViewState(View view, UIDay uIDay)
+        public View SetViewState(View _view, UIDay uIDay)
         {
-            if (view != null && uIDay != null)
+            Frame view = null;
+            if (_view != null && uIDay != null)
             {
+                view = (Frame)_view;
+                if (view == null) return _view;
+                
                 if (uIDay.selectionStatus == SelectionStatus.Selected)
                 {
-                    view.BackgroundColor = Color.FromHex("#EF4736");
+                    view.BorderColor = Color.FromHex("#EF4736");
                 }
                 else if (uIDay.selectionStatus == SelectionStatus.Today)
                 {
-                    view.BackgroundColor = Color.FromHex("#EF4736");
+                    view.BorderColor = Color.FromHex("#EF4736");
                 }
                 else if (uIDay.selectionStatus == SelectionStatus.NotSlected)
                 {
-                    view.BackgroundColor = Color.FromHex("#989da0"); 
+                    view.BorderColor = Color.FromHex("#989da0"); 
                 }
             }
             return view;

@@ -69,7 +69,7 @@ namespace Terra.Core.Controls
                 tapGestureRecognizer_3.CommandParameter = card;
                 
                 card.HasShadow = false;
-                card.CornerRadius = 8;
+                card.CornerRadius = 4;
                 card.Padding = new Thickness(0, 0, 0, 0);
                 card.Margin = new Thickness(0, 4, 0, 4);
                 Label day = new Label();

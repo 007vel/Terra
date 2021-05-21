@@ -5,10 +5,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Entities;
+using Terra.Core.Controls.UIInterface;
 using Terra.Core.Enum;
 using Terra.Core.Helper;
 using Terra.Core.Models;
+using Terra.Core.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,16 +22,17 @@ namespace Terra.Core.Controls
     {
         List<UIDay> uIDays;
         WeekControl weekControl;
-        public delegate void ScheduleResult(object arg, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval);
+        public delegate void ScheduleResult(object arg, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval, bool isActive);
         public event ScheduleResult ScheduleReceived;
 
         public delegate void DeleteSchedule(string id);
         public event DeleteSchedule DeleteDelegate;
-
+        INavigation navigation = null;
+        IScheduleOperation scheduleOperation = null;
 
 
         bool isEditMode;
-        public DayConfigControl(List<UIDay> _uIDays, Entities.Scheduler scheduler=null)
+        public DayConfigControl(List<UIDay> _uIDays, INavigation navigation,IScheduleOperation scheduleOperation, Entities.Scheduler scheduler=null)
         {
             InitializeComponent();
             this.uIDays = _uIDays;
@@ -39,13 +43,16 @@ namespace Terra.Core.Controls
                 SetStartAndStopValue(scheduler);
                 SetDaysValue(scheduler);
                 SetInterval();
+                SetActiveStatusValue(scheduler);
             }
+            this.scheduleOperation = scheduleOperation;
             weekControl = new WeekControl(weekFrameLayout);
             weekControl.DaysList = this.uIDays;
             weekFrameLayout.Children.Add(weekControl);
             WeekCardControl weekCardControl = new WeekCardControl();
             weekCardControl.DaysList = this.uIDays;
             weekexpand.Children.Add(weekCardControl);
+            this.navigation = navigation;
             BindingContext = this;
         }
         public DayConfigControl()
@@ -226,6 +233,15 @@ namespace Terra.Core.Controls
             }
         }
 
+        bool isActive;
+        public bool IsActive
+        {
+            set
+            {
+                isActive = value;
+            }
+        }
+
         public static BindableProperty DefaultUIProperty = BindableProperty.Create(
                                               propertyName: "DefaultUI",
                                               returnType: typeof(UIEnum),
@@ -335,11 +351,14 @@ namespace Terra.Core.Controls
             InputLayout.FadeTo(1, 500);
         }
 
-        private void Edit_Tapped(object sender, EventArgs e)
+        private async void Edit_Tapped(object sender, EventArgs e)
         {
+           // return;
             isEditMode = !isEditMode;
             if (isEditMode)
             {
+                await navigation.PushAsync(new ConfigurationSettingPage(uIDays, scheduleOperation, indexText, SelectedStartTime, SelectedStopTime, SelectedIntervsl, isActive));
+                return;
                 AnimationHelper.Instance.AnimationInvisible(schduleView, schduleView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(expandView, 125);
             }
@@ -347,7 +366,7 @@ namespace Terra.Core.Controls
             {
                 AnimationHelper.Instance.AnimationInvisible(expandView, expandView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(schduleView, 40);
-                ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl);
+                ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl,isActive);
                 SetInterval();
             }
         }
@@ -380,6 +399,11 @@ namespace Terra.Core.Controls
             DateTime time = DateTime.Today.Add(SelectedStartTime);
             timeLabel.Text = time.ToString("HH:mm") + System.Environment.NewLine + DateTime.Today.Add(SelectedStopTime).ToString("HH:mm");
             IntervalLabel.Text = uiIntervsl;
+        }
+
+        private void SetActiveStatusValue(Scheduler scheduler)
+        {
+            IsActive = Convert.ToBoolean(scheduler?.active??"false");
         }
          private ObservableCollection<string> BuildIntervalList()
         {

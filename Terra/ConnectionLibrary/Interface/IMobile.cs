@@ -7,5 +7,6 @@ namespace ConnectionLibrary.Interface
         string GetVersion();
         string GetBuildNumber();
         void TerminateApp();
+        byte[] ReadOtaFile();
     }
 }

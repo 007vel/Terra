@@ -90,7 +90,7 @@ namespace Terra.Core.Controls
             for (int i = 0; i < progress; i = i + 5)
             {
                 sweepAngleSlider.Value = i;
-                await Task.Delay(3);
+                await Task.Delay(1);
             }
 
             sweepAngleSlider.Value = progress;

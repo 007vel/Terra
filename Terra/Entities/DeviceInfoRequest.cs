@@ -8,7 +8,8 @@ namespace Entities
     {
         public string request { get; set; }
         public string info { get; set; }
-        public string Dispenser_Type { get; set; }
+        public string Dispenser_Type { get; set; } = null;
         public string value { get; set; }
+        public int? index { get; set; }
     }
 }
