@@ -29,7 +29,8 @@ namespace Terra.Core.ViewModels
         public Wifi LastSelectedItem = null;
         WifiAdapter wifiAdapter;
         Wifi SelectedWifi = null;
-
+        public static readonly string WIFI_ID = "terradev";
+        bool isFirstTimeLaunch = true;
         public NetworkViewModel()
         {
             Init();
@@ -37,6 +38,7 @@ namespace Terra.Core.ViewModels
 
         public async void Init()
         {
+            IsScanning = true;
             wifiAdapter = WifiAdapter.Instance;
            
             var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
@@ -76,9 +78,18 @@ namespace Terra.Core.ViewModels
                 {
                     WifiAdapter_PropertyChanged(arg);
                     IsWifiLoading = false;
+                    if(!isFirstTimeLaunch)
+                    {
+                        IsScanning = false;
+                    }
+                    else
+                    {
+                        isFirstTimeLaunch = false;
+                    }
+                    
                 });
                 wifiAdapter.OnRequestAvailableNetworks();
-                //      Utils.Utils.Toast("title", "OnRequestAvailableNetworks");
+
             }
         }
 
@@ -101,7 +112,19 @@ namespace Terra.Core.ViewModels
                 }
             }
         }
-
+        bool isScanning;
+        public bool IsScanning
+        {
+            get
+            {
+                return isScanning;
+            }
+            set
+            {
+                isScanning = value;
+                OnPropertyChanged("IsScanning");
+            }
+        }
         public INavigation PageNavigation
         {
             get; set;
@@ -192,6 +215,7 @@ namespace Terra.Core.ViewModels
 
         void OnScanWifiClick()
         {
+            IsScanning = true;
             wifiAdapter.OnRequestAvailableNetworks();
         }
 

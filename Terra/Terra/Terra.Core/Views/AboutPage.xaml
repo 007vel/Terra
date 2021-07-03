@@ -5,9 +5,12 @@
             <StackLayout  BackgroundColor="#EF4736" HorizontalOptions="FillAndExpand" Margin="30">
             <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="Version" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold"></Label>
+            <StackLayout VerticalOptions="StartAndExpand" Margin="0,50,0,0" HorizontalOptions="CenterAndExpand">
+            <Label Text="App" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold"></Label>
             <Label x:Name="versionLbl" Text="5.12" HorizontalOptions="Center"></Label>
+
+                <Label Text="Firmware" HorizontalOptions="Center" TextColor="Black" Margin="0,20,0,0" FontAttributes="Bold"></Label>
+            <Label x:Name="fwLbl" Text="5.12" HorizontalOptions="Center"></Label>
                 </StackLayout>
                 </StackLayout>
     </ContentPage.Content>

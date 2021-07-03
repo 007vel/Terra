@@ -24,7 +24,8 @@
     <PackageReference Include="LiveSharp" Version="1.2.5" />
     <PackageReference Include="Unity" Version="5.11.7" />
     <PackageReference Include="EspTouchSmartConfigXamarin" Version="1.0.4" />
-    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.468" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
+    <PackageReference Include="Plugin.Toast" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="common\fa-solid-900.ttf" />
@@ -48,6 +49,7 @@
     <Folder Include="common\UIControls\" />
     <Folder Include="Views\PopUpPages\" />
     <Folder Include="Controls\UIInterface\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <SharedImage Include="Resources\beach_1.jpg">

@@ -1,4 +1,5 @@
 ﻿using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network.Util;
 using Entities;
 using Newtonsoft.Json;
 using System;
@@ -29,6 +30,10 @@ namespace ConnectionLibrary.Network
                     deviceService = new DeviceService();
                 }
                 return deviceService;
+            }
+            set
+            {
+                deviceService = value;
             }
         }
 
@@ -106,7 +111,7 @@ namespace ConnectionLibrary.Network
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 });
-                var _schedule= await GetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.GET), jsonIgnoreNullValues);
+                var _schedule= await GetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.GET), jsonIgnoreNullValues, ErrorCode.SCHEDULE_GET);
                 return _schedule;
             }
             catch (Exception e)
@@ -151,20 +156,20 @@ namespace ConnectionLibrary.Network
             return true;
         }
 
-        public async Task<bool> SetScheduler(string schedule)
+        public async Task<string> SetScheduler(string schedule)
         {
             try
             {
-                var res = await SetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.POST),schedule);
+                var res = await GetWsData(UrlConfig.GetFullURL(Endpoint.scheduler, Endpoint_Method.POST),schedule);
                 return res;
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
             }
-            return true;
+            return null;
         }
-        private async Task<string> GetWsData(string endPoint, string deviceInfoRequest)
+        private async Task<string> GetWsData(string endPoint, string deviceInfoRequest, string defaultResponse = null)
         {
             NetworkServiceUtil.Log("Socket GetWsData: start");
             try
@@ -186,6 +191,7 @@ namespace ConnectionLibrary.Network
             {
                 NetworkServiceUtil.Log("Socket GetWsData: Exception");
                 System.Diagnostics.Debug.WriteLine(e);
+                return defaultResponse;
             }
             finally
             {

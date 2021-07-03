@@ -73,12 +73,27 @@ namespace Terra.Droid.Helper
             var activity = (Activity)Forms.Context;
             activity.FinishAffinity();
         }
+        public List<string> GetAllAssetsName()
+        {
+            AssetManager assets = Android.App.Application.Context.Assets;
+            var fileslist = assets.List("");
+            return new List<string>(fileslist ==null || fileslist.Length==0? new string[1] { "ota_data_initial_0.0.0" }: fileslist);
+        }
 
         public byte[] ReadOtaFile()
         {
             AssetManager assets = Android.App.Application.Context.Assets;
-
-            return GetImageStreamAsBytes(assets.Open("ota_data_initial.bin"));
+            var files = GetAllAssetsName();
+            string fileName = default;
+            foreach(var f in files)
+            {
+                if(f.Contains("ota_data_initial"))
+                {
+                    fileName = f;
+                    break;
+                }
+            }
+            return fileName!=default? GetImageStreamAsBytes(assets.Open(fileName)) : null;
         }
         private byte[] GetImageStreamAsBytes(System.IO.Stream input)
         {

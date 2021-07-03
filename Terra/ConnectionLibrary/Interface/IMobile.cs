@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace ConnectionLibrary.Interface
 {
     public interface IMobile
@@ -8,5 +10,6 @@ namespace ConnectionLibrary.Interface
         string GetBuildNumber();
         void TerminateApp();
         byte[] ReadOtaFile();
+        List<string> GetAllAssetsName();
     }
 }

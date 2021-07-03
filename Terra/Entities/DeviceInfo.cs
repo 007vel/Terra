@@ -9,6 +9,7 @@ namespace Entities
     {
         public string request { get; set; }
         public string info { get; set; }
+
         string _value;
         public string value
         {
@@ -20,6 +21,20 @@ namespace Entities
             {
                 _value = value;
                 this.NotifyPropertyChanged("value");
+            }
+        }
+
+        int? days_left;
+        public int? Days_left
+        {
+            get
+            {
+                return days_left;
+            }
+            set
+            {
+                days_left = value;
+                this.NotifyPropertyChanged("Days_left");
             }
         }
 

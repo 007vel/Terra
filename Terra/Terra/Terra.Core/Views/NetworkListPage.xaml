@@ -75,11 +75,26 @@
 
             </Grid>
 
-            <StackLayout BackgroundColor="#959A9D" HorizontalOptions="FillAndExpand" Margin="0,10,0,5" FlexLayout.Basis="10%">
-                <Label Margin="0,5,0,5" Text="{Binding WifiCount}" FontSize="Medium" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
+            <StackLayout BackgroundColor="#959A9D" HorizontalOptions="FillAndExpand" Margin="0,10,0,5" FlexLayout.Basis="10%" Orientation="Horizontal">
+                <Grid HorizontalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+                
+                <Label Margin="25,5,0,5" Text="{Binding WifiCount}" Grid.Column="0" FontSize="Medium" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
+
+                <Grid HorizontalOptions="End" Grid.Column="1">
+                     <ImageButton Source="baseline_refresh_white_24"  Command="{Binding ScanWifi}" IsVisible="{Binding IsScanning,Converter={StaticResource InversBoolConverter}}" Padding="20,0,20,0" BackgroundColor="#959A9D"/>
+                    <ActivityIndicator Color="White" IsRunning="{Binding IsScanning}" IsVisible="{Binding IsScanning}" Margin="10">
+
+                    </ActivityIndicator>
+                </Grid>
+                </Grid>
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ScanWifi}"/>
                 </StackLayout.GestureRecognizers>
+               
             </StackLayout>
             <Grid Margin="10,25,10,25" FlexLayout.Basis="60%" >
             <CollectionView x:Name="list"  

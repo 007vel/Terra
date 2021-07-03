@@ -4,6 +4,7 @@ using Terra.Core.Controls;
 using Terra.Core.Controls.UIInterface;
 using Terra.Core.Models;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Terra.Core.Views
 {
@@ -92,34 +93,37 @@ namespace Terra.Core.Views
             weekCardControl.DaysList = uIDays;
             DayConfig.Children.Add(weekCardControl);
         }
-        public bool IsValidDateTime(TimeSpan startTimeSpan, TimeSpan endTimeSpan, bool isStartChanged)
+      
+       async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
         {
-            if (startTimeSpan != null && endTimeSpan != null)
+            if(!IsValidStartAndStopTime())
             {
-                if (isStartChanged)
-                {
-                    if (TimeSpan.Compare(startTimeSpan, endTimeSpan) != -1)
-                    {
-                        App.Current.MainPage.DisplayAlert("Alert", "Start time must be less than end time", cancel: "Ok");
-                        return false;
-                    }
-                }
-                else
-                {
-                    //-1 means t1 is shorter than t2. 1 means t1 is longer than t2. 0 means	t1 is equal to t2.
-                    if (TimeSpan.Compare(startTimeSpan, endTimeSpan) != -1)
-                    {
-                        App.Current.MainPage.DisplayAlert("Alert", "End time must be greater than start time", cancel: "Ok");
-                        return false;
-                    }
-                }
+                await App.Current.MainPage.DisplayAlert("Alert", "End time must be greater than start time", cancel: "Ok");
+                return;
             }
-            return true;
+            if (Interval<1)
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "Interval must be greater than 1", cancel: "Ok");
+                return;
+            }
+            if (!IsValidDays())
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "Please select days for schedule", cancel: "Ok");
+                return;
+            }
+
+            scheduleOperation?.ReceiveEditedORNewschedule(uIDays, id, new TimeSpan(selectedStartTime.Ticks), new TimeSpan(selectedStopTime.Ticks), Interval.ToString(), isActive);
+            await Navigation.PopAsync();
         }
-        void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+
+        private bool IsValidStartAndStopTime()
         {
-            scheduleOperation?.Schedule_1_EditButtonClick(uIDays, id, new TimeSpan(selectedStartTime.Ticks), new TimeSpan(selectedStopTime.Ticks), Interval.ToString(), isActive);
-            Navigation.PopAsync();
+            return selectedStartTime.Ticks < selectedStopTime.Ticks;
+        }
+
+        private bool IsValidDays()
+        {
+           return uIDays.Where(i=>i.selectionStatus==Enum.SelectionStatus.Selected).Count() > 0;
         }
 
         void ButtonIncrease_Clicked(System.Object sender, System.EventArgs e)

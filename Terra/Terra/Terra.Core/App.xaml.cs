@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using ConnectionLibrary.Network;
 using Terra.common;
 using Xamarin.Forms;
 
@@ -42,17 +43,22 @@ Device.SetFlags(new[] {
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            DeviceService.Instance = null;
         }
 
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+        protected override void CleanUp()
+        {
+            base.CleanUp();
         }
     }
 }

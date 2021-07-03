@@ -31,8 +31,8 @@ namespace Terra.Core.Controls
         IScheduleOperation scheduleOperation = null;
 
 
-        bool isEditMode;
-        public DayConfigControl(List<UIDay> _uIDays, INavigation navigation,IScheduleOperation scheduleOperation, Entities.Scheduler scheduler=null)
+        bool isEditMode =true;
+        public DayConfigControl(List<UIDay> _uIDays, INavigation navigation,IScheduleOperation scheduleOperation, bool _isActive, Entities.Scheduler scheduler=null)
         {
             InitializeComponent();
             this.uIDays = _uIDays;
@@ -52,9 +52,19 @@ namespace Terra.Core.Controls
             WeekCardControl weekCardControl = new WeekCardControl();
             weekCardControl.DaysList = this.uIDays;
             weekexpand.Children.Add(weekCardControl);
+            
             this.navigation = navigation;
             BindingContext = this;
+            if(scheduler==null)
+            {
+                isActive = _isActive;
+                toggle.IsToggled  = _isActive;
+            }
+
+            toggle.Toggled += Toggle_Toggled;
         }
+
+
         public DayConfigControl()
         {
             InitializeComponent();
@@ -77,8 +87,7 @@ namespace Terra.Core.Controls
             }
             set
             {
-                var isValid=IsValidDateTime(selectedStartTime, value, false);                
-                selectedStopTime = isValid? value: selectedStopTime;                
+                selectedStopTime = value;
                 OnPropertyChanged("SelectedStopTime");
             }
         }
@@ -91,13 +100,7 @@ namespace Terra.Core.Controls
             }
             set
             {
-                if (selectedStopTime.Hours == 0)
-                {
-                    SelectedStopTime = new TimeSpan(value.Hours + 1, value.Minutes, value.Seconds);
-                }
-                var isValid = IsValidDateTime(value, selectedStopTime, true);
-                selectedStartTime = isValid? value: selectedStartTime;    
-                
+                selectedStartTime = value;
                 OnPropertyChanged("SelectedStartTime");
             }
         }
@@ -166,8 +169,17 @@ namespace Terra.Core.Controls
         {
             set
             {
-                index.Text = value;
-                index.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+               // index.Text = value;
+               // index.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+                OnPropertyChanged();
+            }
+        }
+
+        public bool VisibleDeleteButton
+        {
+            set
+            {
+                deleteBtnLayout.IsVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -198,8 +210,8 @@ namespace Terra.Core.Controls
         {
             set
             {
-                editBtn.Text = value;
-                editBtn.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+            //    editBtn.Text = value;
+             //   editBtn.FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
                 OnPropertyChanged();
             }
         }
@@ -236,9 +248,14 @@ namespace Terra.Core.Controls
         bool isActive;
         public bool IsActive
         {
+            get
+            {
+                return isActive;
+            }
             set
             {
                 isActive = value;
+                OnPropertyChanged("IsActive");
             }
         }
 
@@ -266,7 +283,6 @@ namespace Terra.Core.Controls
                 {
                     ViewInvisible(schduleView, 0);
                     ViewVisible(expandView, 125);
-                    isEditMode = true;
                 }
                 else
                 {
@@ -353,8 +369,8 @@ namespace Terra.Core.Controls
 
         private async void Edit_Tapped(object sender, EventArgs e)
         {
-           // return;
-            isEditMode = !isEditMode;
+            Console.WriteLine("***************Edit_Tapped**************");
+         //   return;
             if (isEditMode)
             {
                 await navigation.PushAsync(new ConfigurationSettingPage(uIDays, scheduleOperation, indexText, SelectedStartTime, SelectedStopTime, SelectedIntervsl, isActive));
@@ -364,6 +380,7 @@ namespace Terra.Core.Controls
             }
             else
             {
+                return;
                 AnimationHelper.Instance.AnimationInvisible(expandView, expandView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(schduleView, 40);
                 ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl,isActive);
@@ -403,7 +420,8 @@ namespace Terra.Core.Controls
 
         private void SetActiveStatusValue(Scheduler scheduler)
         {
-            IsActive = Convert.ToBoolean(scheduler?.active??"false");
+            isActive = Convert.ToBoolean(scheduler?.active??"false");
+            OnPropertyChanged("IsActive");
         }
          private ObservableCollection<string> BuildIntervalList()
         {
@@ -476,9 +494,20 @@ namespace Terra.Core.Controls
             }
         }
 
-        void SwipeItem_Invoked(System.Object sender, System.EventArgs e)
+        void RemoveIconClicked(object sender, EventArgs e)
         {
             DeleteDelegate?.Invoke(this.indexText);
         }
+
+        void SwipeView_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Console.WriteLine("***********SwipeView_PropertyChanged*********"+e.PropertyName);
+        }
+
+        void Toggle_Toggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl, e.Value);
+        }
+
     }
 }

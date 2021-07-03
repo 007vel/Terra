@@ -1,4 +1,5 @@
-﻿using ConnectionLibrary.Network;
+﻿using Acr.UserDialogs;
+using ConnectionLibrary.Network;
 using Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -55,7 +56,7 @@ namespace Terra.Core.Views
             initSpray.NotifyValueChange += InitSpray_NotifyValueChange;
 
             scheduleList.scheduler = new List<Scheduler>();
-           // PageContext.Result += PageContext_Result1;
+
             ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
             PageContext.Result += PageContext_Result;
             PageContext.DeviceInfoReceived += PageContext_DeviceInfoReceived;
@@ -100,9 +101,9 @@ namespace Terra.Core.Views
             grid.Children.Add(dayCount);
 
             QuickAccess.Children.Add(grid);
-            ScheduleViewButtons.Children.Add(GetAddButton());
+            ScheduleViewButtons.Children.Add(GetSingleDeleteButton());
             ScheduleViewButtons.Children.Add(GetDeleteButton());
-          
+            ScheduleViewButtons.Children.Add(GetAddButton());
 
         }
 
@@ -140,7 +141,10 @@ namespace Terra.Core.Views
             if (!string.IsNullOrEmpty(PageContext?.DaysLeft?.value))
             {
                 dayCount.CardDesc = (Convert.ToInt32(PageContext.DaysLeft.value) / 1).ToString();
-               // dayCount.CardDesc = (Convert.ToInt32( PageContext.DaysLeft.value)/86400).ToString();
+            }
+            else if (PageContext?.DaysLeft?.Days_left!=null)
+            {
+                dayCount.CardDesc = (Convert.ToInt32(PageContext.DaysLeft.Days_left) / 1).ToString();
             }
             LoadingView.IsRunning = false;
             LoadingView.IsVisible = false;
@@ -209,19 +213,21 @@ namespace Terra.Core.Views
         }
         private async void InitVm()
         {
-            Device.StartTimer(TimeSpan.FromMilliseconds(2000),()=>
+            LoadingView.IsRunning = true;
+            LoadingView.IsVisible = true;
+            LoadingView.IsEnabled = true;
+            Device.StartTimer(TimeSpan.FromMilliseconds(1000),()=>
             {
+                LoadingView.IsRunning = true;
+                LoadingView.IsVisible = true;
+                LoadingView.IsEnabled = true;
                 PageContext.OnInit();
                 return false;
             });
            
         }
-        
 
-        //private void PageContext_Result1(List<Entities.Scheduler> arg)
-        //{
-        //    BuildScheduleUI(arg);
-        //}
+
         private void PageContext_Result(List<Entities.Scheduler> arg)
         {
             if(arg!=null)
@@ -285,11 +291,36 @@ namespace Terra.Core.Views
             AddBtn.Children.Add(imageButton);
             AddBtn.Children.Add(tintedImage);
 
-            AddBtn.HorizontalOptions = LayoutOptions.EndAndExpand;
-            AddBtn.VerticalOptions = LayoutOptions.StartAndExpand;
+            AddBtn.HorizontalOptions = LayoutOptions.Center;
+            AddBtn.VerticalOptions = LayoutOptions.Center;
             AddBtn.Margin = new Thickness(10, 10, 15, 10);
             imageButton.Clicked += AddButtonClicked;
             return AddBtn;
+        }
+
+        private Grid GetSingleDeleteButton()
+        {
+            var SingleDeleteBtn = new Grid();
+            SingleDeleteBtn.WidthRequest = 40;
+            SingleDeleteBtn.HeightRequest = 40;
+            ImageButton imageButton = new ImageButton();
+            SingleDeleteBtn.BackgroundColor = Color.Transparent;
+            TintedImage tintedImage = new TintedImage();
+            tintedImage.Source = ImageSource.FromFile("baseline_remove_black_24");
+            tintedImage.TintColor = Color.White;
+            tintedImage.InputTransparent = true;
+            tintedImage.Margin = new Thickness(8);
+            imageButton.BackgroundColor = Color.Black;
+            imageButton.CornerRadius = 3;
+
+            SingleDeleteBtn.Children.Add(imageButton);
+            SingleDeleteBtn.Children.Add(tintedImage);
+
+            SingleDeleteBtn.HorizontalOptions = LayoutOptions.CenterAndExpand;
+            SingleDeleteBtn.VerticalOptions = LayoutOptions.Center;
+            SingleDeleteBtn.Margin = new Thickness(10, 10, 15, 10);
+            imageButton.Clicked += SingleDeleteButtonClicked;
+            return SingleDeleteBtn;
         }
 
         private Button GetDeleteButton()
@@ -300,8 +331,8 @@ namespace Terra.Core.Views
             DelButton.Text = "delete all";
             DelButton.TextColor = Color.White;
 
-            DelButton.HorizontalOptions = LayoutOptions.EndAndExpand;
-            DelButton.VerticalOptions = LayoutOptions.StartAndExpand;
+            DelButton.HorizontalOptions = LayoutOptions.Center;
+            DelButton.VerticalOptions = LayoutOptions.Center;
             DelButton.Margin = new Thickness(10, 10, 15, 10);
             DelButton.Clicked += DelAllButton_Clicked; ;
             return DelButton;
@@ -317,37 +348,63 @@ namespace Terra.Core.Views
         
         private void AddButtonClicked(object sender, EventArgs e)
         {
+            EnableDisableDeleteButtonInRow(false);
             AddSchedule();
             ButtonVisibleChange();
         }
+        private void SingleDeleteButtonClicked(object sender, EventArgs e)
+        {
+            EnableDisableDeleteButtonInRow(true);
+        }
 
-        
+        private void EnableDisableDeleteButtonInRow(bool val)
+        {
+            var DayConfigRows = ScheduleView.Children;
+            if (DayConfigRows == null) return;
+            foreach (var vi in DayConfigRows)
+            {
+                var rawView = (DayConfigControl)vi;
+                if (rawView != null)
+                {
+                    rawView.VisibleDeleteButton = val;
+                }
+            }
+        }
+
         private void AddSchedule(Entities.Scheduler scheduler = null)
         {
             CreateScheduleView(GetScheduleNewIndex(), scheduler);
-          //  ButtonVisibleChange();
         }
         private async void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
         {
-            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(),Navigation,this, scheduler);
+            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(),Navigation,this, true, scheduler);
             Schedule_UI.indexText = (index).ToString();
             Schedule_UI.editText = "edit";
-            Schedule_UI.ScheduleReceived += Schedule_1_EditButtonClick;
+            Schedule_UI.ScheduleReceived += ReceiveEditedORNewschedule;
             Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
             Schedule_UI.DeleteDelegate += SingleDeleteDelegate;
             ScheduleView.Children.Insert(index-1, Schedule_UI);
-           
+
+            TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer();
+            gestureRecognizer.Tapped += GestureRecognizer_Tapped;
+            Schedule_UI.GestureRecognizers.Add(gestureRecognizer);
             if (scheduler==null)
             {
                 scheduler = new Scheduler();
                 scheduler.index = index.ToString();
                 scheduleList.scheduler.Add(scheduler);
-                await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", false));
+                await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", true));
             }
             else
             {
                 scheduleList.scheduler.Add(scheduler);
             }
+        }
+
+        private void GestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            Console.WriteLine("************GestureRecognizer_Tapped***********");
+          //  throw new NotImplementedException();
         }
 
         private void ButtonVisibleChange()
@@ -373,45 +430,62 @@ namespace Terra.Core.Views
             }
             return uIDays;
         }
-        public async void Schedule_1_EditButtonClick(object arg, string id, TimeSpan start, TimeSpan stop, string interval, bool active)
+        public async void ReceiveEditedORNewschedule(object arg, string id, TimeSpan start, TimeSpan stop, string interval, bool active)
         {
-            
-            
-            ScheduleView.Children.RemoveAt(Convert.ToInt32( id)-1);
-            var uidays = (List<UIDay>)arg;
-
-            //Add new schedule item view in small row
-            DayConfigControl Schedule = new DayConfigControl(uidays,Navigation,this);
-            Schedule.indexText = id;
-            Schedule.editText = "edit";
-            Schedule.intervalText = interval;
-            Schedule.StartTimeText = start;
-            Schedule.StopTimeText = stop;
-            Schedule.IsActive = active;
-            Schedule.ScheduleReceived += Schedule_1_EditButtonClick;
-            Schedule.DeleteDelegate += SingleDeleteDelegate;
-            Schedule.DefaultUI = UIEnum.Schedul_NormalView;
-            ScheduleView.Children.Insert(Convert.ToInt32(id)-1, Schedule);
-
-            //Make API call to update scheule to device
-            var obj= JSONUtil.Build_Scheduler(uidays,start,stop,interval, active);
-            obj.index = id.ToString();
-
-
-            scheduleList.scheduler[Convert.ToInt32(obj.index)-1]=obj;
-            scheduleList.request = "set";
-            scheduleList.info = "schedule";
-            if (PageContext != null && obj!=null)
+            var iProg = PageContext.EnableSpin();
+            try
             {
+                
+                EnableDisableDeleteButtonInRow(false);
+                var viewObj = ScheduleView.Children[Convert.ToInt32(id) - 1];
+                await Task.Delay(500);
+                ScheduleView.Children.RemoveAt(Convert.ToInt32(id) - 1);
 
-                await PageContext.deviceService.SetScheduler(JsonConvert.SerializeObject(scheduleList));
-                DeviceInfoRequest activeStatus = new DeviceInfoRequest();
-                activeStatus.request = "status";
-                activeStatus.info = "scheduler";
-                activeStatus.index = Convert.ToInt32(id);
-                activeStatus.value = active.ToString().ToLower();
-                await PageContext.deviceService.SetDeviceInfo(activeStatus);
-               // await PageContext.GetDaysLeftCount();
+                var uidays = (List<UIDay>)arg;
+
+                //Add new schedule item view in small row
+                DayConfigControl Schedule = new DayConfigControl(uidays, Navigation, this, active);
+                Schedule.indexText = id;
+                Schedule.editText = "edit";
+                Schedule.intervalText = interval;
+                Schedule.StartTimeText = start;
+                Schedule.StopTimeText = stop;
+                Schedule.ScheduleReceived += ReceiveEditedORNewschedule;
+                Schedule.DeleteDelegate += SingleDeleteDelegate;
+                Schedule.DefaultUI = UIEnum.Schedul_NormalView;
+                ScheduleView.Children.Insert(Convert.ToInt32(id) - 1, Schedule);
+
+
+                //Make API call to update scheule to device
+                var obj = JSONUtil.Build_Scheduler(uidays, start, stop, interval, active);
+                obj.index = id.ToString();
+
+
+                scheduleList.scheduler[Convert.ToInt32(obj.index) - 1] = obj;
+                scheduleList.request = "set";
+                scheduleList.info = "schedule";
+                if (PageContext != null && obj != null)
+                {
+                    PageContext.EnableSpin();
+                    await PageContext.SetSchedulerinVM(JsonConvert.SerializeObject(scheduleList));
+                    DeviceInfoRequest activeStatus = new DeviceInfoRequest();
+                    activeStatus.request = "status";
+                    activeStatus.info = "scheduler";
+                    activeStatus.index = Convert.ToInt32(id);
+                    activeStatus.value = active.ToString().ToLower();
+                    await PageContext.deviceService.SetDeviceInfo(activeStatus);
+                    
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                UserDialogs.Instance.HideLoading();
+            }
+            finally
+            {
+                PageContext.DisableSpin(iProg);
             }
         }
         /// <summary>
@@ -451,5 +525,14 @@ namespace Terra.Core.Views
             tapGestureRecognizer.Tapped += GotoPopupInputpage;
             quickAccessButton.GestureRecognizers.Add(tapGestureRecognizer);
         }
+
+        void RefreshClicked(System.Object sender, System.EventArgs e)
+        {
+            PageContext.IsScheduleGetError = false;
+            InitVm();
+        }
+
+     
+
     }
 }

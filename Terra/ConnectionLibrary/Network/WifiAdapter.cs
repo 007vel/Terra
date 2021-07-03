@@ -130,9 +130,8 @@ namespace ConnectionLibrary.Network
             catch(Exception e)
             {
                 NetworkServiceUtil.Log("Socket Received Exception: " + e);
+                throw;
             }
-            NetworkServiceUtil.Log("Socket ReadMessage: end");
-            return string.Empty;
         }
 
         internal async Task<bool> SendMessageAsync(string message, ClientWebSocket client)

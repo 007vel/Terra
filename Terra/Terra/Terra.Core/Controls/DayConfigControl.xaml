@@ -4,31 +4,29 @@
              x:Class="Terra.Core.Controls.DayConfigControl"
               xmlns:expand="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
                   xmlns:time="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core"
+             xmlns:tint="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
              Orientation="Vertical" HorizontalOptions="FillAndExpand"
              Margin="10,10,15,10">
     <!--Edit layout -->
   
     <StackLayout x:Name="schduleView" HorizontalOptions="FillAndExpand" Spacing="0" HeightRequest="40">
-          <SwipeView BackgroundColor="Transparent" >
-        <SwipeView.RightItems >
-        <SwipeItems  >
-            
-            <SwipeItem BackgroundColor="Transparent" IconImageSource="baseline_delete_forever_black_24"
-                        Text="Delete" Invoked="SwipeItem_Invoked"/>
-        </SwipeItems>
-    </SwipeView.RightItems>
         <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="82*"/>
-                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="79*"/>
+                <ColumnDefinition Width="13*"/>
             </Grid.ColumnDefinitions>
-            <StackLayout x:Name="indexLayout" Grid.Column="0" BackgroundColor="Black" HorizontalOptions="FillAndExpand" Margin="0,4,0,4">
-                <Label x:Name="index" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-            </StackLayout>
-            <Frame x:Name="weekFrameLayout1" Grid.Column="1" CornerRadius="4" BackgroundColor="White" >
 
-                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" Margin="-20" InputTransparent="True">
+            <StackLayout x:Name="deleteBtnLayout" IsVisible="False" Grid.Column="0" BackgroundColor="#EF4736" HorizontalOptions="FillAndExpand" Margin="0,4,0,4">
+                <tint:TintedImage Source="baseline_remove_black_24" TintColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="RemoveIconClicked"/>
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+
+            <Frame x:Name="weekFrameLayout1" Grid.Column="1" CornerRadius="4" BackgroundColor="White" Padding="0">
+
+                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" InputTransparent="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70*"/>
                         <ColumnDefinition Width="1*"/>
@@ -46,23 +44,11 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-            <Button Grid.Column="1" CornerRadius="4" Clicked="Edit_Tapped" BackgroundColor="#20e6e6e6" Padding="0"/>
+            <Button Grid.Column="1" CornerRadius="4" Clicked="Edit_Tapped" BackgroundColor="{Binding IsActive,Converter={StaticResource BoolToColorActiverInactiveConverter},ConverterParameter=1}" Margin="0,0,0,0" InputTransparent="False"/>
 
-            <StackLayout x:Name="editLayout" Grid.Column="2" BackgroundColor="#EF4736" Margin="0,4,0,4">
-                <Label x:Name="editBtn" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Edit_Tapped" />
-                    </Label.GestureRecognizers>
-                </Label>
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Edit_Tapped" />
-                </StackLayout.GestureRecognizers>
-            </StackLayout>
-            <Grid.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Edit_Tapped" />
-            </Grid.GestureRecognizers>
+            <Switch x:Name="toggle" IsToggled="{Binding IsActive}" Grid.Column="2" Margin="0" OnColor="#EF4736" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"></Switch>
         </Grid>
-         </SwipeView>
+          
     </StackLayout>
        
     
@@ -103,16 +89,10 @@
         </Frame>
         <StackLayout HorizontalOptions="Fill" BackgroundColor="#EF4736" Margin="-6,0,0,0" WidthRequest="60">
             <Label Text="add" FontAttributes="Bold" VerticalOptions="CenterAndExpand" Margin="2,0,2,0">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Edit_Tapped" />
-                </Label.GestureRecognizers>
+               
             </Label>
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Tapped="Edit_Tapped" />
-            </StackLayout.GestureRecognizers>
         </StackLayout>
 
     </expand:ScheduleExpandCell>
-
 
 </StackLayout>

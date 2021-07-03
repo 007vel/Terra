@@ -34,11 +34,15 @@
                         <ScrollView HorizontalOptions="FillAndExpand">
                             <StackLayout x:Name="ScheduleViewRoot" HorizontalOptions="FillAndExpand" Spacing="0">
                                 <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
+                                    
+                                </StackLayout>
+                                <Button Text="Try again" HorizontalOptions="Center" BackgroundColor="Gray" Clicked="RefreshClicked" TextColor="White" IsVisible="{Binding IsScheduleGetError}" Margin="0,15,0,0" HeightRequest="40"/>
+                                <StackLayout HorizontalOptions="FillAndExpand">
+                                    <StackLayout x:Name="ScheduleViewButtons" HorizontalOptions="Center" Orientation="Horizontal">
 
-                            </StackLayout>
-                                <StackLayout x:Name="ScheduleViewButtons" HorizontalOptions="FillAndExpand">
-
-                            </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                                
                             </StackLayout>
                             
                         </ScrollView>
@@ -59,8 +63,8 @@
                         </StackLayout>
                         <StackLayout Grid.Column="1" Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" >
                             <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Margin="0,0,0,30" ColumnSpacing="0" RowSpacing="0">
-                                <card:ProgressView x:Name="batteryView" Grid.Column="0" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" >
-                                </card:ProgressView>
+                             <!-- -->  <card:ProgressView x:Name="batteryView" Grid.Column="0" Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" >
+                                </card:ProgressView> 
                                 <StackLayout x:Name="TimerLayout" Grid.Column="0" Grid.Row="0" Spacing="0" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsVisible="false">
                                
                                     <StackLayout Orientation="Vertical" Spacing="0">

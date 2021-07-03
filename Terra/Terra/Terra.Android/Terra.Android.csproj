@@ -38,7 +38,6 @@
     <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +49,6 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <AndroidSigningKeyStore>/Users/tecsack/Desktop/scent.jks</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Terra@123</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>scent</AndroidSigningKeyAlias>
@@ -86,7 +84,10 @@
       <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.1.0.468</Version>
+      <Version>7.1.0.514</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.Toast">
+      <Version>2.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -536,6 +537,18 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\baseline_refresh_black_24.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\baseline_refresh_white_24.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\baseline_remove_black_24.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\plane.png" />
@@ -654,7 +667,7 @@
     <AndroidResource Include="Resources\drawable\baseline_add_black_36.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\ota_data_initial.bin" />
+    <AndroidAsset Include="Assets\ota_data_initial_1.2.24_.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

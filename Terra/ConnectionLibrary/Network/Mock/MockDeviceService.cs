@@ -102,9 +102,9 @@ namespace ConnectionLibrary.Network.Mock
             return true;
         }
 
-        public async Task<bool> SetScheduler(string schedule)
+        public async Task<string> SetScheduler(string schedule)
         {
-            return true;
+            return null;
         }
     }
 }

@@ -2,17 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Acr.UserDialogs;
+using Plugin.Toast;
 using Xamarin.Forms;
 
 namespace Terra.Core.Utils
 {
     public class Utils
     {
-        public static async void Toast(string title, string msg)
+        public static async void Toast(string msg)
         {
-
-
-            //    var result = await notificator.Notify(options);
+            UserDialogs.Instance.Toast(msg);
         }
 
         public static long GetEpochSeconds()

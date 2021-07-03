@@ -25,8 +25,8 @@ namespace Terra.Core.ViewModels
         public delegate void DeviceInfoResult(DeviceInfo deviceInfo);
         public event DeviceInfoResult DeviceInfoReceived;
         // public IDevice deviceService = new MockDeviceService();
-          public IDevice deviceService = new DeviceService();
-       // public IDevice deviceService = DeviceService.Instance;
+       //   public IDevice deviceService = new DeviceService();
+        public IDevice deviceService = DeviceService.Instance;
 
         public ICommand DemoCommand => new Command(SetDemoClicked);
         public ICommand SleepCommand => new Command(SetSleepClicked);
@@ -89,6 +89,19 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("InitializeSpray");
             }
         }
+        bool isScheduleGetError;
+        public bool IsScheduleGetError
+        {
+            get
+            {
+                return isScheduleGetError;
+            }
+            set
+            {
+                isScheduleGetError = value;
+                OnPropertyChanged("IsScheduleGetError");
+            }
+        }
 
         DeviceInfo daysLeft;
         public DeviceInfo DaysLeft
@@ -133,8 +146,20 @@ namespace Terra.Core.ViewModels
         {
             await SetTime();
             Thread.Sleep(sleeptime);
+           
             var rawSchedule = await GetScheduleFromService();
             NetworkServiceUtil.Log("DeviceDetailsViewModel OnInit rawSchedule: " + rawSchedule);
+            IsScheduleGetError = DoesHaveErrorCode(rawSchedule);
+            if(isScheduleGetError)
+            {
+                bool wifiNotConnected = NetworkViewModel.WIFI_ID == WifiAdapter.Instance.FormWifiManager.GetSsId().ToLower();
+                if(!wifiNotConnected)
+                {
+                    Terra.Core.Utils.Utils.Toast("Device connection lost!");
+                    await Shell.Current.Navigation.PopAsync();
+                    return;
+                }
+            }
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
           //  return;
@@ -181,6 +206,11 @@ namespace Terra.Core.ViewModels
                 System.Diagnostics.Debug.WriteLine(e);
             }
             return null;
+        }
+
+        private bool DoesHaveErrorCode(string response)
+        {
+            return response == ErrorCode.SCHEDULE_GET;
         }
 
         ////////////////////////////////////////////////
@@ -325,6 +355,18 @@ namespace Terra.Core.ViewModels
         ////////////////////////////////////////////////
 
 
+
+
+        public async Task<string> SetSchedulerinVM(string schedules)
+        {
+           var daysleft = await deviceService.SetScheduler(schedules);
+            var _DaysLeft = DeserializDeviceInfo(daysleft);
+            DaysLeft = _DaysLeft;
+            DeviceInfoReceived?.Invoke(DaysLeft);
+            return daysleft;
+        }
+
+
         /// <summary>
         /// SetInitCount Will post value to device
         /// </summary>
@@ -451,7 +493,15 @@ namespace Terra.Core.ViewModels
             var deviceRes = await deviceService.DeleteScheduleIndex(scheduleIndex);
             return deviceRes;
         }
-
         
+        public IProgressDialog EnableSpin()
+        {
+            return UserDialogs.Instance.Loading("Saving...");
+        }
+
+        public void DisableSpin(IProgressDialog progressDialog)
+        {
+            progressDialog?.Hide();
+        }
     }
 }

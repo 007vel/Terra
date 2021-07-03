@@ -4,9 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Terra"
+             xmlns:converters="clr-namespace:Terra.Core.Converters"
              mc:Ignorable="d"
              x:Class="Terra.App">
     <Application.Resources>
+         <converters:BoolToColorActiverInactiveConverter x:Key="BoolToColorActiverInactiveConverter" />
+        <converters:InversBoolConverter x:Key="InversBoolConverter" />
+
         <ResourceDictionary Source="common/GlobalStyles.xaml">
             <x:Array x:Key="Banners" Type="{x:Type x:String}">
                 <x:String>banner_01.jpg</x:String>

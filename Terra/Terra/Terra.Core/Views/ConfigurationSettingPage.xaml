@@ -98,7 +98,7 @@
                         <Label Text="Interval" FontAttributes="Bold" TextColor="Black" FontSize="Large" VerticalOptions="CenterAndExpand" />
                      </StackLayout>
                     <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="End"/>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,0,20,0">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,0,20,0" IsVisible="False">
                         <Label Text="Active"/>
                         <Switch IsToggled="{Binding IsActive}" OnColor="#EF4736"></Switch>
                     </StackLayout>
