@@ -328,7 +328,7 @@ namespace Terra.Core.ViewModels
                     }else if (i.request == "get" && i.info == "days_left")
                     {
                         DaysLeft = i;
-                    }else if (i.request == "get" && i.info == "spray")
+                    }else if (i.request == "get" && i.info == "rem_sprays")
                     {
                         RemSpray = i;
                     }
@@ -360,6 +360,16 @@ namespace Terra.Core.ViewModels
         public async Task<string> SetSchedulerinVM(string schedules)
         {
            var daysleft = await deviceService.SetScheduler(schedules);
+            var _DaysLeft = DeserializDeviceInfo(daysleft);
+            DaysLeft = _DaysLeft;
+            DeviceInfoReceived?.Invoke(DaysLeft);
+            return daysleft;
+        }
+
+
+        public async Task<string> SetScheduleActiveInactiveStatusinVM(DeviceInfoRequest deviceInfoRequest)
+        {
+            var daysleft = await deviceService.GetDeviceInfo(deviceInfoRequest);
             var _DaysLeft = DeserializDeviceInfo(daysleft);
             DaysLeft = _DaysLeft;
             DeviceInfoReceived?.Invoke(DaysLeft);

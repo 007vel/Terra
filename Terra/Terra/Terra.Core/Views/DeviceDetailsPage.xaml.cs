@@ -473,7 +473,7 @@ namespace Terra.Core.Views
                     activeStatus.info = "scheduler";
                     activeStatus.index = Convert.ToInt32(id);
                     activeStatus.value = active.ToString().ToLower();
-                    await PageContext.deviceService.SetDeviceInfo(activeStatus);
+                    await PageContext.SetScheduleActiveInactiveStatusinVM(activeStatus);
                     
                 }
                 
@@ -488,8 +488,9 @@ namespace Terra.Core.Views
                 PageContext.DisableSpin(iProg);
             }
         }
+
         /// <summary>
-        /// it will return new index value for next element, ex: if the lsit count is 3 means, this methood will return 4
+        /// it will return new index value for next element, ex: if the list count is 3 means, this methood will return 4
         /// </summary>
         /// <returns></returns>
         private int GetScheduleNewIndex()
