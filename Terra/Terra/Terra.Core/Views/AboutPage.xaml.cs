@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Acr.UserDialogs;
 using ConnectionLibrary.Interface;
-
+using ConnectionLibrary.Network;
+using Terra.Core.Helper;
 using Xamarin.Forms;
 
 namespace Terra.Core.Views
@@ -17,18 +19,38 @@ namespace Terra.Core.Views
         }
         private void getFWversion()
         {
-            IMobile mobile = DependencyService.Get<IMobile>();
-            var files = mobile.GetAllAssetsName();
-            string fileName = default;
-            foreach (var f in files)
-            {
-                if (f.Contains("ota_data_initial"))
-                {
-                    fileName = f;
-                    break;
-                }
-            }
-            fwLbl.Text = fileName!=default? new List<string>(fileName.Split('_'))[3]:"";
+            fwLbl.Text = OTAHelper.Instance.getAssetFolderFWversion();
+            DevicefwLbl.Text = WifiAdapter.Instance.CurrentDeviceFWVersion??"-connect with device for device Firmware version-";
+
+          //  FW_UpdateCheck(OTAHelper.Instance.getAssetFolderFWversion(), WifiAdapter.Instance.CurrentDeviceFWVersion);
         }
-   }
+
+        void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        {
+            if(OTAHelper.Instance.DeviceService!=null)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    try
+                    {
+                        using (UserDialogs.Instance.Loading("Uploading..."))
+                        {
+                            var otaByte = DependencyService.Get<IMobile>().ReadOtaFile();
+                            await OTAHelper.Instance.DeviceService.PutBinary("", otaByte);
+                            
+                            UserDialogs.Instance.HideLoading();
+                            await Shell.Current.Navigation.PopAsync();
+                        }
+                        UserDialogs.Instance.HideLoading();
+                    }
+                    catch (Exception ex)
+                    {
+                        await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Error in OTA update", cancel: "OK");
+                        Console.WriteLine(ex);
+                        UserDialogs.Instance.HideLoading();
+                    }
+                });
+            }
+        }
+    }
 }

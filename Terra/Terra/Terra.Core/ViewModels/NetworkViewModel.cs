@@ -274,7 +274,7 @@ namespace Terra.Core.ViewModels
 
                 if(!wifiConnected)
                 {
-                    if (await wifiAdapter.ConnectToWifi(ssid, pwd))
+                   if (await wifiAdapter.ConnectToWifi(ssid, pwd))
                     {
                         wifiConnected = true;
                         DependencyService.Get<IPlatformWifiManager>().ForceWifiOverCellular();

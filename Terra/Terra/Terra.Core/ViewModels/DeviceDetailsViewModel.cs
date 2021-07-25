@@ -12,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using Terra.Core.common;
+using Terra.Core.Helper;
 using Xamarin.Forms;
 
 namespace Terra.Core.ViewModels
@@ -59,6 +61,20 @@ namespace Terra.Core.ViewModels
             {
                 battery = value;
                 OnPropertyChanged("Battery");
+            }
+        }
+
+        DeviceInfo fwVersion;
+        public DeviceInfo FWVersion
+        {
+            get
+            {
+                return fwVersion;
+            }
+            set
+            {
+                fwVersion = value;
+                OnPropertyChanged("FWVersion");
             }
         }
 
@@ -129,8 +145,35 @@ namespace Terra.Core.ViewModels
                 OnPropertyChanged("NextSprayCounter");
             }
         }
+        bool isConnectionLost;
+        public bool IsConnectionLost
+        {
+            get
+            {
+                return isConnectionLost;
+            }
+            set
+            {
+                isConnectionLost = value;
+                OnPropertyChanged("IsConnectionLost");
+            }
+        }
         public DeviceDetailsViewModel()
         {
+            OTAHelper.Instance.NotifyDeviceConnectionChange += Instance_NotifyDeviceConnectionChange;
+        }
+
+        private void Instance_NotifyDeviceConnectionChange(bool connected)
+        {
+            if(!connected)
+            {
+                Terra.Core.Utils.Utils.Toast("Device connection lost!");
+                IsConnectionLost = true;
+            }
+            else
+            {
+                IsConnectionLost = false;
+            }
             
         }
 
@@ -144,6 +187,7 @@ namespace Terra.Core.ViewModels
 
         private async void LoadData()
         {
+            OTAHelper.Instance.DeviceService = DeviceService.Instance;
             await SetTime();
             Thread.Sleep(sleeptime);
            
@@ -152,8 +196,7 @@ namespace Terra.Core.ViewModels
             IsScheduleGetError = DoesHaveErrorCode(rawSchedule);
             if(isScheduleGetError)
             {
-                bool wifiNotConnected = NetworkViewModel.WIFI_ID == WifiAdapter.Instance.FormWifiManager.GetSsId().ToLower();
-                if(!wifiNotConnected)
+                if(!OTAHelper.Instance.IsDeviceConnected())
                 {
                     Terra.Core.Utils.Utils.Toast("Device connection lost!");
                     await Shell.Current.Navigation.PopAsync();
@@ -163,7 +206,7 @@ namespace Terra.Core.ViewModels
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
           //  return;
-            Thread.Sleep(1100);
+          //  Thread.Sleep(1100);
 
           //  await GetBatteryCount();
             //Thread.Sleep(sleeptime);
@@ -175,6 +218,9 @@ namespace Terra.Core.ViewModels
             //Thread.Sleep(sleeptime);
           //  await GetNextSprayCounterCount();
             await GetSnapshotAPI();
+
+            CheckNewFWUpdateAvailability();
+
         }
 
         /// <summary>
@@ -230,8 +276,8 @@ namespace Terra.Core.ViewModels
             deviceInfoRequest.info = "battery";
             var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
             NetworkServiceUtil.Log("DeviceDetailsViewModel GetBatteryCount get battery: " + deviceRes);
-            Battery = DeserializDeviceInfo(deviceRes);
-            DeviceInfoReceived?.Invoke(Battery);
+          //  Battery = DeserializDeviceInfo(deviceRes);
+           // DeviceInfoReceived?.Invoke(Battery);
             return false;
         }
 
@@ -314,21 +360,31 @@ namespace Terra.Core.ViewModels
             if (!string.IsNullOrEmpty(deviceRes))
             {
                 devicesnapshot = JsonConvert.DeserializeObject<Devicesnapshot>(deviceRes);
+                AssignSnapshotObjects(devicesnapshot);
             }
-            if(devicesnapshot!=null && devicesnapshot.snapshotinfo!=null)
+            InvokeDelegate();
+            return false;
+        }
+        
+        private void AssignSnapshotObjects(Devicesnapshot devicesnapshot)
+        {
+            if (devicesnapshot != null && devicesnapshot.snapshotinfo != null)
             {
                 foreach (var i in devicesnapshot.snapshotinfo)
                 {
-                    if(i.request=="get" && i.info== "battery")
+                    if (i.request == "get" && i.info == "battery")
                     {
                         Battery = i;
-                    }else if (i.request == "init" && i.info == "spray")
+                    }
+                    else if (i.request == "init" && i.info == "spray")
                     {
                         InitializeSpray = i;
-                    }else if (i.request == "get" && i.info == "days_left")
+                    }
+                    else if (i.request == "get" && i.info == "days_left")
                     {
                         DaysLeft = i;
-                    }else if (i.request == "get" && i.info == "rem_sprays")
+                    }
+                    else if (i.request == "get" && i.info == "rem_sprays")
                     {
                         RemSpray = i;
                     }
@@ -336,17 +392,22 @@ namespace Terra.Core.ViewModels
                     {
                         NextSprayCounter = i;
                     }
+                    else if (i.request == "get" && i.info == "version")
+                    {
+                        FWVersion = i;
+                        WifiAdapter.Instance.CurrentDeviceFWVersion = FWVersion?.value;
+                    }
                 }
             }
-            
+        }
+
+        private void InvokeDelegate()
+        {
             DeviceInfoReceived?.Invoke(RemSpray);
             DeviceInfoReceived?.Invoke(NextSprayCounter);
             DeviceInfoReceived?.Invoke(DaysLeft);
             DeviceInfoReceived?.Invoke(InitializeSpray);
-            // CalculateRemainingDays();
-            return false;
         }
-
 
         ////////////////////////////////////////////////
         ////////////////////////////////////////////////
@@ -380,13 +441,25 @@ namespace Terra.Core.ViewModels
         /// <summary>
         /// SetInitCount Will post value to device
         /// </summary>
-        public async void SetInitilizeSprayCount(string val)
+        public async Task<string> SetInitilizeSprayCount(string val)
         {
             DeviceInfoRequest deviceInfoRequest = new DeviceInfoRequest();
             deviceInfoRequest.request = "init";
             deviceInfoRequest.info = "spray";
             deviceInfoRequest.value = val;
-            var deviceRes = await deviceService.SetDeviceInfo(deviceInfoRequest);
+            var deviceRes = await deviceService.GetDeviceInfo(deviceInfoRequest);
+            if (!string.IsNullOrEmpty(deviceRes))
+            {
+               var devicesnapshot = JsonConvert.DeserializeObject<Devicesnapshot>(deviceRes);
+                AssignSnapshotObjects(devicesnapshot);
+            }
+
+            //todo remove after origin impl
+            InitializeSpray.value = val;
+
+            InvokeDelegate();
+            
+            return deviceRes;
         }
 
         /// <summary>
@@ -438,27 +511,7 @@ namespace Terra.Core.ViewModels
 
         public async void OtaUploadClicked()
         {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    using (UserDialogs.Instance.Loading("Uploading..."))
-                    {
-                        var otaByte = DependencyService.Get<IMobile>().ReadOtaFile();
-                        await deviceService.PutBinary("", otaByte);
-                        //Task.Delay(2*1000);
-                        UserDialogs.Instance.HideLoading();
-                        await Shell.Current.Navigation.PopAsync();
-                    }
-                    UserDialogs.Instance.HideLoading();
-                }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Error in OTA update", cancel: "OK");
-                    Console.WriteLine(ex);
-                    UserDialogs.Instance.HideLoading();
-                }
-            });
+            OTAHelper.Instance.performOtaUpload();
         }
 
         public async void SetDispanserType(string type)
@@ -493,7 +546,7 @@ namespace Terra.Core.ViewModels
             return null;
         }
 
-        public async Task<bool> DeleteScheduleItem(string index)
+        public async Task<string> DeleteScheduleItem(string index)
         {
             NetworkServiceUtil.Log("DeleteScheduleItem ==> called");
             ScheduleIndex scheduleIndex = new ScheduleIndex();
@@ -501,6 +554,9 @@ namespace Terra.Core.ViewModels
             scheduleIndex.request = "delete";
             scheduleIndex.info = "scheduler";
             var deviceRes = await deviceService.DeleteScheduleIndex(scheduleIndex);
+            var _DaysLeft = DeserializDeviceInfo(deviceRes);
+            DaysLeft = _DaysLeft;
+            DeviceInfoReceived?.Invoke(DaysLeft);
             return deviceRes;
         }
         
@@ -513,5 +569,21 @@ namespace Terra.Core.ViewModels
         {
             progressDialog?.Hide();
         }
+
+        private async void CheckNewFWUpdateAvailability()
+        {
+            var assetFW = OTAHelper.Instance.getAssetFolderFWversion();
+            var currentDeviceFW = WifiAdapter.Instance.CurrentDeviceFWVersion;
+
+            if(OTAHelper.Instance.VerifyNewFWupdatesAvailability(assetFW, currentDeviceFW))
+            {
+               var res = await App.Current.MainPage.DisplayAlert(title: "Update", message: "New OTA update is available! Would you like to update it now.", accept:"Yes", cancel: "Not now");
+                if(res)
+                {
+                    OtaUploadClicked();
+                }
+            }
+        }
+
     }
 }

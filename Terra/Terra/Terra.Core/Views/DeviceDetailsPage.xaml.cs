@@ -13,6 +13,7 @@ using System.Timers;
 using Terra.Core.Controls;
 using Terra.Core.Controls.UIInterface;
 using Terra.Core.Enum;
+using Terra.Core.Helper;
 using Terra.Core.Models;
 using Terra.Core.Utils;
 using Terra.Core.ViewModels;
@@ -76,7 +77,7 @@ namespace Terra.Core.Views
             CreateTapGesture(conf);
             Grid.SetColumn(conf,0);
 
-            initSpray.CardTitle = "Input Spray";
+            initSpray.CardTitle = "Count";
             initSpray.IconSrc = "lock_button_24";
             
             initSpray.KeyBoardInputView = Keyboard.Numeric;
@@ -107,19 +108,11 @@ namespace Terra.Core.Views
 
         }
 
-        private void InitSpray_NotifyValueChange(string key, string val)
+        private async void InitSpray_NotifyValueChange(string key, string val)
         {
-            PageContext.SetInitilizeSprayCount(val);
-            GetRemainSprayWithTimeDelay();
+            await PageContext.SetInitilizeSprayCount(val);
+           
         }
-
-        private async Task<bool> GetRemainSprayWithTimeDelay()
-        {
-            await Task.Delay(4000);
-            PageContext.GetRemSprayCount();
-            return true;
-        }
-
         private void Conf_NotifyValueChange(string key, string val)
         {
             PageContext.SetDispanserType(val);
@@ -204,7 +197,8 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
            base.OnAppearing();
-            if(isPageInitilized)
+            OTAHelper.Instance.EnableHeartBeat = true;
+            if (isPageInitilized)
             {
                 isPageInitilized = false;
                 InitVm();

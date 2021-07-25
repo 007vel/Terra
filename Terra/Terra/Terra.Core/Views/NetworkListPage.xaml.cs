@@ -5,6 +5,8 @@ using Entities.Wifi;
 using Terra.Core.ViewModels;
 using Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
+using ConnectionLibrary.Network;
+using Terra.Core.Helper;
 
 namespace Terra.Core.Views
 {
@@ -13,7 +15,6 @@ namespace Terra.Core.Views
         public NetworkListPage()
         {
             InitializeComponent();
-         //   NavigationPage.SetHasNavigationBar(this, false);
         }
         NetworkViewModel context = null;
         public NetworkViewModel Context
@@ -30,8 +31,8 @@ namespace Terra.Core.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-         
-            if(context!=null)
+            OTAHelper.Instance.EnableHeartBeat = false;
+            if (context!=null)
             {
                 context.PageNavigation = Navigation;
                 context.Init();

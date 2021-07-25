@@ -44,6 +44,7 @@ Device.SetFlags(new[] {
         protected override void OnStart()
         {
             DeviceService.Instance = null;
+          //  WifiAdapter.Instance.Dispose();
         }
 
         protected override void OnSleep()

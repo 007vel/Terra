@@ -15,7 +15,8 @@ namespace ConnectionLibrary.Network
 {
     public class WifiAdapter : IDisposable
     {
-        static WifiAdapter wifiAdapter=null;        
+        static WifiAdapter wifiAdapter=null;
+        string m_ssid, m_pwd;
         System.Timers.Timer _timer = new System.Timers.Timer(10*1000);
         public static WifiAdapter Instance
         {
@@ -31,6 +32,10 @@ namespace ConnectionLibrary.Network
         private WifiAdapter()
         {
             
+        }
+        public string CurrentDeviceFWVersion
+        {
+            get; set;
         }
         public void OnReceiveAvailableNetworks(List<Wifi> wifi)
         {
@@ -58,11 +63,16 @@ namespace ConnectionLibrary.Network
         }
         public async Task<bool> ConnectToWifi(string ssid, string pwd)
         {
-            NetworkServiceUtil.Log("Socket ConnectToWifi ssid:" + ssid);
-            NetworkServiceUtil.Log("Socket ConnectToWifi pwd:" +  pwd);
+            m_ssid = ssid;
+            m_pwd = pwd;
+            FormWifiManager.DisconnectWifi();
             var res= await FormWifiManager.Connect(ssid,pwd);
             NetworkServiceUtil.Log("Socket ConnectToWifi");
             return res;
+        }
+        public async Task<bool> ConnectToWifi()
+        {
+          return await ConnectToWifi(m_ssid,m_pwd);
         }
         public string GetBssid()
         {
@@ -165,8 +175,10 @@ namespace ConnectionLibrary.Network
             {
                 _client.Dispose();
                 _client = null;
+                
                 NetworkServiceUtil.Log("Socket Dispose");
             }
+        //    wifiAdapter = null;
         }
     }
 }

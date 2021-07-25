@@ -9,6 +9,8 @@ namespace ConnectionLibrary.Interface
         void RequestWifiNetworks();
         Task<bool> Connect(string ssid, string pwd);
 
+        void DisconnectWifi();
+
         bool IsWifiEnabled();
 
         bool EnableWifi();

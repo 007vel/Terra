@@ -8,7 +8,7 @@ namespace ConnectionLibrary.Network.Mock
 {
     public class MockDeviceService: IDevice
     {
-        public Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
+        public Task<string> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
         {
            throw new NotImplementedException();
         }

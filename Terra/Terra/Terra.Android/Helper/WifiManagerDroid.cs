@@ -64,38 +64,11 @@ namespace FlyMe.Droid.Helper
         {
             //return true;
             Connect1(_ssid, _pwd);
-            //   wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
             
             string ssid = "";
             string pwd = "";
             ssid = $"\"{_ssid}\"";
             pwd = $"\"{_pwd}\"";
-            //mobileHelper.Log("WifiConfiguration : " + ssid +"     "+ pwd);
-
-
-            //var list = wifiManager.ConfiguredNetworks;
-            //foreach(var config in list)
-            //{
-            //    wifiManager.RemoveNetwork(config.NetworkId);
-            //}
-
-            //var currentConnection = wifiManager.ConnectionInfo;
-            //if(currentConnection!=null)
-            //{
-            //    wifiManager.DisableNetwork(currentConnection.NetworkId);
-            //}
-
-            //WifiConfiguration wifiConfig = new WifiConfiguration();
-            //wifiConfig.Ssid = ssid;
-            //wifiConfig.PreSharedKey = pwd;
-            //wifiConfig.StatusField = WifiStatus.Enabled;
-            //wifiConfig.AllowedKeyManagement.Set((int)Android.Net.Wifi.KeyManagementType.None);
-            //wifiConfig.AllowedGroupCiphers.Set((int)Android.Net.Wifi.GroupCipherType.Wep40);
-            //int netId = wifiManager.AddNetwork(wifiConfig);
-            //wifiManager.EnableNetwork(netId, true);
-            //wifiManager.DisableNetwork(wifiManager.ConnectionInfo.NetworkId);
-            //wifiManager.EnableNetwork(wifiManager.ConnectionInfo.NetworkId, true);
-
             DateTime timeSpan = DateTime.Now;
             WifiInfo _network = null;
 
@@ -139,10 +112,6 @@ namespace FlyMe.Droid.Helper
         NetworkCallback _networkCallback = null;
         public async void Connect1(string _ssid, string _pwd)
         {
-            string ssid = "";
-            string pwd = "";
-            ssid = $"\"{_ssid}\"";
-            pwd = $"\"{_pwd}\"";
             var specifier = new WifiNetworkSpecifier.Builder()
                            .SetSsid(_ssid)
                            .SetWpa2Passphrase(_pwd)
@@ -163,8 +132,11 @@ namespace FlyMe.Droid.Helper
         {
             if (_networkCallback is null || _wifiManager is null)
                 return;
+
+            wifiManager.Disconnect();
             if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
             {
+                
                 _wifiManager.UnregisterNetworkCallback(_networkCallback);
             }
 

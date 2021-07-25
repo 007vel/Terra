@@ -16,10 +16,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Terra.Droid.Helper;
 using Acr.UserDialogs;
+using Plugin.CurrentActivity;
 
 namespace Terra.Droid
 {
-    [Activity(Label = "Terra", NoHistory = false, LaunchMode = LaunchMode.SingleInstance, Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Terra", NoHistory = true, LaunchMode = LaunchMode.SingleInstance, Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         MobileHelper mobileHelper = null;
@@ -39,7 +40,7 @@ namespace Terra.Droid
             UserDialogs.Init(this);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
-
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             TintedImageRenderer.Init();
             

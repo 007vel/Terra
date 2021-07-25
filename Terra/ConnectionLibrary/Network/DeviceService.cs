@@ -82,6 +82,7 @@ namespace ConnectionLibrary.Network
             }
             return string.Empty;
         }
+
         public async Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest)
         {
             try
@@ -245,7 +246,7 @@ namespace ConnectionLibrary.Network
             return true;
         }
 
-        public async Task<bool> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
+        public async Task<string> DeleteScheduleIndex(ScheduleIndex scheduleIndex)
         {
             try
             {
@@ -255,7 +256,7 @@ namespace ConnectionLibrary.Network
                     {
                         NullValueHandling = NullValueHandling.Ignore
                     });
-                    var info = await SetWsData(UrlConfig.GetFullURL(Endpoint.deleteschedule, Endpoint_Method.POST), jsonIgnoreNullValues);
+                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET, isNewFW: true), jsonIgnoreNullValues);
                     return info;
                 }
             }
@@ -263,7 +264,7 @@ namespace ConnectionLibrary.Network
             {
                 System.Diagnostics.Debug.WriteLine(e);
             }
-            return true;
+            return string.Empty;
         }
 
         public async Task<bool> PutBinary(string endPoint, byte[] requestBody)
