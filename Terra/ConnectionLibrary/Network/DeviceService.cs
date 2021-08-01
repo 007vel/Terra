@@ -36,6 +36,10 @@ namespace ConnectionLibrary.Network
                 deviceService = value;
             }
         }
+        public DeviceService()
+        {
+
+        }
 
         private void InitializeHttpClient()
         {

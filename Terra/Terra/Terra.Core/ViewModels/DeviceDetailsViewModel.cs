@@ -188,7 +188,12 @@ namespace Terra.Core.ViewModels
         private async void LoadData()
         {
             OTAHelper.Instance.DeviceService = DeviceService.Instance;
+            
             await SetTime();
+            //below two lines added for reconnect issue. reconnect stacktrace
+            await GetInitilizeSprayCount();
+            await GetInitilizeSprayCount();
+
             Thread.Sleep(sleeptime);
            
             var rawSchedule = await GetScheduleFromService();
@@ -355,7 +360,7 @@ namespace Terra.Core.ViewModels
             deviceInfoRequest.request = "get";
             deviceInfoRequest.info = "snapshot";
             var deviceRes = await deviceService.GetDeviceSnapShotInfo(deviceInfoRequest);
-            NetworkServiceUtil.Log("DeviceDetailsViewModel GetNextSprayCounterCount: " + deviceRes);
+            NetworkServiceUtil.Log("DeviceDetailsViewModel GetSnapshotAPI: " + deviceRes);
             Devicesnapshot devicesnapshot = null;
             if (!string.IsNullOrEmpty(deviceRes))
             {
