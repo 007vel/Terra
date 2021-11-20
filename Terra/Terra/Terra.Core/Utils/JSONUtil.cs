@@ -28,7 +28,7 @@ namespace Terra.Core.Utils
             scheduleObject.day = string.Join(",", selecteddays);
             return scheduleObject;
         }       
-        static long timeSpantoSeconds(TimeSpan timeSpan)
+       public static long timeSpantoSeconds(TimeSpan timeSpan)
         {
             TimeSpan sinceMidnight = timeSpan - new DateTime(year: DateTime.Now.Year,month: DateTime.Now.Month,day: DateTime.Now.Day, hour:0,minute:0,second:0).TimeOfDay;
             long secs = Convert.ToInt64( sinceMidnight.TotalSeconds);

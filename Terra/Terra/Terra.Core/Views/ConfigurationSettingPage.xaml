@@ -4,7 +4,7 @@
              x:Class="Terra.Core.Views.ConfigurationSettingPage"
              Title="Working  Period Setting">
    <ContentPage.ToolbarItems>
-       <ToolbarItem Text="Save" Clicked="ToolbarItem_Clicked"/>
+       <ToolbarItem Text="Save" Clicked="SaveToolbarItem_Clicked"/>
    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         

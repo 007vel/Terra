@@ -29,10 +29,10 @@ namespace Terra.Core.Controls
         public event DeleteSchedule DeleteDelegate;
         INavigation navigation = null;
         IScheduleOperation scheduleOperation = null;
-
+        Schedules rawSchedules;
 
         bool isEditMode =true;
-        public DayConfigControl(List<UIDay> _uIDays, INavigation navigation,IScheduleOperation scheduleOperation, bool _isActive, Entities.Scheduler scheduler=null)
+        public DayConfigControl(List<UIDay> _uIDays, INavigation navigation,IScheduleOperation scheduleOperation, bool _isActive, Schedules schedules, Entities.Scheduler scheduler=null)
         {
             InitializeComponent();
             this.uIDays = _uIDays;
@@ -52,7 +52,8 @@ namespace Terra.Core.Controls
             WeekCardControl weekCardControl = new WeekCardControl();
             weekCardControl.DaysList = this.uIDays;
             weekexpand.Children.Add(weekCardControl);
-            
+            rawSchedules = schedules;
+
             this.navigation = navigation;
             BindingContext = this;
             if(scheduler==null)
@@ -373,7 +374,7 @@ namespace Terra.Core.Controls
          //   return;
             if (isEditMode)
             {
-                await navigation.PushAsync(new ConfigurationSettingPage(uIDays, scheduleOperation, indexText, SelectedStartTime, SelectedStopTime, SelectedIntervsl, isActive));
+                await navigation.PushAsync(new ConfigurationSettingPage(uIDays, scheduleOperation, indexText, SelectedStartTime, SelectedStopTime, SelectedIntervsl, isActive, rawSchedules));
                 return;
                 AnimationHelper.Instance.AnimationInvisible(schduleView, schduleView.HeightRequest);
                 AnimationHelper.Instance.AnimationVisible(expandView, 125);

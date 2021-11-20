@@ -203,7 +203,7 @@ namespace Terra.Core.Views
                 isPageInitilized = false;
                 InitVm();
             }
-           
+          //  SocketHelper.Instance.StartHeartBeatcheck(PageContext.deviceService);
         }
         private async void InitVm()
         {
@@ -371,7 +371,7 @@ namespace Terra.Core.Views
         }
         private async void CreateScheduleView(int index, Entities.Scheduler scheduler=null)
         {
-            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(),Navigation,this, true, scheduler);
+            DayConfigControl Schedule_UI = new DayConfigControl(inputDate(),Navigation,this, true, scheduleList, scheduler);
             Schedule_UI.indexText = (index).ToString();
             Schedule_UI.editText = "edit";
             Schedule_UI.ScheduleReceived += ReceiveEditedORNewschedule;
@@ -387,7 +387,7 @@ namespace Terra.Core.Views
                 scheduler = new Scheduler();
                 scheduler.index = index.ToString();
                 scheduleList.scheduler.Add(scheduler);
-                await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", true));
+                await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", true, scheduleList));
             }
             else
             {
@@ -438,7 +438,7 @@ namespace Terra.Core.Views
                 var uidays = (List<UIDay>)arg;
 
                 //Add new schedule item view in small row
-                DayConfigControl Schedule = new DayConfigControl(uidays, Navigation, this, active);
+                DayConfigControl Schedule = new DayConfigControl(uidays, Navigation, this, active, scheduleList);
                 Schedule.indexText = id;
                 Schedule.editText = "edit";
                 Schedule.intervalText = interval;

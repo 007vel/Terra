@@ -5,6 +5,8 @@ using Terra.Core.Controls.UIInterface;
 using Terra.Core.Models;
 using Xamarin.Forms;
 using System.Linq;
+using Entities;
+using Terra.Core.Utils;
 
 namespace Terra.Core.Views
 {
@@ -16,19 +18,36 @@ namespace Terra.Core.Views
        // TimeSpan startTimeSpan;
        // TimeSpan stopTimeSpan;
         string interval;
-        public ConfigurationSettingPage(List<UIDay> uIDays, IScheduleOperation scheduleOperation, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval, bool active)
+
+        Schedules schedulesRawList;
+        TimeSpan rawStartTimeSpan;
+        TimeSpan rawStopTimeSpan;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uIDays"></param>
+        /// <param name="scheduleOperation"></param>
+        /// <param name="id"></param>
+        /// <param name="startTimeSpan"></param>
+        /// <param name="stopTimeSpan"></param>
+        /// <param name="interval"></param>
+        /// <param name="active"></param>
+        /// <param name="schedules">Entier schedule list(original)</param>
+        public ConfigurationSettingPage(List<UIDay> uIDays, IScheduleOperation scheduleOperation, string id, TimeSpan startTimeSpan, TimeSpan stopTimeSpan, string interval, bool active, Schedules schedules)
         {
             InitializeComponent();
             BindingContext = this;
             this.uIDays = uIDays;
             this.scheduleOperation = scheduleOperation;
             this.id = id;
-            SelectedStartTime = startTimeSpan;
-            SelectedStopTime = stopTimeSpan;
+            SelectedStartTime = rawStartTimeSpan = startTimeSpan;
+            SelectedStopTime = rawStopTimeSpan = stopTimeSpan;
             this.interval = interval;
             IsActive = active;
             Interval = Convert.ToInt32( interval);
             BuildDayView(uIDays);
+            schedulesRawList = schedules;
         }
 
         int _interval;
@@ -94,7 +113,7 @@ namespace Terra.Core.Views
             DayConfig.Children.Add(weekCardControl);
         }
       
-       async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+       async void SaveToolbarItem_Clicked(System.Object sender, System.EventArgs e)
         {
             if(!IsValidStartAndStopTime())
             {
@@ -111,6 +130,11 @@ namespace Terra.Core.Views
                 await App.Current.MainPage.DisplayAlert("Alert", "Please select days for schedule", cancel: "Ok");
                 return;
             }
+            if (DoesOverlappingWithExistingSchedule())
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "The Day and Time is overlapping with existing schedule", cancel: "Ok");
+                return;
+            }
 
             scheduleOperation?.ReceiveEditedORNewschedule(uIDays, id, new TimeSpan(selectedStartTime.Ticks), new TimeSpan(selectedStopTime.Ticks), Interval.ToString(), isActive);
             await Navigation.PopAsync();
@@ -124,6 +148,38 @@ namespace Terra.Core.Views
         private bool IsValidDays()
         {
            return uIDays.Where(i=>i.selectionStatus==Enum.SelectionStatus.Selected).Count() > 0;
+        }
+
+        private bool DoesOverlappingWithExistingSchedule()
+        {
+            if(schedulesRawList!=null && schedulesRawList.scheduler!=null && uIDays!=null)
+            {
+                bool isFirstSchedule = schedulesRawList.scheduler.Count==1 && schedulesRawList.scheduler[0].day == null;
+
+                if (isFirstSchedule) return false;
+
+                foreach (var schdl in schedulesRawList.scheduler)
+                {
+                    if(schdl.day!=null && schdl.index!=id)
+                    {
+                        var parsedDays = schdl.day.Split(',').ToList();//now.ToString("ddd").Substring(0, 2).ToLower();
+                        var selectedUIDays = uIDays.Where(i => i.selectionStatus == Enum.SelectionStatus.Selected).ToList();
+
+                        var commonDays = parsedDays.Select(i => i.Substring(0, 2).ToLower()).Intersect(selectedUIDays.Select(j => j.day)).ToList();
+                        if (commonDays != null && commonDays.Count > 0)
+                        {
+                            var daysOverlap = JSONUtil.timeSpantoSeconds(SelectedStartTime) <= schdl.stop && schdl.stop <= JSONUtil.timeSpantoSeconds(SelectedStopTime);
+                            if(daysOverlap)
+                            {
+                                return daysOverlap;
+                            }
+
+                        }
+                    }
+                    
+                }
+            }
+            return false;
         }
 
         void ButtonIncrease_Clicked(System.Object sender, System.EventArgs e)

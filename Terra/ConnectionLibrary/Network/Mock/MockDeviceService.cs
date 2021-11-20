@@ -55,6 +55,11 @@ namespace ConnectionLibrary.Network.Mock
             return null;
         }
 
+        public Task<string> GetHealthCheck(HeartBeat _heartBeat)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<string> GetScheduler(DeviceInfoRequest deviceInfoRequest)
         {
          //   return null;

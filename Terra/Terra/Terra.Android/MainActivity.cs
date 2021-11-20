@@ -20,7 +20,7 @@ using Plugin.CurrentActivity;
 
 namespace Terra.Droid
 {
-    [Activity(Label = "Terra", NoHistory = true, LaunchMode = LaunchMode.SingleInstance, Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Terra", NoHistory = false, Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         MobileHelper mobileHelper = null;

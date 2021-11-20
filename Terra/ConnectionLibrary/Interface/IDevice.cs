@@ -17,5 +17,6 @@ namespace ConnectionLibrary.Interface
         Task<string> DeleteScheduleIndex(ScheduleIndex scheduleIndex);
         Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest);
         Task<bool> PutBinary(string url, byte[] requestBody);
+        Task<string> GetHealthCheck(HeartBeat _heartBeat);
     }
 }

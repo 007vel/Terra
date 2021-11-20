@@ -188,11 +188,14 @@ namespace Terra.Core.ViewModels
         private async void LoadData()
         {
             OTAHelper.Instance.DeviceService = DeviceService.Instance;
-            
+            var isAlive = await IsDeviceAlive(4);
+            if (!isAlive)
+            {
+                Terra.Core.Utils.Utils.Toast("Heart beat connection lost!");
+                await Shell.Current.Navigation.PopAsync();
+                return;
+            }
             await SetTime();
-            //below two lines added for reconnect issue. reconnect stacktrace
-            await GetInitilizeSprayCount();
-            await GetInitilizeSprayCount();
 
             Thread.Sleep(sleeptime);
            
@@ -348,6 +351,45 @@ namespace Terra.Core.ViewModels
             NextSprayCounter = DeserializDeviceInfo(deviceRes);
             DeviceInfoReceived?.Invoke(NextSprayCounter);
             // CalculateRemainingDays();
+            return false;
+        }
+
+        /// <summary>
+        /// HeartBeat health check for device status
+        /// </summary>
+        public async Task<HeartBeat> GetHeartBeat()
+        {
+            try
+            {
+                HeartBeat heartBeat = new HeartBeat();
+                heartBeat.type = "check";
+                var deviceRes = await deviceService.GetHealthCheck(heartBeat);
+                NetworkServiceUtil.Log("DeviceDetailsViewModel GetHeartBeat: " + deviceRes);
+                if (!string.IsNullOrEmpty(deviceRes))
+                {
+                    var health = JsonConvert.DeserializeObject<HeartBeat>(deviceRes);
+                    return health;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                NetworkServiceUtil.Log("DeviceDetailsViewModel GetHeartBeat Exception: " + ex);
+            }
+            return null;
+        }
+
+        private async Task<bool> IsDeviceAlive(int tryCount)
+        {
+            for(int h=0; h<tryCount; h++)
+            {
+                System.Diagnostics.Debug.WriteLine("IsDeviceAlive check"+h+1);
+                var res = await GetHeartBeat();
+                if(res!=null && res.type=="check")
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -555,7 +597,7 @@ namespace Terra.Core.ViewModels
         {
             NetworkServiceUtil.Log("DeleteScheduleItem ==> called");
             ScheduleIndex scheduleIndex = new ScheduleIndex();
-            scheduleIndex.deleteindex = (Convert.ToInt32( index)-1).ToString();
+            scheduleIndex.deleteindex = (Convert.ToInt32( index)).ToString();
             scheduleIndex.request = "delete";
             scheduleIndex.info = "scheduler";
             var deviceRes = await deviceService.DeleteScheduleIndex(scheduleIndex);

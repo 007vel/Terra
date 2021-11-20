@@ -37,6 +37,7 @@ namespace Terra.Core.Views
                 context.PageNavigation = Navigation;
                 context.Init();
             }
+           // SocketHelper.Instance.StopHeartBeatcheck();
         }
         protected override void OnDisappearing()
         {

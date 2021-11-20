@@ -87,6 +87,27 @@ namespace ConnectionLibrary.Network
             return string.Empty;
         }
 
+        public async Task<string> GetHealthCheck(HeartBeat _heartBeat)
+        {
+            try
+            {
+                if (_heartBeat != null)
+                {
+                    string jsonIgnoreNullValues = JsonConvert.SerializeObject(_heartBeat, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+                    var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET, isNewFW: true), jsonIgnoreNullValues);
+                    return info;
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            return string.Empty;
+        }
+
         public async Task<string> GetDeviceSnapShotInfo(DeviceInfoRequest deviceInfoRequest)
         {
             try

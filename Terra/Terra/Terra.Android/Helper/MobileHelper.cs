@@ -76,14 +76,14 @@ namespace Terra.Droid.Helper
         public List<string> GetAllAssetsName()
         {
             AssetManager assets = Android.App.Application.Context.Assets;
-            var fileslist = assets.List("");
+            var fileslist = assets.List(""); //ota_data_initial_1.2.46_
             return new List<string>(fileslist ==null || fileslist.Length==0? new string[1] { "ota_data_initial_0.0.0" }: fileslist);
         }
 
         public byte[] ReadOtaFile()
         {
             AssetManager assets = Android.App.Application.Context.Assets;
-            var files = GetAllAssetsName();
+            var files = GetAllAssetsName(); //ota_data_initial_1.2.46_
             string fileName = default;
             foreach(var f in files)
             {
