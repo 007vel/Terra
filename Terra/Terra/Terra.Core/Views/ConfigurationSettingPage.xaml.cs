@@ -168,7 +168,7 @@ namespace Terra.Core.Views
                         var commonDays = parsedDays.Select(i => i.Substring(0, 2).ToLower()).Intersect(selectedUIDays.Select(j => j.day)).ToList();
                         if (commonDays != null && commonDays.Count > 0)
                         {
-                            var daysOverlap = JSONUtil.timeSpantoSeconds(SelectedStartTime) <= schdl.stop && schdl.stop <= JSONUtil.timeSpantoSeconds(SelectedStopTime);
+                            var daysOverlap = JSONUtil.timeSpantoSeconds(SelectedStartTime) <= schdl.stop && schdl.start <= JSONUtil.timeSpantoSeconds(SelectedStopTime);
                             if(daysOverlap)
                             {
                                 return daysOverlap;

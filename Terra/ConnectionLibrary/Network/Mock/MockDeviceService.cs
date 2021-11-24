@@ -12,7 +12,7 @@ namespace ConnectionLibrary.Network.Mock
         {
            throw new NotImplementedException();
         }
-
+        private string mockJson = string.Empty;
         public async Task<string> GetDeviceInfo(DeviceInfoRequest deviceInfoRequest)
         {
           //  return null;
@@ -68,6 +68,8 @@ namespace ConnectionLibrary.Network.Mock
                 // get schedule
                 if (deviceInfoRequest.request == "get" && deviceInfoRequest.info == "scheduler")
                 {
+                    if (!string.IsNullOrEmpty(mockJson)) return mockJson;
+
                     return "{\"scheduler_size\":1,\"scheduler\":[ { \"start\" :3600,\"stop\" :7200,\"interval\" :12,\"day\" :\"Monday\"},{\r\n\"start\":3600,\r\n\"stop\":5000,\r\n\"interval\":12,\r\n\"day\":\"Monday,tuesday\"\r\n}]}";
                 }
                     
@@ -109,7 +111,7 @@ namespace ConnectionLibrary.Network.Mock
 
         public async Task<string> SetScheduler(string schedule)
         {
-            return null;
+            return mockJson = schedule;
         }
     }
 }
