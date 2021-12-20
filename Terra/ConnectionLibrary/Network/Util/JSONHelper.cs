@@ -18,10 +18,11 @@ namespace ConnectionLibrary.Network.Util
                     JObject jObject = JObject.Parse(raw);
                     if (jObject != null)
                     {
+                        SchedulerList = new List<Scheduler>();
                         JArray scheduleList = (JArray)jObject.SelectToken("scheduler");
                         if (scheduleList != null && scheduleList.Count > 0)
                         {
-                            SchedulerList = new List<Scheduler>();
+                            
                             foreach (var sch in scheduleList)
                             {
                                 Scheduler scheduler = (Scheduler)JsonConvert.DeserializeObject<Scheduler>(sch.ToString());

@@ -20,7 +20,7 @@ namespace Terra.Core.Views
         private void getFWversion()
         {
             fwLbl.Text = OTAHelper.Instance.getAssetFolderFWversion();
-            DevicefwLbl.Text = WifiAdapter.Instance.CurrentDeviceFWVersion??"-connect with device for device Firmware version-";
+            DevicebundlefwLbl.Text = WifiAdapter.Instance.CurrentDeviceFWVersion??"-connect with device for device Firmware version-";
 
           //  FW_UpdateCheck(OTAHelper.Instance.getAssetFolderFWversion(), WifiAdapter.Instance.CurrentDeviceFWVersion);
         }

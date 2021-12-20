@@ -423,7 +423,7 @@ namespace Terra.Core.ViewModels
                     {
                         Battery = i;
                     }
-                    else if (i.request == "init" && i.info == "spray")
+                    else if (i.request == "get" && i.info == "spray")
                     {
                         InitializeSpray = i;
                     }
@@ -502,7 +502,7 @@ namespace Terra.Core.ViewModels
             }
 
             //todo remove after origin impl
-            InitializeSpray.value = val;
+           // InitializeSpray.value = val;
 
             InvokeDelegate();
             

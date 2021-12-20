@@ -9,13 +9,13 @@
             <Image Source="Scent_Plus_Final_Logo" HeightRequest="70" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
             <StackLayout VerticalOptions="StartAndExpand" Margin="0,50,0,0" HorizontalOptions="CenterAndExpand">
-            <Label Text="App" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Text="Mobile App" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold"></Label>
             <Label x:Name="versionLbl" Text="5.12" HorizontalOptions="Center"></Label>
-            <Label Text="OTA" HorizontalOptions="Center" TextColor="Black" Margin="0,20,0,0" FontAttributes="Bold"></Label>
+            <Label Text="ESP" HorizontalOptions="Center" TextColor="Black" Margin="0,20,0,0" FontAttributes="Bold"></Label>
             <Label x:Name="fwLbl" Text="5.12" HorizontalOptions="Center"></Label>
 
-            <Label Text="Device FW" HorizontalOptions="Center" TextColor="Black" Margin="0,20,0,0" FontAttributes="Bold"></Label>
-            <Label x:Name="DevicefwLbl" Text="5.12" HorizontalOptions="Center"></Label>
+            <Label Text="FW bundle" HorizontalOptions="Center" TextColor="Black" Margin="0,20,0,0" FontAttributes="Bold"></Label>
+            <Label x:Name="DevicebundlefwLbl" Text="5.12" HorizontalOptions="Center"></Label>
                 </StackLayout>
                 </StackLayout>
     </ContentPage.Content>

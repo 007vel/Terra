@@ -29,7 +29,7 @@ namespace Terra.Core.ViewModels
         public Wifi LastSelectedItem = null;
         WifiAdapter wifiAdapter;
         Wifi SelectedWifi = null;
-        public static readonly string WIFI_ID = "terradev";
+        public static readonly string WIFI_ID = "scent+spray";
         bool isFirstTimeLaunch = true;
         public NetworkViewModel()
         {
@@ -73,6 +73,7 @@ namespace Terra.Core.ViewModels
                 wifiPwdList.Add("sathya", "9943157172");
                 wifiPwdList.Add("Sakthivel’s MacBook Pro", "9943157172");
                 wifiPwdList.Add("TARS 2.4G", "kjhgfjkhv");
+                wifiPwdList.Add("Scent+Spray", "12345678");
                 IsWifiLoading = true;
                 MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
                 {
