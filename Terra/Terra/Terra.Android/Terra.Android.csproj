@@ -49,10 +49,12 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidSigningKeyStore>/Users/tecsack/Desktop/scent.jks</AndroidSigningKeyStore>
-    <AndroidSigningStorePass>Terra@123</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>scent</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>Terra@123</AndroidSigningKeyPass>
+    <AndroidSigningKeyStore>/Users/tecsack/terra.jks</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>terra123</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>terra</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>terra123</AndroidSigningKeyPass>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidKeyStore>True</AndroidKeyStore>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -671,8 +673,8 @@
     <AndroidResource Include="Resources\drawable\baseline_add_black_36.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\hellofw.bin" />
-    <AndroidAsset Include="Assets\ota_data_initial_1.2.73_.bin" />
+    <AndroidAsset Include="Assets\ota_data_initial_1.2.75_.bin" />
+    <AndroidAsset Include="Assets\FirmwareV1.2.75.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
