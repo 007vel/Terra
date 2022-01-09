@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Terra.Droid.Helper;
 using Acr.UserDialogs;
 using Plugin.CurrentActivity;
+using Android;
 
 namespace Terra.Droid
 {
@@ -28,7 +29,7 @@ namespace Terra.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+           // RequestLocationWithDisclosure();
             base.OnCreate(savedInstanceState);
 
             this.SetStatusBarColor(Android.Graphics.Color.Black);
@@ -49,9 +50,9 @@ namespace Terra.Droid
         public WifiManager.LocalOnlyHotspotReservation mReservation { get; set; }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+          //  Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+           // base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         protected override void OnResume()
         {
@@ -62,9 +63,25 @@ namespace Terra.Droid
             mobileHelper = new MobileHelper();
             
         }
+        private void GetPermission()
+        {
+          //  if (CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted)
+            {
+              //  RequestPermissions(new string[] { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation }, 0);
+            }
+        }
+        private void RequestLocationWithDisclosure()
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.SetTitle("GPS Disclosure");
+            alert.SetMessage(string.Format("Scent pluse app collects location data in background to enable wifi scanning, even when the app is closed or not in use."));
+            alert.SetPositiveButton("Allow", (sender, e) => { GetPermission(); });
+            alert.SetNegativeButton("Deny", (sender, e) => {  });
 
-
-     //   ‪#‎region‬ Error handling
+            var dialog = alert.Create();
+            dialog.Show();
+        }
+        //   ‪#‎region‬ Error handling
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
             var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
@@ -83,17 +100,6 @@ namespace Terra.Droid
             {
                 if (mobileHelper == null) return;
 
-               // mobileHelper.Log("MainActivity  " + exception.ToString());
-               
-                //const string errorFileName = "Fatal.log";
-                //var libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); // iOS: Environment.SpecialFolder.Resources
-                //var errorFilePath = Path.Combine(libraryPath, errorFileName);
-                //var errorMessage = String.Format("Time: {0}\r\nError: Unhandled Exception\r\n{1}",
-                //DateTime.Now, exception.ToString());
-                //File.WriteAllText(errorFilePath, errorMessage);
-
-                // Log to Android Device Logging.
-              //  Android.Util.Log.Error("Crash Report", exception.ToString());
             }
             catch
             {

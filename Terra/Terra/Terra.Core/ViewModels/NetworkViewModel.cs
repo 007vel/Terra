@@ -40,7 +40,9 @@ namespace Terra.Core.ViewModels
         {
             IsScanning = true;
             wifiAdapter = WifiAdapter.Instance;
-           
+            var gpsAlertEnabled = await App.Current.MainPage.DisplayAlert(title: "GPS Disclosure", message: "Scent pluse app collects location data in background to enable wifi scanning, even when the app is closed or not in use.", cancel:"Deny",accept: "Allow");
+            if (!gpsAlertEnabled) return;
+
             var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
             var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
             if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)

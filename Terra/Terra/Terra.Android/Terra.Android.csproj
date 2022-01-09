@@ -53,7 +53,7 @@
     <AndroidSigningStorePass>terra123</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>terra</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>terra123</AndroidSigningKeyPass>
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidKeyStore>True</AndroidKeyStore>
   </PropertyGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>2.0.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms">
       <Version>4.8.0.1821</Version>
     </PackageReference>
@@ -673,8 +673,8 @@
     <AndroidResource Include="Resources\drawable\baseline_add_black_36.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\ota_data_initial_1.2.75_.bin" />
     <AndroidAsset Include="Assets\FirmwareV1.2.75.bin" />
+    <AndroidAsset Include="Assets\ota_data_initial_1.2.76_.bin" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
