@@ -17,6 +17,9 @@ using Terra.Core.common;
 using Terra.Core.Views.PopUpPages;
 using Rg.Plugins.Popup.Extensions;
 using ConnectionLibrary.Interface;
+using System.Diagnostics;
+using static Xamarin.Essentials.Permissions;
+using Plugin.Permissions;
 
 namespace Terra.Core.ViewModels
 {
@@ -36,16 +39,49 @@ namespace Terra.Core.ViewModels
             Init();
         }
 
+        [Obsolete]
         public async void Init()
         {
+            PermissionStatus locationPermissionWhenuse = default;
+            PermissionStatus locationPermissionAlways = default;
             IsScanning = true;
             wifiAdapter = WifiAdapter.Instance;
             var gpsAlertEnabled = await App.Current.MainPage.DisplayAlert(title: "GPS Disclosure", message: "Scent pluse app collects location data in background to enable wifi scanning, even when the app is closed or not in use.", cancel:"Deny",accept: "Allow");
             if (!gpsAlertEnabled) return;
 
-            var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
-            var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
-            if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)
+            //var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
+            //var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
+
+            var status = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
+            await Task.Delay(5000);
+            //var results = CrossPermissions.Current.RequestPermissionsAsync(Plugin.Permissions.Abstractions.Permission.Location).GetAwaiter();
+            var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
+            if (status != PermissionStatus.Granted)
+            {
+                await Task.Delay(5000);
+                var status2 = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
+                //var locationresult = await GetLocationAccess();
+                // locationPermissionWhenuse = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                if(status2 == PermissionStatus.Granted)
+                {
+                    locationPermissionWhenuse = status2;
+                }
+                else
+                {
+                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "There is a error in Fetching Location Acess\nPlease Reload",cancel:"Cancel", accept: "Reload");
+                    if (reloadresult)
+                    {
+                        Init();
+                    }
+                }
+            }
+            else
+            {
+                locationPermissionWhenuse = status;
+            }
+            
+            //if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)
+            if (locationPermissionWhenuse == PermissionStatus.Granted)
             {
                 if(!wifiAdapter.IsGpsEnabled())
                 {
@@ -93,6 +129,39 @@ namespace Terra.Core.ViewModels
                 });
                 wifiAdapter.OnRequestAvailableNetworks();
 
+            }
+            else
+            {
+                Debug.WriteLine("Location Permission Is Denied");
+            }
+        }
+
+        public async Task<bool> GetLocationAccess()
+        {
+            var islocationenabled = false;
+            try
+            {
+                
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+                    if (status != Xamarin.Essentials.PermissionStatus.Granted)
+                    {
+                       // var res = Permissions.RequestAsync<Permissions.LocationWhenInUse>().Result;
+
+                        var results = await CrossPermissions.Current.RequestPermissionsAsync(Plugin.Permissions.Abstractions.Permission.Location);
+                        //var res = await App._deviceIdService.LocationPermission();
+                        status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+                        islocationenabled = true;
+                    } 
+                    
+                });
+                return islocationenabled;
+            }
+            catch (Exception ex)
+            {
+                return islocationenabled;
+                //  throw ex;
             }
         }
 

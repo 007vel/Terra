@@ -5,6 +5,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D417163-2F01-438C-93C3-FE400B8245F0}|ConnectionLibrary\\ConnectionLibrary.csproj|c:\\prakash\\git\\terra\\terra\\connectionlibrary\\network\\wifiadapter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D417163-2F01-438C-93C3-FE400B8245F0}|ConnectionLibrary\\ConnectionLibrary.csproj|solutionrelative:connectionlibrary\\network\\wifiadapter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.android\\helper\\wifimanagerdroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|solutionrelative:terra\\terra.android\\helper\\wifimanagerdroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
+      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\views\\scheduleinputdialog.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
+      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\views\\scheduleinputdialog.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,22 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 13,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NetworkViewModel.cs",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAACoAAACFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-11T12:01:10.199Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
@@ -69,6 +71,71 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WifiManagerDroid.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Helper\\WifiManagerDroid.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Android\\Helper\\WifiManagerDroid.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Helper\\WifiManagerDroid.cs",
+              "RelativeToolTip": "Terra\\Terra.Android\\Helper\\WifiManagerDroid.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAAAgwDAAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T06:51:19.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WifiAdapter.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\ConnectionLibrary\\Network\\WifiAdapter.cs",
+              "RelativeDocumentMoniker": "ConnectionLibrary\\Network\\WifiAdapter.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\ConnectionLibrary\\Network\\WifiAdapter.cs",
+              "RelativeToolTip": "ConnectionLibrary\\Network\\WifiAdapter.cs",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAhwDsAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T06:51:13.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NetworkListPage.xaml",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "RelativeToolTip": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAAAFcAAABgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-04-15T06:49:28.464Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NetworkViewModel.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ViewState": "AQIAAG4AAAAAAAAAAAAgwIEAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T04:59:08.083Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ScheduleInputDialog.xaml",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\ScheduleInputDialog.xaml",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\Views\\ScheduleInputDialog.xaml",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\ScheduleInputDialog.xaml",
+              "RelativeToolTip": "Terra\\Terra.Core\\Views\\ScheduleInputDialog.xaml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-04-15T04:59:04.648Z",
+              "EditorCaption": ""
             }
           ]
         },
