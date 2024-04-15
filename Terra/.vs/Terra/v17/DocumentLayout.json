@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Prakash\\Git\\Terra\\Terra\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
+      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,6 +63,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NetworkViewModel.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAUwEMAAAChAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T11:49:12.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ViewModelBase.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
+              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-15T11:49:11.69Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NetworkListPage.xaml",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "RelativeToolTip": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAAAFgAAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-04-15T11:49:08.827Z",
+              "EditorCaption": ""
             }
           ]
         },

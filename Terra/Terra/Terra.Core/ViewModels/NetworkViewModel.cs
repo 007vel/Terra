@@ -65,7 +65,8 @@ namespace Terra.Core.ViewModels
                 }
                 else
                 {
-                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Cannot Access Location Infromation\n or restart the Scent Plus", cancel: "Cancel", accept: "Restart");
+                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Cannot Access Location Infromation\n\nPlease Enable and Restart the Scent Plus", cancel: "Cancel", accept: "Ok");
+                    IsScanning = false;
                 }
             }
             else
