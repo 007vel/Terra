@@ -53,26 +53,19 @@ namespace Terra.Core.ViewModels
             //var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
 
             var status = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
-            await Task.Delay(5000);
             //var results = CrossPermissions.Current.RequestPermissionsAsync(Plugin.Permissions.Abstractions.Permission.Location).GetAwaiter();
-            var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
+            //var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
             if (status != PermissionStatus.Granted)
             {
-                await Task.Delay(5000);
-                var status2 = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
-                //var locationresult = await GetLocationAccess();
-                // locationPermissionWhenuse = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                if(status2 == PermissionStatus.Granted)
+                var locationpermission = await GetLocationAccess();
+
+                if(locationpermission == PermissionStatus.Granted)
                 {
-                    locationPermissionWhenuse = status2;
+                    locationPermissionWhenuse = locationpermission;
                 }
                 else
                 {
-                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "There is a error in Fetching Location Acess\nPlease Reload",cancel:"Cancel", accept: "Reload");
-                    if (reloadresult)
-                    {
-                        Init();
-                    }
+                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Cannot Access Location Infromation\n or restart the Scent Plus", cancel: "Cancel", accept: "Restart");
                 }
             }
             else
@@ -136,33 +129,26 @@ namespace Terra.Core.ViewModels
             }
         }
 
-        public async Task<bool> GetLocationAccess()
+        public async Task<PermissionStatus> GetLocationAccess()
         {
-            var islocationenabled = false;
+            PermissionStatus islocationenabled = default;
             try
             {
-                
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                    if (status != Xamarin.Essentials.PermissionStatus.Granted)
-                    {
-                       // var res = Permissions.RequestAsync<Permissions.LocationWhenInUse>().Result;
+                var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
+                await Task.Delay(5000);
+                var status = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
 
-                        var results = await CrossPermissions.Current.RequestPermissionsAsync(Plugin.Permissions.Abstractions.Permission.Location);
-                        //var res = await App._deviceIdService.LocationPermission();
-                        status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                        islocationenabled = true;
-                    } 
-                    
-                });
-                return islocationenabled;
+                if (status == PermissionStatus.Granted)
+                {
+                    islocationenabled = status;
+                }
+                
             }
             catch (Exception ex)
             {
-                return islocationenabled;
                 //  throw ex;
             }
+            return islocationenabled;
         }
 
         string wifiCountString = "Wifi list count: ";
