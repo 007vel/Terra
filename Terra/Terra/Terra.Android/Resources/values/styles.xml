@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
- <style name="MainTheme" parent="MainTheme.Base">
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowFullscreen">false</item>
-  </style>
-  <!-- Base theme applied no matter what API -->
-  <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-    <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette -->
-    <!-- colorPrimary is used for the default action bar background -->
-    <item name="colorPrimary">#2196F3</item>
-    <!-- colorPrimaryDark is used for the status bar -->
-    <item name="colorPrimaryDark">#1976D2</item>
-    <!-- colorAccent is used as the default value for colorControlActivated
-         which is used to tint widgets -->
-    <item name="colorAccent">#FF4081</item>
-    <!-- You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight and colorSwitchThumbNormal. -->
-        <item name="android:windowTranslucentStatus">true</item>
-    <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
-  </style>
+	<style name="MainTheme" parent="MainTheme.Base">
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowFullscreen">false</item>
+	</style>
+	<!--Base theme applied no matter what API-->
+	<style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+		<!--Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette 
+     colorPrimary is used for the default action bar background-->
+		<item name="colorPrimary">#2196F3</item>
+		<!--colorPrimaryDark is used for the status bar-->
+		<item name="colorPrimaryDark">#1976D2</item>
+		<!--colorAccent is used as the default value for colorControlActivated
+         which is used to tint widgets-->
+		<item name="colorAccent">#FF4081</item>
+		<!--You can also set colorControlNormal, colorControlActivated
+         colorControlHighlight and colorSwitchThumbNormal.-->
+		<item name="android:windowTranslucentStatus">true</item>
+		<item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+	</style>
 
 
-  <style name="MainTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
-    <item name="android:windowBackground">@drawable/splash_screen</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowFullscreen">true</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowActionBar">true</item>
-	  
-	  
-  </style>
-	
-	
-		<style name="TimePickerDialogStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+	<style name="MainTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:windowBackground">@drawable/splash_screen</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowActionBar">true</item>
+
+
+	</style>
+
+
+	<style name="TimePickerDialogStyle" parent="@android:style/Widget.Material.Light.TimePicker">
 		<item name="colorAccent">#EF4736</item>
 		<item name="android:timePickerMode">spinner</item>
 		<item name="android:headerBackground">#EF4736</item>
-	
+
 		<item name="android:numbersTextColor">#ff000000</item>
 		<item name="android:numbersSelectorColor">#EF4736</item>
 		<item name="android:numbersBackgroundColor">#ffdddddd</item>
-		</style>
+	</style>
 
-	</resources>
+</resources>

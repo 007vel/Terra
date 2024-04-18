@@ -17,6 +17,9 @@ using Terra.Core.common;
 using Terra.Core.Views.PopUpPages;
 using Rg.Plugins.Popup.Extensions;
 using ConnectionLibrary.Interface;
+using System.Diagnostics;
+using static Xamarin.Essentials.Permissions;
+using Plugin.Permissions;
 
 namespace Terra.Core.ViewModels
 {
@@ -36,16 +39,43 @@ namespace Terra.Core.ViewModels
             Init();
         }
 
+        [Obsolete]
         public async void Init()
         {
+            PermissionStatus locationPermissionWhenuse = default;
+            PermissionStatus locationPermissionAlways = default;
             IsScanning = true;
             wifiAdapter = WifiAdapter.Instance;
             var gpsAlertEnabled = await App.Current.MainPage.DisplayAlert(title: "GPS Disclosure", message: "Scent pluse app collects location data in background to enable wifi scanning, even when the app is closed or not in use.", cancel:"Deny",accept: "Allow");
             if (!gpsAlertEnabled) return;
 
-            var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
-            var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
-            if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)
+            //var locationPermissionAll= await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationAlways());
+            //var locationPermissionWhenuse = await PermissionHelper.Instance.CheckAndRequestPermissionAsync(new Permissions.LocationWhenInUse());
+
+            var status = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
+            //var results = CrossPermissions.Current.RequestPermissionsAsync(Plugin.Permissions.Abstractions.Permission.Location).GetAwaiter();
+            //var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
+            if (status != PermissionStatus.Granted)
+            {
+                var locationpermission = await GetLocationAccess();
+
+                if(locationpermission == PermissionStatus.Granted)
+                {
+                    locationPermissionWhenuse = locationpermission;
+                }
+                else
+                {
+                    var reloadresult = await App.Current.MainPage.DisplayAlert(title: "Alert", message: "Cannot Access Location Infromation\n\nPlease Enable and Restart the Scent Plus", cancel: "Cancel", accept: "Ok");
+                    IsScanning = false;
+                }
+            }
+            else
+            {
+                locationPermissionWhenuse = status;
+            }
+            
+            //if (locationPermissionAll == PermissionStatus.Granted || locationPermissionWhenuse == PermissionStatus.Granted)
+            if (locationPermissionWhenuse == PermissionStatus.Granted)
             {
                 if(!wifiAdapter.IsGpsEnabled())
                 {
@@ -94,6 +124,32 @@ namespace Terra.Core.ViewModels
                 wifiAdapter.OnRequestAvailableNetworks();
 
             }
+            else
+            {
+                Debug.WriteLine("Location Permission Is Denied");
+            }
+        }
+
+        public async Task<PermissionStatus> GetLocationAccess()
+        {
+            PermissionStatus islocationenabled = default;
+            try
+            {
+                var results2 = Permissions.RequestAsync<Permissions.LocationWhenInUse>().GetAwaiter();
+                await Task.Delay(5000);
+                var status = Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>().Result;
+
+                if (status == PermissionStatus.Granted)
+                {
+                    islocationenabled = status;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                //  throw ex;
+            }
+            return islocationenabled;
         }
 
         string wifiCountString = "Wifi list count: ";
