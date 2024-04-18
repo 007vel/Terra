@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <SelectedDevice>Samsung SM-A047F</SelectedDevice>
-    <DefaultDevice>nexus_4_-_api_34</DefaultDevice>
+    <SelectedDevice>pixel_5_-_api_26</SelectedDevice>
+    <DefaultDevice>pixel_5_-_api_26</DefaultDevice>
     <AndroidDesignerPreferredTheme>MainTheme</AndroidDesignerPreferredTheme>
-    <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
-    <ActiveDebugProfile>Samsung SM-A047F %28Android 14.0 - API 34%29</ActiveDebugProfile>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <ActiveDebugProfile>Pixel 5 - API 26 %28Android 8.0 - API 26%29</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

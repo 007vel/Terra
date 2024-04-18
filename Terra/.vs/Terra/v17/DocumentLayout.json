@@ -3,16 +3,15 @@
   "WorkspaceRootPath": "C:\\Prakash\\Git\\Terra\\Terra\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|solutionrelative:terra\\terra.android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Terra.Android||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
-      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\views\\networklistpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +21,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,42 +65,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Terra.Android",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Terra.Android.csproj",
+              "RelativeDocumentMoniker": "Terra\\Terra.Android\\Terra.Android.csproj",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Terra.Android.csproj",
+              "RelativeToolTip": "Terra\\Terra.Android\\Terra.Android.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-04-18T10:28:53.126Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NetworkViewModel.cs",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAUwEMAAAChAAAA",
+              "Title": "MainActivity.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\MainActivity.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Android\\MainActivity.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\MainActivity.cs",
+              "RelativeToolTip": "Terra\\Terra.Android\\MainActivity.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAgwCMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T11:49:12.381Z",
+              "WhenOpened": "2024-04-18T10:27:05.673Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ViewModelBase.cs",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
-              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
-              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\ViewModelBase.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "NetworkViewModel.cs",
+              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
+              "ViewState": "AQIAACYAAAAAAAAAAAAIwCoAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-15T11:49:11.69Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NetworkListPage.xaml",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
-              "RelativeDocumentMoniker": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
-              "RelativeToolTip": "Terra\\Terra.Core\\Views\\NetworkListPage.xaml",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAAAFgAAABTAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-04-15T11:49:08.827Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-18T10:24:58.47Z"
             }
           ]
         },
