@@ -1,10 +1,17 @@
 ﻿
+using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network;
+using ConnectionLibrary.Network.Util;
+using Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Terra_Maui.Helper;
+using DeviceInfo = Entities.DeviceInfo;
 
 namespace Terra_Maui.ViewModels
 {

@@ -86,6 +86,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\ConnectionLibraryMaui\ConnectionLibraryMaui.csproj" />
+	  <ProjectReference Include="..\Entities\Entities.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Controls\DayConfigControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
