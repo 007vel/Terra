@@ -1,5 +1,18 @@
 
+using Acr.UserDialogs;
+using Entities;
+using Mopups.Services;
+using Newtonsoft.Json;
 using System.Timers;
+using Terra_Maui.Controls;
+using Terra_Maui.Controls.UIInterface;
+using Terra_Maui.Enum;
+using Terra_Maui.Helper;
+using Terra_Maui.Models;
+using Terra_Maui.Utils;
+using Terra_Maui.ViewModels;
+using Terra_Maui.Views.PopUpPages;
+using DeviceInfo = Entities.DeviceInfo;
 
 namespace Terra_Maui.Views;
 
@@ -38,7 +51,7 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
 
         scheduleList.scheduler = new List<Scheduler>();
 
-        ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
+        Terra_Maui.Service.ServiceProvider.Instance.SetBinding(this, typeof(DeviceDetailsViewModel));
         PageContext.Result += PageContext_Result;
         PageContext.DeviceInfoReceived += PageContext_DeviceInfoReceived;
 
@@ -158,7 +171,7 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
                 string seconds = "00";
                 if (_TimeSpan.Seconds < 10)
                 {
-                    seconds = Terra.Core.Utils.Utils.pad_an_int(_TimeSpan.Seconds, 2);
+                    seconds = Utils.Utils.pad_an_int(_TimeSpan.Seconds, 2);
                 }
                 else
                 {
@@ -254,50 +267,52 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
     private Grid GetAddButton()
     {
         AddBtn = new Grid();
-        AddBtn.WidthRequest = 40;
-        AddBtn.HeightRequest = 40;
-        ImageButton imageButton = new ImageButton();
-        AddBtn.BackgroundColor = Color.Transparent;
-        TintedImage tintedImage = new TintedImage();
-        tintedImage.Source = ImageSource.FromFile("baseline_add_black_36");
-        tintedImage.TintColor = Color.White;
-        tintedImage.InputTransparent = true;
-        tintedImage.Margin = new Thickness(8);
-        imageButton.BackgroundColor = Color.Black;
-        imageButton.CornerRadius = 3;
+        //Need To Work 
+        //AddBtn.WidthRequest = 40;
+        //AddBtn.HeightRequest = 40;
+        //ImageButton imageButton = new ImageButton();
+        //AddBtn.BackgroundColor = Color.Transparent;
+        //TintedImage tintedImage = new TintedImage();
+        //tintedImage.Source = ImageSource.FromFile("baseline_add_black_36");
+        //tintedImage.TintColor = Colors.White;
+        //tintedImage.InputTransparent = true;
+        //tintedImage.Margin = new Thickness(8);
+        //imageButton.BackgroundColor = Colors.Black;
+        //imageButton.CornerRadius = 3;
 
-        AddBtn.Children.Add(imageButton);
-        AddBtn.Children.Add(tintedImage);
+        //AddBtn.Children.Add(imageButton);
+        //AddBtn.Children.Add(tintedImage);
 
-        AddBtn.HorizontalOptions = LayoutOptions.Center;
-        AddBtn.VerticalOptions = LayoutOptions.Center;
-        AddBtn.Margin = new Thickness(10, 10, 15, 10);
-        imageButton.Clicked += AddButtonClicked;
+        //AddBtn.HorizontalOptions = LayoutOptions.Center;
+        //AddBtn.VerticalOptions = LayoutOptions.Center;
+        //AddBtn.Margin = new Thickness(10, 10, 15, 10);
+        //imageButton.Clicked += AddButtonClicked;
         return AddBtn;
     }
 
     private Grid GetSingleDeleteButton()
     {
         var SingleDeleteBtn = new Grid();
-        SingleDeleteBtn.WidthRequest = 40;
-        SingleDeleteBtn.HeightRequest = 40;
-        ImageButton imageButton = new ImageButton();
-        SingleDeleteBtn.BackgroundColor = Color.Transparent;
-        TintedImage tintedImage = new TintedImage();
-        tintedImage.Source = ImageSource.FromFile("baseline_remove_black_24");
-        tintedImage.TintColor = Color.White;
-        tintedImage.InputTransparent = true;
-        tintedImage.Margin = new Thickness(8);
-        imageButton.BackgroundColor = Color.Black;
-        imageButton.CornerRadius = 3;
+        //Need To Work 
+        //SingleDeleteBtn.WidthRequest = 40;
+        //SingleDeleteBtn.HeightRequest = 40;
+        //ImageButton imageButton = new ImageButton();
+        //SingleDeleteBtn.BackgroundColor = Color.Transparent;
+        //TintedImage tintedImage = new TintedImage();
+        //tintedImage.Source = ImageSource.FromFile("baseline_remove_black_24");
+        //tintedImage.TintColor = Colors.White;
+        //tintedImage.InputTransparent = true;
+        //tintedImage.Margin = new Thickness(8);
+        //imageButton.BackgroundColor = Colors.Black;
+        //imageButton.CornerRadius = 3;
 
-        SingleDeleteBtn.Children.Add(imageButton);
-        SingleDeleteBtn.Children.Add(tintedImage);
+        //SingleDeleteBtn.Children.Add(imageButton);
+        //SingleDeleteBtn.Children.Add(tintedImage);
 
-        SingleDeleteBtn.HorizontalOptions = LayoutOptions.CenterAndExpand;
-        SingleDeleteBtn.VerticalOptions = LayoutOptions.Center;
-        SingleDeleteBtn.Margin = new Thickness(10, 10, 15, 10);
-        imageButton.Clicked += SingleDeleteButtonClicked;
+        //SingleDeleteBtn.HorizontalOptions = LayoutOptions.CenterAndExpand;
+        //SingleDeleteBtn.VerticalOptions = LayoutOptions.Center;
+        //SingleDeleteBtn.Margin = new Thickness(10, 10, 15, 10);
+        //imageButton.Clicked += SingleDeleteButtonClicked;
         return SingleDeleteBtn;
     }
 
@@ -307,7 +322,7 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
         DelButton.BackgroundColor = Color.FromHex("#EF4736");
         DelButton.CornerRadius = 3;
         DelButton.Text = "delete all";
-        DelButton.TextColor = Color.White;
+        DelButton.TextColor = Colors.White;
 
         DelButton.HorizontalOptions = LayoutOptions.Center;
         DelButton.VerticalOptions = LayoutOptions.Center;
@@ -495,7 +510,10 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
         {
             QuickAccessButton quickAccessButton = (QuickAccessButton)sender;
             var loadingPage = new DialogPopupPage(quickAccessButton);
-            await Navigation.PushPopupAsync(loadingPage);
+
+            await MopupService.Instance.PushAsync(loadingPage);
+
+          //  await Navigation.PushPopupAsync(loadingPage);
         }
     }
     private void CreateTapGesture(QuickAccessButton quickAccessButton)

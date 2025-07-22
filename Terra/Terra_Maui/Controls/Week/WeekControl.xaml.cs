@@ -1,3 +1,6 @@
+using Terra_Maui.Enum;
+using Terra_Maui.Models;
+
 namespace Terra_Maui.Controls.Week;
 
 public partial class WeekControl : StackLayout
@@ -118,7 +121,7 @@ public partial class WeekControl : StackLayout
         {
             if (uIDay.selectionStatus == SelectionStatus.Selected)
             {
-                label.TextColor = Color.Black;
+                label.TextColor = Colors.Black;
             }
             else if (uIDay.selectionStatus == SelectionStatus.Today)
             {
@@ -126,7 +129,7 @@ public partial class WeekControl : StackLayout
             }
             else if (uIDay.selectionStatus == SelectionStatus.NotSlected)
             {
-                label.TextColor = Color.Black;
+                label.TextColor = Colors.Black;
                 label.Opacity = 0.5;
             }
         }

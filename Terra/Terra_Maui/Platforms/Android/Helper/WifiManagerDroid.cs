@@ -7,6 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.Wifi;
+using ConnectionLibrary.Network;
+using Entities.Common;
+using ConnectionLibrary.Interface;
+using Android.OS;
+using Android_App = Android.App;
 
 namespace Terra_Maui.Platforms.Android.Helper
 {
@@ -22,10 +28,10 @@ namespace Terra_Maui.Platforms.Android.Helper
 
         public WifiManagerDroid()
         {
-            this.context = Android.App.Application.Context;
-            wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Context.WifiService);
-            LocationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
-            mainActivity = Forms.Context as MainActivity;
+            this.context = Android_App.Application.Context;
+            wifiManager = (WifiManager)Android_App.Application.Context.GetSystemService(Context.WifiService);
+            LocationManager = (LocationManager)Android_App.Application.Context.GetSystemService(Context.LocationService);
+           // mainActivity = Forms.Context as MainActivity;
             wifiReceiver = new WifiNetworkReceiver(wifiManager);
         }
 
@@ -95,7 +101,7 @@ namespace Terra_Maui.Platforms.Android.Helper
         }
 
         ////////////////////////////////////////////
-        ConnectivityManager _wifiManager = Android.App.Application.Context.GetSystemService(Context.ConnectivityService) as ConnectivityManager;
+        ConnectivityManager _wifiManager = Android_App.Application.Context.GetSystemService(Context.ConnectivityService) as ConnectivityManager;
         NetworkCallback _networkCallback = null;
         public async void Connect1(string _ssid, string _pwd)
         {
@@ -121,11 +127,11 @@ namespace Terra_Maui.Platforms.Android.Helper
                 return;
 
             wifiManager.Disconnect();
-            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
-            {
+            //if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
+            //{
 
-                _wifiManager.UnregisterNetworkCallback(_networkCallback);
-            }
+            //    _wifiManager.UnregisterNetworkCallback(_networkCallback);
+            //}
 
 
         }
@@ -142,14 +148,14 @@ namespace Terra_Maui.Platforms.Android.Helper
 
         public bool IsGpsEnable()
         {
-            LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
+            LocationManager locationManager = (LocationManager)Android_App.Application.Context.GetSystemService(Context.LocationService);
             return locationManager.IsProviderEnabled(LocationManager.GpsProvider);
         }
 
         public bool EnableWifi()
         {
-            Intent panelIntent = new Intent(Android.Provider.Settings.Panel.ActionWifi);
-            mainActivity.StartActivityForResult(panelIntent, 1);
+            //Intent panelIntent = new Intent(Android.Provider.Settings.Panel.ActionWifi);
+            //mainActivity.StartActivityForResult(panelIntent, 1);
             return wifiManager.SetWifiEnabled(true);
         }
 
@@ -185,12 +191,12 @@ namespace Terra_Maui.Platforms.Android.Helper
             {
                 if (!LocationManager.IsProviderEnabled(LocationManager.GpsProvider))
                 {
-                    Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionLocat‌​ionSourceSettings));
+                   // Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionLocat‌​ionSourceSettings));
                 }
             }
             else if (mobileSetting == MobileSetting.Data)
             {
-                Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionDateSettings));
+               // Xamarin.Forms.Forms.Context.StartActivity(new Android.Content.Intent(Android.Provider.Settings.ActionDateSettings));
             }
         }
 
@@ -300,7 +306,7 @@ namespace Terra_Maui.Platforms.Android.Helper
         /// </summary>
         public class CustomNetworkAvailableCallBack : ConnectivityManager.NetworkCallback
         {
-            public static Context _context = Android.App.Application.Context;
+            public static Context _context = Android_App.Application.Context;
 
             ConnectivityManager connection_manager = (ConnectivityManager)_context.GetSystemService(Context.ConnectivityService);
 

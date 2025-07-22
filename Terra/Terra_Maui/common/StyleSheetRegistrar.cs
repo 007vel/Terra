@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Controls.StyleSheets;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,7 +14,7 @@ namespace Terra_Maui.common
     {
         public static void RegisterStyle(string name, Type targetType, string bindablePropertyName)
         {
-            var stylePropertyInfo = typeof(Xamarin.Forms.Internals.Registrar).GetProperty("StyleProperties",
+            var stylePropertyInfo = typeof(Microsoft.Maui.Controls.Internals.Registrar).GetProperty("StyleProperties",
                 BindingFlags.Static | BindingFlags.NonPublic);
             if (stylePropertyInfo == null)
                 return;

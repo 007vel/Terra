@@ -1,6 +1,5 @@
 ﻿using System;
 using ConnectionLibrary.Interface;
-using Xamarin.Forms;
 
 namespace ConnectionLibrary.Network
 {

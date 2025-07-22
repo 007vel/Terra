@@ -1,3 +1,8 @@
+using Acr.UserDialogs;
+using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network;
+using Terra_Maui.Helper;
+
 namespace Terra_Maui.Views;
 
 public partial class AboutPage : ContentPage

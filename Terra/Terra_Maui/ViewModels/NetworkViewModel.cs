@@ -1,10 +1,16 @@
-﻿using System;
+﻿using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network;
+using Entities.Wifi;
+using EspTouchMultiPlatformLIbrary;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Terra_Maui.common;
 
 namespace Terra_Maui.ViewModels
 {
@@ -147,7 +153,16 @@ namespace Terra_Maui.ViewModels
                 _networkList.ForEach(i =>
                 {
                     i.Image = "terra_spray_device_03";
-                    i.LabelTextColor = Color.FromHex("#989da0"); ;
+                    //i.LabelTextColor = Color.FromHex("#989da0"); ;
+
+                    var mauiColor = Color.FromHex("#989da0");
+
+                    i.LabelTextColor = System.Drawing.Color.FromArgb(
+                        (int)(mauiColor.Alpha * 255),
+                        (int)(mauiColor.Red * 255),
+                        (int)(mauiColor.Green * 255),
+                        (int)(mauiColor.Blue * 255)
+                    );
                 });
                 NetworkList = new ObservableCollection<Wifi>(_networkList);
                 if (NetworkList.Count > 0)
@@ -275,11 +290,26 @@ namespace Terra_Maui.ViewModels
                     DeviceConnectStatus = "Connecting...";
                     OnPropertyChanged("DeviceConnectStatus");
                     await Task.Delay(500);
-                    SelectedItem.LabelTextColor = Color.FromHex("#EF4736");
+                    //SelectedItem.LabelTextColor = Color.FromHex("#EF4736");
+                    var mauiColor = Microsoft.Maui.Graphics.Color.FromHex("#EF4736");
+                    SelectedItem.LabelTextColor = System.Drawing.Color.FromArgb(
+                    (int)(mauiColor.Alpha * 255),
+                    (int)(mauiColor.Red * 255),
+                    (int)(mauiColor.Green * 255),
+                    (int)(mauiColor.Blue * 255)
+                );
                     SelectedItem.Image = "terra_spray_orange_device_03";
                     if (LastSelectedItem != null)
                     {
-                        LastSelectedItem.LabelTextColor = Color.FromHex("#989da0");
+                        //LastSelectedItem.LabelTextColor = Color.FromHex("#989da0");
+                        var mauiColor1 = Color.FromHex("#989da0");
+
+                        LastSelectedItem.LabelTextColor = System.Drawing.Color.FromArgb(
+                            (int)(mauiColor1.Alpha * 255),
+                            (int)(mauiColor1.Red * 255),
+                            (int)(mauiColor1.Green * 255),
+                            (int)(mauiColor1.Blue * 255)
+                        );
                         LastSelectedItem.Image = "terra_spray_device_03";
                     }
                     DeviceName = wifi.name;

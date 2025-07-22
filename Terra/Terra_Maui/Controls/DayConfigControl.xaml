@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+<StackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Terra_Maui.Controls.DayConfigControl"
-              xmlns:expand="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
-                  xmlns:time="clr-namespace:Terra.Core.Controls.Week;assembly=Terra.Core"
-             xmlns:tint="clr-namespace:Plugin.CrossPlatformTintedImage.Abstractions;assembly=Plugin.CrossPlatformTintedImage.Abstractions"
+             xmlns:expand="clr-namespace:Terra_Maui.Controls;assembly=Terra_Maui"
+             xmlns:time="clr-namespace:Terra_Maui.Controls.Week;assembly=Terra_Maui"
+            
              Orientation="Vertical" HorizontalOptions="FillAndExpand"
              Margin="10,10,15,10">
     <!--Edit layout -->
@@ -18,7 +18,8 @@
             </Grid.ColumnDefinitions>
 
             <StackLayout x:Name="deleteBtnLayout" IsVisible="False" Grid.Column="0" BackgroundColor="#EF4736" HorizontalOptions="FillAndExpand" Margin="0,4,0,4">
-                <tint:TintedImage Source="baseline_remove_black_24" TintColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                <!--Need TO Work--> 
+                <!--<tint:TintedImage Source="baseline_remove_black_24" TintColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />-->
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="RemoveIconClicked"/>
                 </StackLayout.GestureRecognizers>

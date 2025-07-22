@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using ConnectionLibrary.Interface;
 using Entities.Wifi;
 using Newtonsoft.Json.Linq;
-using Xamarin.Forms;
 
 namespace ConnectionLibrary.Network
 {

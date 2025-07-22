@@ -1,5 +1,8 @@
 
+using SkiaSharp;
+using SkiaSharp.Views.Maui;
 using System.Diagnostics;
+using Terra_Maui.Utils;
 
 
 namespace Terra_Maui.Controls;
@@ -133,7 +136,7 @@ public partial class ProgressView : Grid
             progressUtils.setDevice(info.Height, info.Width);
             canvas.Clear();
             SKBlendMode blend = SKBlendMode.SrcIn;
-            canvas.DrawColor(Color.White.ToSKColor(), blend);
+            canvas.DrawColor(Colors.White.ToSKColor(), blend);
             // Getting Device Specific Screen Values
             // -------------------------------------------------
 

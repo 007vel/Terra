@@ -1,9 +1,10 @@
 ﻿
+using Acr.UserDialogs;
 using ConnectionLibrary.Interface;
 using ConnectionLibrary.Network;
 using ConnectionLibrary.Network.Util;
 using Entities;
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,7 +165,7 @@ namespace Terra_Maui.ViewModels
         {
             if (!connected)
             {
-                Terra.Core.Utils.Utils.Toast("Device connection lost!");
+                Utils.Utils.Toast("Device connection lost!");
                 IsConnectionLost = true;
             }
             else
@@ -188,7 +189,7 @@ namespace Terra_Maui.ViewModels
             var isAlive = await IsDeviceAlive(4);
             if (!isAlive)
             {
-                Terra.Core.Utils.Utils.Toast("Heart beat connection lost!");
+                Utils.Utils.Toast("Heart beat connection lost!");
                 await Shell.Current.Navigation.PopAsync();
                 return;
             }
@@ -203,7 +204,7 @@ namespace Terra_Maui.ViewModels
             {
                 if (!OTAHelper.Instance.IsDeviceConnected())
                 {
-                    Terra.Core.Utils.Utils.Toast("Device connection lost!");
+                    Utils.Utils.Toast("Device connection lost!");
                     await Shell.Current.Navigation.PopAsync();
                     return;
                 }
@@ -571,8 +572,8 @@ namespace Terra_Maui.ViewModels
         {
             Config timeConfig = new Config();
             timeConfig.request = "set";
-            timeConfig.current_epoch = Terra.Core.Utils.Utils.GetEpochSeconds();
-            timeConfig.timeZone = Terra.Core.Utils.Utils.GetTimeZoneInfo();
+            timeConfig.current_epoch = Utils.Utils.GetEpochSeconds();
+            timeConfig.timeZone = Utils.Utils.GetTimeZoneInfo();
             var deviceRes = await deviceService.SetDeviceConfig(timeConfig);
             return deviceRes;
         }

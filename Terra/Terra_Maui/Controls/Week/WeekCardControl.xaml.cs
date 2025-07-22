@@ -1,3 +1,6 @@
+using Terra_Maui.Enum;
+using Terra_Maui.Models;
+
 namespace Terra_Maui.Controls.Week;
 
 public partial class WeekCardControl : WeekControl
@@ -82,7 +85,7 @@ public partial class WeekCardControl : WeekControl
 
             ImageButton button = new ImageButton();
             button.VerticalOptions = LayoutOptions.Fill;
-            button.BackgroundColor = Color.Transparent;
+            button.BackgroundColor = Colors.Transparent;
             button.Margin = new Thickness(5, 0, 0, -20);
             button.HeightRequest = 50;
             button.Clicked += Button_Clicked;

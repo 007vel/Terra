@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Terra_Maui.Views.NetworkListPage"
-    xmlns:vm="clr-namespace:Terra.Core.ViewModels"
-    xmlns:banner="clr-namespace:Terra.Core.Controls"
+    xmlns:vm="clr-namespace:Terra_Maui.ViewModels"
+    xmlns:banner="clr-namespace:Terra_Maui.Controls"
     Shell.NavBarIsVisible="True" BackgroundColor="#E9E6E6" Title="Devices">
     <ContentPage.Resources>
 

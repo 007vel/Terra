@@ -1,6 +1,5 @@
-using Android.Graphics.Drawables;
-using static Android.Icu.Text.CaseMap;
 
+using Terra_Maui.common;
 namespace Terra_Maui.Controls;
 
 public partial class QuickAccessButton : Frame, IDialog
@@ -11,7 +10,7 @@ public partial class QuickAccessButton : Frame, IDialog
     {
         InitializeComponent();
         CornerRadius = 3;
-        BorderColor = Color.Green;
+        BorderColor = Colors.Green;
         VerticalOptions = LayoutOptions.FillAndExpand;
         HorizontalOptions = LayoutOptions.FillAndExpand;
     }

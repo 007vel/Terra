@@ -1,3 +1,6 @@
+using Terra_Maui.Helper;
+using Terra_Maui.ViewModels;
+
 namespace Terra_Maui.Views;
 
 public partial class NetworkListPage : ContentPage

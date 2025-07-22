@@ -1,4 +1,11 @@
+using Entities;
 using System.Collections.ObjectModel;
+using Terra_Maui.Controls.UIInterface;
+using Terra_Maui.Controls.Week;
+using Terra_Maui.Enum;
+using Terra_Maui.Helper;
+using Terra_Maui.Models;
+using Terra_Maui.Views;
 
 namespace Terra_Maui.Controls;
 
@@ -489,7 +496,7 @@ public partial class DayConfigControl : StackLayout
         Console.WriteLine("***********SwipeView_PropertyChanged*********" + e.PropertyName);
     }
 
-    void Toggle_Toggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+    void Toggle_Toggled(System.Object sender, ToggledEventArgs e)
     {
         ScheduleReceived.Invoke(uIDays, indexText, new TimeSpan(SelectedStartTime.Ticks), new TimeSpan(SelectedStopTime.Ticks), SelectedIntervsl, e.Value);
     }

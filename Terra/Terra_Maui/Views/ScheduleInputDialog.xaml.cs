@@ -1,3 +1,5 @@
+using Mopups.Pages;
+
 namespace Terra_Maui.Views;
 
 public partial class ScheduleInputDialog : PopupPage
@@ -8,7 +10,8 @@ public partial class ScheduleInputDialog : PopupPage
     }
     private async void OnClose(object sender, EventArgs e)
     {
-        await PopupNavigation.Instance.PopAsync();
+        // await PopupNavigation.Instance.PopAsync();
+        await Mopups.Services.MopupService.Instance.PopAsync();
     }
 
 

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terra_Maui.Enum;
+using Terra_Maui.Models;
 
 namespace Terra_Maui.Utils
 {

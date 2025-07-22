@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage
-    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:Terra.Core.ViewModels"
-    xmlns:card="clr-namespace:Terra.Core.Controls;assembly=Terra.Core"
-    xmlns:prog="clr-namespace:Terra.Core.Views;assembly=Terra.Core"
+    xmlns:vm="clr-namespace:Terra_Maui.ViewModels"
+    xmlns:card="clr-namespace:Terra_Maui.Controls;assembly=Terra_Maui"
+    xmlns:prog="clr-namespace:Terra_Maui.Views;assembly=Terra_Maui"
     x:Class="Terra_Maui.Views.DeviceDetailsPage" Title="Configuration" BackgroundColor="White">
     <ContentPage.BindingContext>
         <vm:DeviceDetailsViewModel/>

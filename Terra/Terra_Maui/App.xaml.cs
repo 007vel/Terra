@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ConnectionLibrary.Network;
+using System.Diagnostics;
 
 namespace Terra_Maui
 {
@@ -12,16 +13,17 @@ namespace Terra_Maui
             //   StyleSheetRegistrar.RegisterStyle("-xf-horizontal-options", typeof(VisualElement), nameof(View.HorizontalOptionsProperty));
             //  StyleSheetRegistrar.RegisterStyle("-xf-shell-navbarhasshadow", typeof(Shell), nameof(Shell.NavBarHasShadowProperty));
 
-            Device.SetFlags(new[] {
-    "CarouselView_Experimental",
-    "IndicatorView_Experimental",
-    "RadioButton_Experimental",
-    "AppTheme_Experimental",
-    "Markup_Experimental",
-    "Expander_Experimental",
-    "Shapes_Experimental",
-    "SwipeView_Experimental"
-});
+            //Need To Work 
+//            Device.SetFlags(new[] {
+//    "CarouselView_Experimental",
+//    "IndicatorView_Experimental",
+//    "RadioButton_Experimental",
+//    "AppTheme_Experimental",
+//    "Markup_Experimental",
+//    "Expander_Experimental",
+//    "Shapes_Experimental",
+//    "SwipeView_Experimental"
+//});
             //  global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
             InitializeComponent();
 

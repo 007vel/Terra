@@ -39,11 +39,11 @@ namespace ConnectionLibrary.Network.Util
             }
             return null;
         }
-        public static DeviceInfo DeserializDeviceInfo(string deviceRes)
+        public static Entities.DeviceInfo DeserializDeviceInfo(string deviceRes)
         {
             try
             {
-                return JsonConvert.DeserializeObject<DeviceInfo>(deviceRes);
+                return JsonConvert.DeserializeObject<Entities.DeviceInfo>(deviceRes);
             }
             catch (Exception e)
             {

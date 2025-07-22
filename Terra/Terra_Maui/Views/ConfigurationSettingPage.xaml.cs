@@ -1,3 +1,9 @@
+using Entities;
+using Terra_Maui.Controls.UIInterface;
+using Terra_Maui.Controls.Week;
+using Terra_Maui.Models;
+using Terra_Maui.Utils;
+
 namespace Terra_Maui.Views;
 
 public partial class ConfigurationSettingPage : ContentPage

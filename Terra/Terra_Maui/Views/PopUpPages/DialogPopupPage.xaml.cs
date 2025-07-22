@@ -1,3 +1,6 @@
+using Mopups.Pages;
+using Terra_Maui.common;
+
 namespace Terra_Maui.Views.PopUpPages;
 
 public partial class DialogPopupPage : PopupPage
@@ -13,7 +16,8 @@ public partial class DialogPopupPage : PopupPage
     }
     private async void OnClose(object sender, EventArgs e)
     {
-        await PopupNavigation.Instance.PopAsync();
+        // await PopupNavigation.Instance.PopAsync();
+        await Mopups.Services.MopupService.Instance.PopAsync();
     }
 
     protected override Task OnAppearingAnimationEndAsync()
