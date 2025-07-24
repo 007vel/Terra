@@ -5,6 +5,7 @@
     x:Class="Terra_Maui.Views.NetworkListPage"
     xmlns:vm="clr-namespace:Terra_Maui.ViewModels"
     xmlns:banner="clr-namespace:Terra_Maui.Controls"
+    xmlns:convertor="clr-namespace:Terra_Maui.Converters"
     Shell.NavBarIsVisible="True" BackgroundColor="#E9E6E6" Title="Devices">
     <ContentPage.Resources>
 
@@ -39,7 +40,10 @@
             ]]>
 
         </StyleSheet>
-
+        
+        <ResourceDictionary>
+            <convertor:InversBoolConverter x:Key="InversBoolConverter"/>
+        </ResourceDictionary>
 
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
@@ -85,7 +89,7 @@
                     <Label Margin="25,5,0,5" Text="{Binding WifiCount}" Grid.Column="0" FontSize="Medium" TextColor="White" BackgroundColor="Transparent"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
 
                     <Grid HorizontalOptions="End" Grid.Column="1">
-                        <ImageButton Source="baseline_refresh_white_24"  Command="{Binding ScanWifi}" IsVisible="{Binding IsScanning,Converter={StaticResource InversBoolConverter}}" Padding="20,0,20,0" BackgroundColor="#959A9D"/>
+                        <ImageButton Source="baseline_refresh_white_24.png"  Command="{Binding ScanWifi}" IsVisible="{Binding IsScanning,Converter={StaticResource InversBoolConverter}}"  BackgroundColor="#959A9D"/>
                         <ActivityIndicator Color="White" IsRunning="{Binding IsScanning}" IsVisible="{Binding IsScanning}" Margin="10">
 
                         </ActivityIndicator>
@@ -123,7 +127,7 @@
                                                         </Image>
                                                     </Grid>
 
-                                                    <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0" Margin="15,0">
+                                                    <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0" Margin="5,0" BackgroundColor="{Binding LabelTextColor}">
 
                                                         <Label x:Name="rowone" Text="{Binding name}" StyleClass="listrow" TextColor="{Binding LabelTextColor}" VerticalOptions="End">
 

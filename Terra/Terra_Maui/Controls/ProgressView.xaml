@@ -5,7 +5,7 @@
             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
 
               >
-    <Grid VerticalOptions="Fill" HorizontalOptions="FillAndExpand" ColumnSpacing="3" RowSpacing="3" BackgroundColor="White" Margin="3,3,3,3">
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"  BackgroundColor="White" >
         <Grid.RowDefinitions>
             <RowDefinition Height="80*" />
             <RowDefinition Height="20*" />
@@ -48,8 +48,8 @@
                    IsVisible="false"/>
         </StackLayout>
     </Grid>
-    <StackLayout VerticalOptions="End">
-        <Label x:Name="day"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-5" HorizontalTextAlignment="End"/>
-        <Label x:Name="date"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-1" HorizontalTextAlignment="Start"/>
+    <StackLayout VerticalOptions="End" Spacing="5">
+        <Label x:Name="day"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-5" HorizontalTextAlignment="End" TextColor="#676a69"/>
+        <Label x:Name="date"  HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,0,-1" HorizontalTextAlignment="Start" TextColor="#676a69"/>
     </StackLayout>
 </Grid>

@@ -29,7 +29,7 @@ namespace Entities.Wifi
             set
             {
                 labelTextColor = value;
-                onPropertyChanged();
+                onPropertyChanged(nameof(LabelTextColor));
             }
             get => labelTextColor;
         }

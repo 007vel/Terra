@@ -13,6 +13,8 @@ public partial class QuickAccessButton : Frame, IDialog
         BorderColor = Colors.Green;
         VerticalOptions = LayoutOptions.FillAndExpand;
         HorizontalOptions = LayoutOptions.FillAndExpand;
+        HeightRequest = 70;
+        WidthRequest = 95;
     }
 
 

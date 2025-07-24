@@ -20,7 +20,8 @@
                     </StackLayout>
 
 
-                    <Button Text="Save" BackgroundColor="#EF4736" Margin="0,20,0,0" Clicked="Button_Clicked" HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5"></Button>
+                    <Button Text="SAVE" BackgroundColor="#EF4736" Margin="0,20,0,0" Clicked="Button_Clicked" HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5"
+                            FontAttributes="Bold" HeightRequest="50" WidthRequest="90" FontSize="15"></Button>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

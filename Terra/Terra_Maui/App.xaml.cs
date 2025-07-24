@@ -1,5 +1,10 @@
-﻿using ConnectionLibrary.Network;
+﻿
+using ConnectionLibrary.Interface;
+using ConnectionLibrary.Network;
 using System.Diagnostics;
+#if ANDROID
+using Terra_Maui.Platforms.Android.Helper;
+#endif
 
 namespace Terra_Maui
 {
@@ -14,17 +19,23 @@ namespace Terra_Maui
             //  StyleSheetRegistrar.RegisterStyle("-xf-shell-navbarhasshadow", typeof(Shell), nameof(Shell.NavBarHasShadowProperty));
 
             //Need To Work 
-//            Device.SetFlags(new[] {
-//    "CarouselView_Experimental",
-//    "IndicatorView_Experimental",
-//    "RadioButton_Experimental",
-//    "AppTheme_Experimental",
-//    "Markup_Experimental",
-//    "Expander_Experimental",
-//    "Shapes_Experimental",
-//    "SwipeView_Experimental"
-//});
+            //            Device.SetFlags(new[] {
+            //    "CarouselView_Experimental",
+            //    "IndicatorView_Experimental",
+            //    "RadioButton_Experimental",
+            //    "AppTheme_Experimental",
+            //    "Markup_Experimental",
+            //    "Expander_Experimental",
+            //    "Shapes_Experimental",
+            //    "SwipeView_Experimental"
+            //});
             //  global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
+
+#if ANDROID
+            DependencyService.Register<IMobile, MobileHelper>();
+            DependencyService.Register<IPlatformWifiManager, WifiManagerDroid>();
+            DependencyService.Register<ISmartConfigHelper, SmartConfig_Droid>();
+#endif
             InitializeComponent();
 
             MainPage = new AppShell();
