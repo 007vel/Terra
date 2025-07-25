@@ -1,5 +1,6 @@
 
 using Acr.UserDialogs;
+using CommunityToolkit.Maui.Behaviors;
 using Entities;
 using Mopups.Services;
 using Newtonsoft.Json;
@@ -266,54 +267,73 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
 
     private Grid GetAddButton()
     {
-        AddBtn = new Grid();
-        //Need To Work 
-        //AddBtn.WidthRequest = 40;
-        //AddBtn.HeightRequest = 40;
-        //ImageButton imageButton = new ImageButton();
-        //AddBtn.BackgroundColor = Color.Transparent;
-        //TintedImage tintedImage = new TintedImage();
-        //tintedImage.Source = ImageSource.FromFile("baseline_add_black_36");
-        //tintedImage.TintColor = Colors.White;
-        //tintedImage.InputTransparent = true;
-        //tintedImage.Margin = new Thickness(8);
-        //imageButton.BackgroundColor = Colors.Black;
-        //imageButton.CornerRadius = 3;
+        AddBtn = new Grid
+        {
+            WidthRequest = 50,
+            HeightRequest = 50,
+            BackgroundColor = Colors.Transparent,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center,
+            Margin = new Thickness(10, 10, 15, 10)
+        };
 
-        //AddBtn.Children.Add(imageButton);
-        //AddBtn.Children.Add(tintedImage);
+        var imageButton = new ImageButton
+        {
+            Source = "baseline_add_black_36.png",
+            BackgroundColor = Colors.Black,
 
-        //AddBtn.HorizontalOptions = LayoutOptions.Center;
-        //AddBtn.VerticalOptions = LayoutOptions.Center;
-        //AddBtn.Margin = new Thickness(10, 10, 15, 10);
-        //imageButton.Clicked += AddButtonClicked;
+            WidthRequest = 50,
+            HeightRequest = 50,
+            CornerRadius = 3,
+            Padding = 8,
+            Aspect = Aspect.AspectFit,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
+        };
+        var behavior = new IconTintColorBehavior
+        {
+            TintColor = Colors.White
+        };
+
+        imageButton.Behaviors.Add(behavior);
+        imageButton.Clicked += AddButtonClicked;
+        AddBtn.Children.Add(imageButton);
         return AddBtn;
     }
 
     private Grid GetSingleDeleteButton()
     {
-        var SingleDeleteBtn = new Grid();
-        //Need To Work 
-        //SingleDeleteBtn.WidthRequest = 40;
-        //SingleDeleteBtn.HeightRequest = 40;
-        //ImageButton imageButton = new ImageButton();
-        //SingleDeleteBtn.BackgroundColor = Color.Transparent;
-        //TintedImage tintedImage = new TintedImage();
-        //tintedImage.Source = ImageSource.FromFile("baseline_remove_black_24");
-        //tintedImage.TintColor = Colors.White;
-        //tintedImage.InputTransparent = true;
-        //tintedImage.Margin = new Thickness(8);
-        //imageButton.BackgroundColor = Colors.Black;
-        //imageButton.CornerRadius = 3;
+        var singleDeleteBtn = new Grid
+        {
+            WidthRequest = 50,
+            HeightRequest = 50,
+            BackgroundColor = Colors.Transparent,
+            HorizontalOptions = LayoutOptions.CenterAndExpand,
+            VerticalOptions = LayoutOptions.Center,
+            Margin = new Thickness(10, 10, 15, 10)
+        };
 
-        //SingleDeleteBtn.Children.Add(imageButton);
-        //SingleDeleteBtn.Children.Add(tintedImage);
+        var imageButton = new ImageButton
+        {
+            Source = "baseline_remove_black_24.png",
+            BackgroundColor = Colors.Black,
+            CornerRadius = 3,
+            WidthRequest = 50,
+            HeightRequest = 50,
+            Padding = 8,
+            Aspect = Aspect.AspectFit,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
+        };
+        var behavior = new IconTintColorBehavior
+        {
+            TintColor = Colors.White
+        };
 
-        //SingleDeleteBtn.HorizontalOptions = LayoutOptions.CenterAndExpand;
-        //SingleDeleteBtn.VerticalOptions = LayoutOptions.Center;
-        //SingleDeleteBtn.Margin = new Thickness(10, 10, 15, 10);
-        //imageButton.Clicked += SingleDeleteButtonClicked;
-        return SingleDeleteBtn;
+        imageButton.Behaviors.Add(behavior);
+        imageButton.Clicked += SingleDeleteButtonClicked;
+        singleDeleteBtn.Children.Add(imageButton);
+        return singleDeleteBtn;
     }
 
     private Button GetDeleteButton()
@@ -321,7 +341,7 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
         DelButton = new Button();
         DelButton.BackgroundColor = Color.FromHex("#EF4736");
         DelButton.CornerRadius = 3;
-        DelButton.Text = "delete all";
+        DelButton.Text = "DELETE ALL";
         DelButton.TextColor = Colors.White;
 
         DelButton.HorizontalOptions = LayoutOptions.Center;

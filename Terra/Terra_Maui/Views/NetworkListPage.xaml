@@ -100,7 +100,7 @@
                 </StackLayout.GestureRecognizers>
 
             </StackLayout>
-            <Grid Margin="10,25,10,25" FlexLayout.Basis="60%" >
+            <Grid Margin="5,5,5,25" FlexLayout.Basis="60%" >
                 <CollectionView x:Name="list"  
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand" 
@@ -110,7 +110,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Margin="5,10,5,10" HorizontalOptions="Fill" BackgroundColor="Transparent">
+                            <StackLayout Margin="0,5,0,5" HorizontalOptions="Fill" BackgroundColor="Transparent">
                                 <Frame CornerRadius="5"  Padding="5" >
                                     <StackLayout x:Name="netcell" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Margin="10">
                                         <FlexLayout HeightRequest="65" Direction="Row" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">

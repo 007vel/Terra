@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
 using Mopups.Hosting;
@@ -14,6 +15,7 @@ namespace Terra_Maui
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
                 .ConfigureMopups()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
