@@ -19,17 +19,17 @@ namespace Entities.Wifi
             set
             {
                 image = value;
-                onPropertyChanged();
+                onPropertyChanged("Image");
             }
             get => image;
         }
-        Color labelTextColor;
-        public Color LabelTextColor
+        Microsoft.Maui.Graphics.Color labelTextColor;
+        public Microsoft.Maui.Graphics.Color LabelTextColor
         {
             set
             {
                 labelTextColor = value;
-                onPropertyChanged(nameof(LabelTextColor));
+                onPropertyChanged("LabelTextColor");
             }
             get => labelTextColor;
         }

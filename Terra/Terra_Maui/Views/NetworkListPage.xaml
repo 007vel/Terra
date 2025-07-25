@@ -121,13 +121,13 @@
                                                         <ColumnDefinition Width="85*"/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Grid Grid.Column="0" BackgroundColor="{Binding LabelTextColor}" HeightRequest="60">
+                                                    <Grid Grid.Column="0" BackgroundColor="{Binding LabelTextColor}" HeightRequest="60" WidthRequest="40">
                                                         <Image x:Name="wifiImg"  Source="terra_spray.png" Margin="-8" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
 
                                                         </Image>
                                                     </Grid>
 
-                                                    <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0" Margin="5,0" BackgroundColor="{Binding LabelTextColor}">
+                                                    <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0" Margin="15,0" Background="Transparent">
 
                                                         <Label x:Name="rowone" Text="{Binding name}" StyleClass="listrow" TextColor="{Binding LabelTextColor}" VerticalOptions="End">
 
