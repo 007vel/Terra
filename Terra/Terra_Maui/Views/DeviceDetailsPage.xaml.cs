@@ -222,17 +222,25 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
 
     private void PageContext_Result(List<Entities.Scheduler> arg)
     {
-        if (arg != null)
+        try
         {
-            int i = 1;
-            foreach (var item in arg)
+            if (arg != null)
             {
-                item.index = i.ToString();
-                AddSchedule(item);
-                i++;
+                int i = 1;
+                foreach (var item in arg)
+                {
+                    item.index = i.ToString();
+                    AddSchedule(item);
+                    i++;
+                }
+                ButtonVisibleChange();
             }
-            ButtonVisibleChange();
         }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.ToString());  
+        }
+       
     }
 
 
@@ -395,12 +403,11 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
         Schedule_UI.editText = "edit";
         Schedule_UI.ScheduleReceived += ReceiveEditedORNewschedule;
         Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
-        Schedule_UI.DeleteDelegate += SingleDeleteDelegate;
-        ScheduleView.Children.Insert(index - 1, Schedule_UI);
-
+        Schedule_UI.DeleteDelegate += SingleDeleteDelegate;        
         TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer();
         gestureRecognizer.Tapped += GestureRecognizer_Tapped;
         Schedule_UI.GestureRecognizers.Add(gestureRecognizer);
+        
         if (scheduler == null)
         {
             scheduler = new Scheduler();
@@ -412,6 +419,11 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
         {
             scheduleList.scheduler.Add(scheduler);
         }
+        if (Schedule_UI.Parent is Layout parent)
+        {
+            parent.Children.Remove(Schedule_UI);
+        }
+        ScheduleView.Children.Insert(index - 1, Schedule_UI);
     }
 
     private void GestureRecognizer_Tapped(object sender, EventArgs e)

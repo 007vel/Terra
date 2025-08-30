@@ -95,7 +95,12 @@ namespace ConnectionLibrary.Network
             }
             return client;
         }
-       
+        private bool IsClientUsable(ClientWebSocket client)
+        {
+            return client != null &&
+                   client.State == WebSocketState.Open;
+        }
+
         internal async Task<string> ReadMessage(ClientWebSocket client)
         {
            // Thread.Sleep(2100);
@@ -113,6 +118,10 @@ namespace ConnectionLibrary.Network
                 bool IsIntiger;
                 do
                 {
+                    if(!IsClientUsable(client))
+                    {
+                        return null;
+                    }
                     var _result = client.ReceiveAsync(message, CancellationToken.None);
                     NetworkServiceUtil.Log("Socket ReadMessage: 3.1");
                     //   result = _result!=null? _result.Result:null;

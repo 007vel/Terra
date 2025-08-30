@@ -98,6 +98,10 @@ namespace ConnectionLibrary.Network
                         NullValueHandling = NullValueHandling.Ignore
                     });
                     var info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET, isNewFW: true), jsonIgnoreNullValues);
+                    if(string.IsNullOrEmpty(info))// re-try once time
+                    {
+                        info = await GetWsData(UrlConfig.GetFullURL(Endpoint.info, Endpoint_Method.GET, isNewFW: true), jsonIgnoreNullValues);
+                    }
                     return info;
                 }
             }
