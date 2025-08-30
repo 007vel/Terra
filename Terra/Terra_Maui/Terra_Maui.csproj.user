@@ -3,9 +3,9 @@
   <PropertyGroup>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
     <ActiveDebugFramework>net9.0-android</ActiveDebugFramework>
-    <ActiveDebugProfile>Samsung SM-G770F (Android 13.0 - API 33)</ActiveDebugProfile>
+    <ActiveDebugProfile>Google Pixel 9 Pro XL (Android 14.0 - API 34)</ActiveDebugProfile>
     <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
-    <DefaultDevice>pixel_6_pro_-_api_34</DefaultDevice>
+    <DefaultDevice>pixel_7_v1</DefaultDevice>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
