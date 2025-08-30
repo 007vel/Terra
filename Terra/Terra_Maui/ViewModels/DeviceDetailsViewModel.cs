@@ -211,18 +211,7 @@ namespace Terra_Maui.ViewModels
             }
             Schedulers = DeserializSchedule(rawSchedule);
             Result?.Invoke(Schedulers);
-            //  return;
-            //  Thread.Sleep(1100);
-
-            //  await GetBatteryCount();
-            //Thread.Sleep(sleeptime);
-            // await GetInitilizeSprayCount();
-            //Thread.Sleep(sleeptime);
-            // await GetRemSprayCount();
-            //Thread.Sleep(sleeptime);
-            // await GetDaysLeftCount();
-            //Thread.Sleep(sleeptime);
-            //  await GetNextSprayCounterCount();
+          
             await GetSnapshotAPI();
 
             CheckNewFWUpdateAvailability();

@@ -74,7 +74,7 @@ namespace Terra_Maui.Platforms.Android.Helper
                 //Thread.Sleep(1000);
                 await Task.Delay(1 * 1000);
 
-                if (_network.SupplicantState == SupplicantState.Completed && _network.SSID == ssid)
+                if (_network !=null &&_network.SupplicantState == SupplicantState.Completed && _network.SSID == ssid)
                 {
                     break;
                 }
