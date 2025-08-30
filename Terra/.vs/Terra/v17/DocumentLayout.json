@@ -3,32 +3,8 @@
   "WorkspaceRootPath": "C:\\projects\\Terra\\Terra\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\viewmodels\\devicedetailsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\viewmodels\\devicedetailsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\platforms\\android\\renderers\\mytimerpicker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\platforms\\android\\renderers\\mytimerpicker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FBFBB714-2873-45F6-ADB2-CF51B4CE9ED0}|ConnectionLibraryMaui\\ConnectionLibraryMaui.csproj|c:\\projects\\terra\\terra\\connectionlibrarymaui\\network\\deviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FBFBB714-2873-45F6-ADB2-CF51B4CE9ED0}|ConnectionLibraryMaui\\ConnectionLibraryMaui.csproj|solutionrelative:connectionlibrarymaui\\network\\deviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\views\\devicedetailspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\views\\devicedetailspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\views\\devicedetailspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\views\\devicedetailspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\platforms\\android\\helper\\wifimanagerdroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\platforms\\android\\helper\\wifimanagerdroid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\terra_maui.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\terra_maui.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DeviceDetailsViewModel.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\ViewModels\\DeviceDetailsViewModel.cs",
-              "RelativeDocumentMoniker": "Terra_Maui\\ViewModels\\DeviceDetailsViewModel.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\ViewModels\\DeviceDetailsViewModel.cs",
-              "RelativeToolTip": "Terra_Maui\\ViewModels\\DeviceDetailsViewModel.cs",
-              "ViewState": "AgIAAMoAAAAAAAAAAAAzwNgAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T07:10:40.461Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -87,80 +50,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MyTimerPicker.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Platforms\\Android\\Renderers\\MyTimerPicker.cs",
-              "RelativeDocumentMoniker": "Terra_Maui\\Platforms\\Android\\Renderers\\MyTimerPicker.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Platforms\\Android\\Renderers\\MyTimerPicker.cs",
-              "RelativeToolTip": "Terra_Maui\\Platforms\\Android\\Renderers\\MyTimerPicker.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T07:16:43.835Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MauiProgram.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\MauiProgram.cs",
-              "RelativeDocumentMoniker": "Terra_Maui\\MauiProgram.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\MauiProgram.cs",
-              "RelativeToolTip": "Terra_Maui\\MauiProgram.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T07:15:06.123Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DeviceDetailsPage.xaml",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Views\\DeviceDetailsPage.xaml",
-              "RelativeDocumentMoniker": "Terra_Maui\\Views\\DeviceDetailsPage.xaml",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Views\\DeviceDetailsPage.xaml",
-              "RelativeToolTip": "Terra_Maui\\Views\\DeviceDetailsPage.xaml",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-08-30T07:07:31.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DeviceDetailsPage.xaml.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Views\\DeviceDetailsPage.xaml.cs",
-              "RelativeDocumentMoniker": "Terra_Maui\\Views\\DeviceDetailsPage.xaml.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Views\\DeviceDetailsPage.xaml.cs",
-              "RelativeToolTip": "Terra_Maui\\Views\\DeviceDetailsPage.xaml.cs",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAYwNcAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T07:05:41.239Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DeviceService.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\ConnectionLibraryMaui\\Network\\DeviceService.cs",
-              "RelativeDocumentMoniker": "ConnectionLibraryMaui\\Network\\DeviceService.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\ConnectionLibraryMaui\\Network\\DeviceService.cs",
-              "RelativeToolTip": "ConnectionLibraryMaui\\Network\\DeviceService.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAAAQwMoAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T07:01:46.314Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "WifiManagerDroid.cs",
-              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Platforms\\Android\\Helper\\WifiManagerDroid.cs",
-              "RelativeDocumentMoniker": "Terra_Maui\\Platforms\\Android\\Helper\\WifiManagerDroid.cs",
-              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Platforms\\Android\\Helper\\WifiManagerDroid.cs",
-              "RelativeToolTip": "Terra_Maui\\Platforms\\Android\\Helper\\WifiManagerDroid.cs",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAmwHMAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-30T06:57:04.991Z",
+              "DocumentIndex": 0,
+              "Title": "Terra_Maui",
+              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Terra_Maui.csproj",
+              "RelativeDocumentMoniker": "Terra_Maui\\Terra_Maui.csproj",
+              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Terra_Maui.csproj",
+              "RelativeToolTip": "Terra_Maui\\Terra_Maui.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-30T08:26:55.412Z",
               "EditorCaption": ""
             }
           ]
