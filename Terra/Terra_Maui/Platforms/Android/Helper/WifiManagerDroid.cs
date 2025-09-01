@@ -53,52 +53,66 @@ namespace Terra_Maui.Platforms.Android.Helper
         /// <param name="_ssid"></param>
         /// <param name="_pwd"></param>
         /// <returns></returns>
+
         public async Task<bool> Connect(string _ssid, string _pwd)
         {
-            //return true;
-            Connect1(_ssid, _pwd);
-
-            string ssid = "";
-            string pwd = "";
-            ssid = $"\"{_ssid}\"";
-            pwd = $"\"{_pwd}\"";
-            DateTime timeSpan = DateTime.Now;
-            WifiInfo _network = null;
-
-            while (true)
+            try
             {
-                string msg = wifiManager.ConnectionInfo?.SSID;
-                mobileHelper.Log("2st while: " + msg);
-                System.Diagnostics.Debug.WriteLine(msg);
-                _network = wifiManager.ConnectionInfo;
-                //Thread.Sleep(1000);
-                await Task.Delay(1 * 1000);
+                // Start connection attempt
+                Connect1(_ssid, _pwd);
 
-                if (_network !=null &&_network.SupplicantState == SupplicantState.Completed && _network.SSID == ssid)
+                string ssid = $"\"{_ssid}\"";
+                DateTime timeSpan = DateTime.Now;
+                WifiInfo _network = null;
+
+                while (true)
                 {
-                    break;
-                }
-                else if (DateTime.Now.Subtract(timeSpan).TotalSeconds < 20)
-                {
-                    continue;
-                }
-                else
-                {
-                    _network = null;
-                    break;
+                    try
+                    {
+                       
+                        _network = wifiManager.ConnectionInfo;
+                        string msg = _network?.SSID;
+                        mobileHelper.Log("2st while: " + msg);
+                        System.Diagnostics.Debug.WriteLine(msg);
+
+                       
+                        if (_network != null &&
+                            _network.SupplicantState == SupplicantState.Completed &&
+                            _network.SSID == ssid)
+                        {
+                            mobileHelper.Log("_network true:" + _network.SSID);
+                            return true;
+                        }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        
+                        continue;
+                    }
+
+                    // Timeout after 20s
+                    if (DateTime.Now.Subtract(timeSpan).TotalSeconds >= 20)
+                    {
+                        _network = null;
+                        break;
+                    }
+
+                    // Wait before next attempt
+                    await Task.Delay(1000);
                 }
 
-            }
-            //await Task.Delay(2 * 1000);
-            if (_network == null)
-            {
-                System.Diagnostics.Debug.WriteLine("ConnectionInfo:" + wifiManager.ConnectionInfo?.SSID);
+                // If we get here → failed to connect
                 mobileHelper.Log("_network false:" + wifiManager.ConnectionInfo?.SSID);
                 return false;
             }
-            mobileHelper.Log("_network true:" + wifiManager.ConnectionInfo?.SSID);
-            return true;
+            catch (Exception ex)
+            {
+                mobileHelper.Log("Connect Exception: " + ex);
+                return false;
+            }
         }
+
+
 
         ////////////////////////////////////////////
         ConnectivityManager _wifiManager = Android_App.Application.Context.GetSystemService(Context.ConnectivityService) as ConnectivityManager;
