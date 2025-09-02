@@ -52,10 +52,10 @@
 
                 <StackLayout Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="20,0,0,0" >
                     <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
-                    <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" FlowDirection="RightToLeft" Margin="0,0,20,0">
+                    <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" FlowDirection="RightToLeft" Margin="0,0,20,0" Spacing="10">
 
                         <Button Text="+" TextColor="White" Clicked="ButtonIncrease_Clicked" WidthRequest="50" HeightRequest="40" VerticalOptions="Center" BackgroundColor="#EF4736" />
-                        <Label Text="{Binding Interval}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" WidthRequest="30" Margin="0,0,6,0"/>
+                        <Label Text="{Binding Interval}" VerticalOptions="CenterAndExpand"  WidthRequest="30" Margin="10,0,0,0"/>
                         <Button Text="-" TextColor="White" WidthRequest="50" Clicked="ButtonDeccrease_Clicked" HeightRequest="40" VerticalOptions="Center" BackgroundColor="#EF4736"/>
                         <Label Text="Interval" FontAttributes="Bold" TextColor="Black" FontSize="Large" VerticalOptions="CenterAndExpand" />
                     </StackLayout>

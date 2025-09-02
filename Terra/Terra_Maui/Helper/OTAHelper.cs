@@ -16,6 +16,7 @@ namespace Terra_Maui.Helper
 
         public DeviceService DeviceService { get; set; }
         public delegate void ActionResult(bool connected);
+
         public event ActionResult NotifyDeviceConnectionChange;
         private OTAHelper()
         {

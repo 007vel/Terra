@@ -180,7 +180,10 @@ namespace Terra_Maui.ViewModels
         /// </summary>
         public async Task OnInit()
         {
-            LoadData();
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                LoadData();
+            });
         }
 
         private async void LoadData()
@@ -214,7 +217,8 @@ namespace Terra_Maui.ViewModels
           
             await GetSnapshotAPI();
 
-            CheckNewFWUpdateAvailability();
+
+             CheckNewFWUpdateAvailability();
 
         }
 

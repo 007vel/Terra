@@ -87,6 +87,7 @@ namespace ConnectionLibrary.Network
             {
                 NetworkServiceUtil.Log("Socket StartWebSocketConnection: "+url);
                 client = new ClientWebSocket();
+                client.Options.KeepAliveInterval = TimeSpan.FromDays(1);
                 await client.ConnectAsync(new Uri(url), CancellationToken.None);
             }
             catch(Exception e)
@@ -103,54 +104,55 @@ namespace ConnectionLibrary.Network
 
         internal async Task<string> ReadMessage(ClientWebSocket client)
         {
-           // Thread.Sleep(2100);
             NetworkServiceUtil.Log("Socket ReadMessage: start");
             try
             {
-                NetworkServiceUtil.Log("Socket ReadMessage: 1");
-                WebSocketReceiveResult result;
-                string data = string.Empty;
-                NetworkServiceUtil.Log("Socket ReadMessage: 2");
-               // var rcvBytes = new byte[128];
-               // var message = new ArraySegment<byte>(rcvBytes);
-                var message = new ArraySegment<byte>(new byte[4096]);
-                NetworkServiceUtil.Log("Socket ReadMessage: 3");
-                bool IsIntiger;
-                do
+                var buffer = new byte[4096];
+                var message = new ArraySegment<byte>(buffer);
+                var sb = new StringBuilder();
+
+                while (true)
                 {
-                    if(!IsClientUsable(client))
+                    if (!IsClientUsable(client))
+                        return null;
+
+                    WebSocketReceiveResult result;
+                    try
                     {
+                        result = await client.ReceiveAsync(message, CancellationToken.None);
+                    }
+                    catch (WebSocketException wex)
+                    {
+                        // Handle abrupt disconnect (EOF, server crash, timeout)
+                        NetworkServiceUtil.Log("Socket closed unexpectedly: " + wex.Message);
                         return null;
                     }
-                    var _result = client.ReceiveAsync(message, CancellationToken.None);
-                    NetworkServiceUtil.Log("Socket ReadMessage: 3.1");
-                    //   result = _result!=null? _result.Result:null;
 
-                    result = _result.Result;
+                    if (result.MessageType == WebSocketMessageType.Close)
+                    {
+                        NetworkServiceUtil.Log("Socket closed by server (graceful)");
+                        await client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
+                        return null;
+                    }
 
-                    NetworkServiceUtil.Log("Socket ReadMessage: 4");
-                    // if (result.MessageType != WebSocketMessageType.Text)
-                    //   break;
-                    var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
-                    NetworkServiceUtil.Log("Socket ReadMessage: 5");
-                    string receivedMessage = Encoding.UTF8.GetString(messageBytes);
-                    NetworkServiceUtil.Log("Socket ReadMessage: 6");
-                    data = receivedMessage;
-                    NetworkServiceUtil.Log("Socket ReadMessage: 7");
-                    NetworkServiceUtil.Log("Socket appendMsg: " + receivedMessage);
-                    int a;
-                    IsIntiger = int.TryParse(data, out a);
+                    sb.Append(Encoding.UTF8.GetString(buffer, 0, result.Count));
+
+                    if (result.EndOfMessage)
+                        break;
                 }
-                while (result!=null && !result.EndOfMessage || IsIntiger || string.IsNullOrEmpty(data));
+
+                var data = sb.ToString();
                 NetworkServiceUtil.Log("Socket Received: " + data);
                 return data;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 NetworkServiceUtil.Log("Socket Received Exception: " + e);
-                throw;
+                return null; // swallow to avoid crashing your GetWsData
             }
         }
+
+
 
         internal async Task<bool> SendMessageAsync(string message, ClientWebSocket client)
         {
@@ -164,13 +166,14 @@ namespace ConnectionLibrary.Network
                         var byteMessage = Encoding.UTF8.GetBytes(message);
                         var segmnet = new ArraySegment<byte>(byteMessage);
                         NetworkServiceUtil.Log("Socket SendMessageAsync: " + message);
-                        client.SendAsync(segmnet, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+                       await client.SendAsync(segmnet, WebSocketMessageType.Text, true, CancellationToken.None);
                     }
                 }
             }
             catch(Exception e)
             {
                 NetworkServiceUtil.Log("Socket SendMessageAsync Exception: " + e);
+               
             }
             NetworkServiceUtil.Log("Socket SendMessageAsync: end");
             return true;
