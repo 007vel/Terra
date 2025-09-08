@@ -396,35 +396,53 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
     {
         CreateScheduleView(GetScheduleNewIndex(), scheduler);
     }
+
+
     private async void CreateScheduleView(int index, Entities.Scheduler scheduler = null)
     {
-        DayConfigControl Schedule_UI = new DayConfigControl(inputDate(), Navigation, this, true, scheduleList, scheduler);
-        Schedule_UI.indexText = (index).ToString();
-        Schedule_UI.editText = "edit";
-        Schedule_UI.ScheduleReceived += ReceiveEditedORNewschedule;
-        Schedule_UI.DefaultUI = UIEnum.Schedul_NormalView;
-        Schedule_UI.DeleteDelegate += SingleDeleteDelegate;        
-        TapGestureRecognizer gestureRecognizer = new TapGestureRecognizer();
-        gestureRecognizer.Tapped += GestureRecognizer_Tapped;
-        Schedule_UI.GestureRecognizers.Add(gestureRecognizer);
-        
-        if (scheduler == null)
+        try
         {
-            scheduler = new Scheduler();
-            scheduler.index = index.ToString();
-            scheduleList.scheduler.Add(scheduler);
-            await Navigation.PushAsync(new ConfigurationSettingPage(inputDate(), this, Schedule_UI.indexText, Schedule_UI.SelectedStartTime, Schedule_UI.SelectedStopTime, "5", true, scheduleList));
+            var Schedule_UI = new DayConfigControl(inputDate(), Navigation, this, true, scheduleList, scheduler)
+            {
+                indexText = index.ToString(),
+                editText = "edit",
+                DefaultUI = UIEnum.Schedul_NormalView
+            };
+
+            Schedule_UI.ScheduleReceived += ReceiveEditedORNewschedule;
+            Schedule_UI.DeleteDelegate += SingleDeleteDelegate;
+
+            var gestureRecognizer = new TapGestureRecognizer();
+            gestureRecognizer.Tapped += GestureRecognizer_Tapped;
+            Schedule_UI.GestureRecognizers.Add(gestureRecognizer);
+
+            if (scheduler == null)
+            {
+                scheduler = new Scheduler { index = index.ToString() };
+                scheduleList.scheduler.Add(scheduler);
+                await Navigation.PushAsync(new ConfigurationSettingPage(
+                    inputDate(),
+                    this,
+                    Schedule_UI.indexText,
+                    Schedule_UI.SelectedStartTime,
+                    Schedule_UI.SelectedStopTime,
+                    "5",
+                    true,
+                    scheduleList));
+            }
+            else
+            {
+                scheduleList.scheduler.Add(scheduler);
+            }
+            ScheduleView.Children.Insert(index - 1, Schedule_UI);
+           
         }
-        else
+        catch (Exception ex)
         {
-            scheduleList.scheduler.Add(scheduler);
+            Console.WriteLine(ex.Message);
         }
-        if (Schedule_UI.Parent is Layout parent)
-        {
-            parent.Children.Remove(Schedule_UI);
-        }
-        ScheduleView.Children.Insert(index - 1, Schedule_UI);
     }
+
 
     private void GestureRecognizer_Tapped(object sender, EventArgs e)
     {

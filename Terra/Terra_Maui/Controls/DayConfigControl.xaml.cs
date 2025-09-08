@@ -39,9 +39,11 @@ public partial class DayConfigControl : StackLayout
         this.scheduleOperation = scheduleOperation;
         weekControl = new WeekControl(weekFrameLayout);
         weekControl.DaysList = this.uIDays;
+        weekFrameLayout.Children.Clear();
         weekFrameLayout.Children.Add(weekControl);
         WeekCardControl weekCardControl = new WeekCardControl();
         weekCardControl.DaysList = this.uIDays;
+        weekexpand.Children.Clear();
         weekexpand.Children.Add(weekCardControl);
         rawSchedules = schedules;
 
