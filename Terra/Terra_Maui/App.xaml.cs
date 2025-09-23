@@ -43,7 +43,7 @@ namespace Terra_Maui
 
             MainPage = new AppShell();
 
-            SetCulture();
+           // SetCulture();
             this.RequestedThemeChanged += App_RequestedThemeChanged;
             //  this.UnhandledException += (o, s) => { };
             //global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");

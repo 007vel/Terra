@@ -18,7 +18,7 @@ namespace Terra_Maui
             {
                 base.OnCreate(bundle);
                 Window?.SetStatusBarColor(Color.FromHex("#EF4736").ToAndroid());
-                this.SetLocale();
+               // this.SetLocale();
             }
 
             catch (Exception ex)
