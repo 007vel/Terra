@@ -1,17 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Prakash\\Git\\Terra\\Terra\\",
+  "WorkspaceRootPath": "C:\\projects\\Terra\\Terra\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3C2BFE2D-1FF3-46DF-9E0B-E130C22E7E1F}|Terra\\Terra.Android\\Terra.Android.csproj|solutionrelative:terra\\terra.android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Terra.Android||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|c:\\prakash\\git\\terra\\terra\\terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3ED26151-0828-4F80-8B66-74869817A097}|Terra\\Terra.Core\\Terra.Core.csproj|solutionrelative:terra\\terra.core\\viewmodels\\networkviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|c:\\projects\\terra\\terra\\terra_maui\\terra_maui.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{B576E151-FD2B-4DC3-80E5-95258112D234}|Terra_Maui\\Terra_Maui.csproj|solutionrelative:terra_maui\\terra_maui.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,39 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:2:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:6:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:4:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:11:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
+              "Name": "ST:132:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
             },
             {
               "$type": "Bookmark",
@@ -61,61 +34,31 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Terra.Android",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Terra.Android.csproj",
-              "RelativeDocumentMoniker": "Terra\\Terra.Android\\Terra.Android.csproj",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\Terra.Android.csproj",
-              "RelativeToolTip": "Terra\\Terra.Android\\Terra.Android.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-04-18T10:28:53.126Z"
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainActivity.cs",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\MainActivity.cs",
-              "RelativeDocumentMoniker": "Terra\\Terra.Android\\MainActivity.cs",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Android\\MainActivity.cs",
-              "RelativeToolTip": "Terra\\Terra.Android\\MainActivity.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAgwCMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T10:27:05.673Z",
+              "Title": "Terra_Maui",
+              "DocumentMoniker": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Terra_Maui.csproj",
+              "RelativeDocumentMoniker": "Terra_Maui\\Terra_Maui.csproj",
+              "ToolTip": "C:\\projects\\Terra\\Terra\\Terra_Maui\\Terra_Maui.csproj",
+              "RelativeToolTip": "Terra_Maui\\Terra_Maui.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-30T08:26:55.412Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NetworkViewModel.cs",
-              "DocumentMoniker": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeDocumentMoniker": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ToolTip": "C:\\Prakash\\Git\\Terra\\Terra\\Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "RelativeToolTip": "Terra\\Terra.Core\\ViewModels\\NetworkViewModel.cs",
-              "ViewState": "AQIAACYAAAAAAAAAAAAIwCoAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T10:24:58.47Z"
-            }
-          ]
-        },
-        {
-          "DockedWidth": 1577,
-          "SelectedChildIndex": -1,
-          "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             }
           ]
         }

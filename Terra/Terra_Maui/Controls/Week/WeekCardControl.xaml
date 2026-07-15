@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<week:WeekControl xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Terra_Maui.Controls.Week.WeekCardControl"
+             xmlns:week="clr-namespace:Terra_Maui.Controls.Week;assembly=Terra_Maui"
+             xmlns:time="clr-namespace:Terra_Maui.Controls.Week;assembly=Terra_Maui" Orientation="Vertical">
+    <StackLayout x:Name="weeklayout">
+
+    </StackLayout>
+
+
+</week:WeekControl>
