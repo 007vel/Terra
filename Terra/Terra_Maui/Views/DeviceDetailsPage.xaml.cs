@@ -459,7 +459,7 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
 
     private List<UIDay> inputDate()
     {
-        DateTime now = FirstDayOfWeek(DateTime.Now).AddDays(1);
+        DateTime now = FirstDayOfWeek(DateTime.Now);
         List<UIDay> uIDays = new List<UIDay>();
         for (int i = 0; i < 7; i++)
         {

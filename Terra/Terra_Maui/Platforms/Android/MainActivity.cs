@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.Net.Wifi;
 using Android.OS;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
+using System.Globalization;
 
 namespace Terra_Maui
 {
@@ -17,13 +18,23 @@ namespace Terra_Maui
             {
                 base.OnCreate(bundle);
                 Window?.SetStatusBarColor(Color.FromHex("#EF4736").ToAndroid());
-
+               // this.SetLocale();
             }
 
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        void SetLocale()
+        {
+            CultureInfo ci = new CultureInfo("el-GR");
+
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
+
+            Console.WriteLine("CurrentCulture set: " + ci.Name);
         }
     }
 }

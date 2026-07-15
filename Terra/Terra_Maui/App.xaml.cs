@@ -1,7 +1,10 @@
 ﻿
 using ConnectionLibrary.Interface;
 using ConnectionLibrary.Network;
+using IntelliJ.Lang.Annotations;
 using System.Diagnostics;
+using System.Globalization;
+
 #if ANDROID
 using Terra_Maui.Platforms.Android.Helper;
 #endif
@@ -40,9 +43,19 @@ namespace Terra_Maui
 
             MainPage = new AppShell();
 
+           // SetCulture();
             this.RequestedThemeChanged += App_RequestedThemeChanged;
             //  this.UnhandledException += (o, s) => { };
             //global::Xamarin.Forms.Forms.SetFlags("Shapes_Experimental", "CarouselView_Experimental");
+        }
+
+        private void SetCulture()
+        {
+            CultureInfo LanguageCulture = new CultureInfo("el-GR");
+            CultureInfo.DefaultThreadCurrentCulture = LanguageCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = LanguageCulture;
+            Thread.CurrentThread.CurrentCulture = LanguageCulture;
+            Thread.CurrentThread.CurrentUICulture = LanguageCulture;
         }
 
         private void App_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
