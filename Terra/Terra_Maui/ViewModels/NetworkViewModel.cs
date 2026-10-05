@@ -101,26 +101,28 @@ namespace Terra_Maui.ViewModels
                 wifiPwdList.Add("Scent+Spray", "12345678");
                 wifiPwdList.Add("TARS", "Falcon@5g");
                 IsWifiLoading = true;
-                MessagingCenter.Subscribe<WifiAdapter, List<Wifi>>(this, "WifiAdapter", (sender, arg) =>
-                {
-                    WifiAdapter_PropertyChanged(arg);
-                    IsWifiLoading = false;
-                    if (!isFirstTimeLaunch)
-                    {
-                        IsScanning = false;
-                    }
-                    else
-                    {
-                        isFirstTimeLaunch = false;
-                    }
-
-                });
+                wifiAdapter.AvailableNetworksReceived -= OnAvailableNetworksReceived;
+                wifiAdapter.AvailableNetworksReceived += OnAvailableNetworksReceived;
                 wifiAdapter.OnRequestAvailableNetworks();
 
             }
             else
             {
                 Debug.WriteLine("Location Permission Is Denied");
+            }
+        }
+
+        private void OnAvailableNetworksReceived(List<Wifi> arg)
+        {
+            WifiAdapter_PropertyChanged(arg);
+            IsWifiLoading = false;
+            if (!isFirstTimeLaunch)
+            {
+                IsScanning = false;
+            }
+            else
+            {
+                isFirstTimeLaunch = false;
             }
         }
 

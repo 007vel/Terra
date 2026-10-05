@@ -41,6 +41,8 @@ namespace Terra_Maui
 #endif
             InitializeComponent();
 
+            UserAppTheme = AppTheme.Light;
+
             MainPage = new AppShell();
 
            // SetCulture();
