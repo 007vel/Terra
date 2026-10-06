@@ -10,6 +10,11 @@ namespace Terra_Maui
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            app.Windows?.ToList().ForEach(window =>
+            {
+                window.OverrideUserInterfaceStyle = UIUserInterfaceStyle.Light;
+            });
+
             UINavigationBar.Appearance.Translucent = false;
 
             return base.FinishedLaunching(app, options);

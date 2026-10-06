@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Terra_Maui.Platforms.Android.Helper;
 
 using Android_App = Android.App;
+using Application = Microsoft.Maui.Controls.Application;
 using File = Java.IO.File;
 
 [assembly:Dependency(typeof(MobileHelper))]
@@ -70,9 +71,7 @@ namespace Terra_Maui.Platforms.Android.Helper
         }
         public void TerminateApp()
         {
-           // var activity = (Activity)Forms.Context;
-           //Need To Work 
-           // activity.FinishAffinity();
+            Application.Current.Quit();
         }
         public List<string> GetAllAssetsName()
         {
