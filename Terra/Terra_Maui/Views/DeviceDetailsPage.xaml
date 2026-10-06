@@ -22,7 +22,7 @@
                     <RowDefinition Height="35*"/>
                     <RowDefinition Height="15*"/>
                 </Grid.RowDefinitions>
-                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
+                <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" IsClippedToBounds="True">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20*"/>
                         <RowDefinition Height="80*"/>
@@ -33,23 +33,25 @@
                     <Button Grid.Row="0" BackgroundColor="#C9D0D3" IsVisible="{Binding IsConnectionLost}" IsEnabled="False">
 
                     </Button>
-                    <StackLayout Grid.Row="1" BackgroundColor="#989da0" Orientation="Vertical" HorizontalOptions="FillAndExpand">
-                        <ScrollView HorizontalOptions="FillAndExpand">
-                            <StackLayout x:Name="ScheduleViewRoot" HorizontalOptions="FillAndExpand" Spacing="0">
-                                <StackLayout x:Name="ScheduleView" HorizontalOptions="FillAndExpand">
+                    <Grid Grid.Row="1" BackgroundColor="#989da0" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- Only the schedule rows scroll -->
+                        <ScrollView Grid.Row="0">
+                            <StackLayout x:Name="ScheduleViewRoot" HorizontalOptions="Fill" Spacing="0">
+                                <StackLayout x:Name="ScheduleView" HorizontalOptions="Fill">
 
                                 </StackLayout>
                                 <Button Text="Try again" HorizontalOptions="Center" BackgroundColor="Gray" Clicked="RefreshClicked" TextColor="White" IsVisible="{Binding IsScheduleGetError}" Margin="0,15,0,0" HeightRequest="40"/>
-                                <StackLayout HorizontalOptions="FillAndExpand">
-                                    <StackLayout x:Name="ScheduleViewButtons" HorizontalOptions="Center" Orientation="Horizontal">
-
-                                    </StackLayout>
-                                </StackLayout>
-
                             </StackLayout>
-
                         </ScrollView>
-                    </StackLayout>
+                        <!-- -, DELETE ALL, + stay fixed below the list -->
+                        <StackLayout x:Name="ScheduleViewButtons" Grid.Row="1" HorizontalOptions="Center" Orientation="Horizontal">
+
+                        </StackLayout>
+                    </Grid>
 
                     <Button Grid.Row="1" BackgroundColor="#C9D0D3" IsVisible="{Binding IsConnectionLost}" IsEnabled="False">
 

@@ -244,14 +244,27 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
     }
 
 
-    private void SingleDeleteDelegate(string id)
+    private async void SingleDeleteDelegate(string id)
     {
-        DeleteSchedule(id);
+        LoadingView.IsRunning = true;
+        LoadingView.IsVisible = true;
+
+        await DeleteSchedule(id);
         ButtonVisibleChange();
+        LoadingView.IsVisible = false;
     }
-    private void DeleteSchedule(string id)
+    private async Task DeleteSchedule(string id)
     {
-        PageContext.DeleteScheduleItem(id);
+
+            try
+            {
+                await PageContext.DeleteScheduleItem(id);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        
         if (id == "-1")
         {
             scheduleList.scheduler.Clear();
@@ -364,7 +377,6 @@ public partial class DeviceDetailsPage : ContentPage, IScheduleOperation
     private void DelAllButton_Clicked(object sender, EventArgs e)
     {
         SingleDeleteDelegate("-1");
-        ButtonVisibleChange();
     }
 
     private void AddButtonClicked(object sender, EventArgs e)
