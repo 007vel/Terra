@@ -1,3 +1,4 @@
+using Microsoft.Maui.Controls.Shapes;
 using Terra_Maui.Enum;
 using Terra_Maui.Models;
 
@@ -59,8 +60,7 @@ public partial class WeekCardControl : WeekControl
             tapGestureRecognizer_2.CommandParameter = card;
             tapGestureRecognizer_3.CommandParameter = card;
 
-            card.HasShadow = false;
-            card.CornerRadius = 4;
+            card.StrokeShape = new RoundRectangle { CornerRadius = 4 };
             card.Padding = new Thickness(0, 0, 0, 0);
             card.Margin = new Thickness(0, 4, 0, 4);
             Label day = new Label();

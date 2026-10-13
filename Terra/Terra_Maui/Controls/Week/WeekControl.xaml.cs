@@ -1,3 +1,4 @@
+using Microsoft.Maui.Controls.Shapes;
 using Terra_Maui.Enum;
 using Terra_Maui.Models;
 
@@ -91,6 +92,8 @@ public partial class WeekControl : StackLayout
             grid.HorizontalOptions = LayoutOptions.FillAndExpand;
             Label day = new Label();
             day.FontAttributes = FontAttributes.Bold;
+            day.FontSize = 17;
+            day.HorizontalTextAlignment = TextAlignment.Center;
             SetLabelState(day, item);
             day.VerticalOptions = LayoutOptions.CenterAndExpand;
             day.Margin = new Thickness(0, 0, 0, 5);
@@ -137,23 +140,23 @@ public partial class WeekControl : StackLayout
     }
     public View SetViewState(View _view, UIDay uIDay)
     {
-        Frame view = null;
+        Border view = null;
         if (_view != null && uIDay != null)
         {
-            view = (Frame)_view;
+            view = (Border)_view;
             if (view == null) return _view;
 
             if (uIDay.selectionStatus == SelectionStatus.Selected)
             {
-                view.BorderColor = Color.FromHex("#EF4736");
+                view.Stroke = Color.FromHex("#EF4736");
             }
             else if (uIDay.selectionStatus == SelectionStatus.Today)
             {
-                view.BorderColor = Color.FromHex("#EF4736");
+                view.Stroke = Color.FromHex("#EF4736");
             }
             else if (uIDay.selectionStatus == SelectionStatus.NotSlected)
             {
-                view.BorderColor = Color.FromHex("#989da0");
+                view.Stroke = Color.FromHex("#989da0");
             }
         }
         return view;
