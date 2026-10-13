@@ -2,10 +2,10 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
-    <ActiveDebugFramework>net9.0-android</ActiveDebugFramework>
-    <ActiveDebugProfile>Google Pixel 9 Pro XL (Android 14.0 - API 34)</ActiveDebugProfile>
-    <SelectedPlatformGroup>PhysicalDevice</SelectedPlatformGroup>
-    <DefaultDevice>pixel_7_v1</DefaultDevice>
+    <ActiveDebugFramework>net10.0-android</ActiveDebugFramework>
+    <ActiveDebugProfile>Pixel 9 Pro (Android 16.0 - API 36)</ActiveDebugProfile>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <DefaultDevice>Pixel_9_Pro</DefaultDevice>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
