@@ -27,16 +27,16 @@
                     <Label Text="End time" VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"/>
                 </StackLayout>
 
-                <Frame BorderColor="#EF4736" CornerRadius="3" Grid.Column="0" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
-                    <TimePicker x:Name="_timePickerFrom" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm" 
+                <Border Stroke="#EF4736" StrokeShape="RoundRectangle 3" Grid.Column="0" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
+                    <TimePicker x:Name="_timePickerFrom" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm"
                     Time="{Binding SelectedStartTime,Mode=TwoWay}"  />
-                </Frame>
+                </Border>
 
-                <Frame BorderColor="#EF4736" CornerRadius="3" Grid.Column="1" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
-                    <TimePicker x:Name="_timePickerTo" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm" 
+                <Border Stroke="#EF4736" StrokeShape="RoundRectangle 3" Grid.Column="1" Grid.Row="1" Padding="5" Margin="20" HorizontalOptions="Center">
+                    <TimePicker x:Name="_timePickerTo" Grid.Column="0" Grid.Row="2" HorizontalOptions="CenterAndExpand" Format="HH:mm"
                     Time="{Binding SelectedStopTime,Mode=TwoWay}"
                        />
-                </Frame>
+                </Border>
                 <StackLayout Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="20,0,0,0" >
                     <StackLayout HeightRequest="1" BackgroundColor="#d4d9d8" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
 

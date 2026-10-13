@@ -1,16 +1,17 @@
 
+using Microsoft.Maui.Controls.Shapes;
 using Terra_Maui.common;
 namespace Terra_Maui.Controls;
 
-public partial class QuickAccessButton : Frame, IDialog
+public partial class QuickAccessButton : Border, IDialog
 {
     public delegate void ActionResult(string key, string val);
     public event ActionResult NotifyValueChange;
     public QuickAccessButton()
     {
         InitializeComponent();
-        CornerRadius = 3;
-        BorderColor = Colors.Green;
+        StrokeShape = new RoundRectangle { CornerRadius = 3 };
+        Stroke = Colors.Green;
         VerticalOptions = LayoutOptions.FillAndExpand;
         HorizontalOptions = LayoutOptions.FillAndExpand;
         HeightRequest = 70;

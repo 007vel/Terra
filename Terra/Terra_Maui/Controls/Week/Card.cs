@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Terra_Maui.Controls.Week
 {
-    public class Card : Frame
+    public class Card : Border
     {
 
     }

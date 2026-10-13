@@ -30,7 +30,7 @@
                 </StackLayout.GestureRecognizers>
             </StackLayout>
 
-            <Frame x:Name="weekFrameLayout1" Grid.Column="1" CornerRadius="4" BackgroundColor="White" Padding="0">
+            <Border x:Name="weekFrameLayout1" Grid.Column="1" StrokeShape="RoundRectangle 4" BackgroundColor="White" Padding="0">
 
                 <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" InputTransparent="True">
                     <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                         <Label x:Name="IntervalLabel" TextColor="#EF4736" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" FontSize="Small" Margin="0,0,5,0"/>
                     </StackLayout>
                 </Grid>
-            </Frame>
+            </Border>
             <Button Grid.Column="1" CornerRadius="4" Clicked="Edit_Tapped" BackgroundColor="{Binding IsActive,Converter={StaticResource BoolToColorActiverInactiveConverter},ConverterParameter=1}" Margin="0,0,0,0" InputTransparent="False"/>
 
             <Switch x:Name="toggle" IsToggled="{Binding IsActive}" Grid.Column="2" Margin="0" OnColor="#EF4736" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"></Switch>
@@ -59,8 +59,8 @@
 
 
     <!--ExpandLayout-->
-    <expand:ScheduleExpandCell x:Name="expandView" BackgroundColor="Transparent" HeightRequest="0" Orientation="Horizontal" Spacing="0">
-        <Frame BackgroundColor="White" CornerRadius="10" BorderColor="#EF4736" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <expand:ScheduleExpandCell x:Name="expandView" BackgroundColor="Transparent" HeightRequest="0" IsVisible="False" Orientation="Horizontal" Spacing="0">
+        <Border BackgroundColor="White" StrokeShape="RoundRectangle 10" Stroke="#EF4736" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <StackLayout Margin="-20">
                 <StackLayout x:Name="weekexpand" HorizontalOptions="FillAndExpand" HeightRequest="50" Margin="5,0,10,5" >
 
@@ -79,20 +79,20 @@
                     <TimePicker x:Name="_timePickerFrrm" Grid.Column="1" Margin="10" Format="HH:mm"
                     Time="{Binding SelectedStartTime,Mode=TwoWay}"
                      BackgroundColor="#EF4736" TextColor="White" />
-                    <time:TimePickerCard Grid.Column="1" CornerRadius="18" CardTitle="On" CardDesc="{Binding SelectedStartTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
+                    <time:TimePickerCard Grid.Column="1" StrokeShape="RoundRectangle 18" CardTitle="On" CardDesc="{Binding SelectedStartTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
                     <TimePicker x:Name="_timePickerTo" Grid.Column="3" Margin="10" 
                     Time="{Binding SelectedStopTime,Mode=TwoWay}" 
                     Format="HH:mm" BackgroundColor="#EF4736" TextColor="White" />
-                    <time:TimePickerCard Grid.Column="3" CornerRadius="18" CardTitle="Off" CardDesc="{Binding SelectedStopTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
+                    <time:TimePickerCard Grid.Column="3" StrokeShape="RoundRectangle 18" CardTitle="Off" CardDesc="{Binding SelectedStopTime, StringFormat='{}{0:hh\\:mm}'}" BackgroundColor="#EF4736" InputTransparent="True"/>
 
                     <Picker ItemsSource="{Binding IntervalList}"  Grid.Column="5" ItemDisplayBinding="{Binding .}" Title="Interval" BackgroundColor="Transparent" VerticalOptions="CenterAndExpand" Margin="7"
                             SelectedItem="{Binding SelectedIntervsl}">
 
                     </Picker>
-                    <time:TimePickerCard x:Name="intervalLabel" Grid.Column="5" CornerRadius="20" CardTitle="Interval" CardDesc="00'" BackgroundColor="#EF4736" InputTransparent="True"/>
+                    <time:TimePickerCard x:Name="intervalLabel" Grid.Column="5" StrokeShape="RoundRectangle 20" CardTitle="Interval" CardDesc="00'" BackgroundColor="#EF4736" InputTransparent="True"/>
                 </Grid>
             </StackLayout>
-        </Frame>
+        </Border>
         <StackLayout HorizontalOptions="Fill" BackgroundColor="#EF4736" Margin="-6,0,0,0" WidthRequest="60">
             <Label Text="add" FontAttributes="Bold" VerticalOptions="CenterAndExpand" Margin="2,0,2,0">
 
