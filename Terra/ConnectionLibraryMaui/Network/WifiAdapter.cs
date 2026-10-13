@@ -36,9 +36,10 @@ namespace ConnectionLibrary.Network
         {
             get; set;
         }
+        public event Action<List<Wifi>> AvailableNetworksReceived;
         public void OnReceiveAvailableNetworks(List<Wifi> wifi)
         {
-            MessagingCenter.Send(this, "WifiAdapter", wifi);
+            AvailableNetworksReceived?.Invoke(wifi);
         }
         IPlatformWifiManager formWifiManager;
         public IPlatformWifiManager FormWifiManager
